@@ -4,7 +4,8 @@ Telegram bot provides a time-based currency. The accumulated time can be used to
 
 ### Usage
 
-Use `+` to give time to another user and `-` to block him. Use any another message to check your balance.
+Use `+` to give time to another user and `-` to block him. Use any another message to check your
+balance and see usage examples.
 
 ### Examples
 

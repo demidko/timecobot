@@ -12,7 +12,7 @@ class AppKtTest {
   @Test
   fun testLocalhostServer() {
 
-    localhostServer().start(false)
+    newWebserver().start(false)
 
     val status = runBlocking {
       HttpClient().use {
