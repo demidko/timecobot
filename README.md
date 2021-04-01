@@ -6,5 +6,5 @@ Telegram bot provides a time-based currency. The accumulated time can be used to
 
 ### Build with `./gradlew clean test shadowJar`
 
-### ___
+___
 [![Deploy to DigitalOcean](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/demidko/service/tree/main)
