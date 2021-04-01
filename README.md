@@ -2,10 +2,6 @@
 
 Telegram bot provides a time-based currency. The accumulated time can be used to block another user.
 
-### Usage
+### Usage [`@timecobot`](https:t.me/timecobot)
 
-[`@timecobot`](https:t.me/timecobot)
-
-### Build
-
-`./gradlew clean test shadowJar`
+### Build `./gradlew clean test shadowJar`
