@@ -31,18 +31,15 @@ internal class TokenizerKtTest {
 
   @Test
   fun tokenizeNames() {
-    val actual = "".tokenize()
-    val expected = listOf(
-      "view2bull-action-1",
-      "{",
-      "keyName",
-      "=",
-      "\"click-respond\"",
-      ",",
-      "context",
-      "=",
-      "\"vacancy-summary-button\"",
-      "}")
-    assertThat(actual, equalTo(expected))
+    assertThat("2names".tokenize(), equalTo(listOf("2", "names")))
+    assertThat("names12".tokenize(), equalTo(listOf("names", "12")))
+  }
+
+  @Test
+  fun escaping() {
+    val actual = """
+      "abc\"dfg"
+    """.trimIndent()
+    assertThat(actual.tokenize(), equalTo(listOf("\"abc\\\"dfg\"")))
   }
 }

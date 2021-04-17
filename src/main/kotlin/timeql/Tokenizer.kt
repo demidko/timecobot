@@ -38,9 +38,9 @@ private fun String.isDiff(typeIdx: Int, otherIdx: Int): Boolean {
   val other = get(otherIdx)
   // обрабатываем имена программных сущностей
   if (type.isLetter()) {
-    // Разрешаем имена с цифрами после букв, а также через дефис и нижнее подчеркивание
+    // Разрешаем имена через дефис и нижнее подчеркивание
     // В остальных случаях считаем что ввод имени завершился
-    return (other !in "01234566789-_") && !other.isLetter()
+    return (other !in "-_") && !other.isLetter()
   }
   // обрабатываем символы которые являются разбивающими в любом случае
   if (type in ".,{}=:<>") {
@@ -49,12 +49,12 @@ private fun String.isDiff(typeIdx: Int, otherIdx: Int): Boolean {
   // обрабататываем строки вида '...' и "..." с экранированием управляющих символов
   if (type == '"') {
     return getOrNull(otherIdx - 1) == '"'
-      && getOrNull(otherIdx - 2) != '\''
+      && getOrNull(otherIdx - 2) != '\\'
       && otherIdx - 1 != typeIdx
   }
   if (type == '\'') {
     return getOrNull(otherIdx - 1) == '\''
-      && getOrNull(otherIdx - 2) != '\''
+      && getOrNull(otherIdx - 2) != '\\'
       && otherIdx - 1 != typeIdx
   }
   // обрабататываем строки вида `...` без экранирования управляющих символов
