@@ -8,9 +8,10 @@ internal class TokenizerKtTest {
 
   @Test
   fun tokenize() {
-    val actual = "view2bull-action-1 { keyName=\"click-respond\", context=\"vacancy-summary-button\" }".tokenize()
+    val actual =
+      "view2bull-action1 { keyName=\"click-respond\", context=\"vacancy-summary-button\" }".tokenize()
     val expected = listOf(
-      "view2bull-action-1",
+      "view", "2", "bull-action", "1",
       "{",
       "keyName",
       "=",
@@ -19,7 +20,8 @@ internal class TokenizerKtTest {
       "context",
       "=",
       "\"vacancy-summary-button\"",
-      "}")
+      "}"
+    )
     assertThat(actual, equalTo(expected))
   }
 
