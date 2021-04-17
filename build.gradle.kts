@@ -25,3 +25,9 @@ tasks.test {
 tasks.compileKotlin {
   kotlinOptions.jvmTarget = "15"
 }
+
+tasks.jar {
+  manifest {
+    attributes("Main-Class" to "AppKt")
+  }
+}

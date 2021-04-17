@@ -1,18 +1,30 @@
-## [`@Timecobot`](https:t.me/timecobot)
+## [@Timecobot](https:t.me/timecobot)
 
-Telegram bot provides a time-based currency. The accumulated time can be used to block another user.
+Telegram bot provides a time-based currency-gun.
+
+* Each user accumulates time spent on Telegram.
+* Time can be passed on to other people.
+* The accumulated time can be used to block another user.
+* Time can be used to redeem the user from the ban.
 
 ### Usage
 
-Use `+` to give time to another user and `-` to block him. Use any another message to check your
-balance and see usage examples.
+#### Time accumulation example
 
-### Examples
+#### Transfer example
+
+#### Ban example
+
+#### Redeem example
 
 ### Build
 
-`./gradlew clean test shadowJar`
+```sh
+./gradlew clean test shadowJar
+```
 
-### Deploy yourself instance
+Self-executable jar will be located in `build/libs`
 
-[![Deploy to DigitalOcean](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/demidko/service/tree/main)
+### Deploy
+
+[![Deploy to DigitalOcean](https://www.deploytodo.com/do-btn-blue-ghost.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/demidko/ешьусщище/tree/main)
