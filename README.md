@@ -1,23 +1,23 @@
-## [@Timecobot](https:t.me/timecobot)
+# [@Timecobot](https:t.me/timecobot)
 
-Telegram bot provides a time-based currency-gun.
+Telegram bot provides a time-based currency-gun, or `timecoins`.
 
 * Each user accumulates time spent on Telegram.
 * Time can be passed on to other people.
 * The accumulated time can be used to block another user.
 * Time can be used to redeem the user from the ban.
 
-### Usage
+## Usage
 
-#### Time accumulation example
+### Time accumulation example
 
-#### Transfer example
+### Time transfer example
 
-#### Ban example
+### Ban example
 
-#### Redeem example
+### Redeem example
 
-### Build
+## Build
 
 ```sh
 ./gradlew clean test shadowJar
@@ -25,6 +25,7 @@ Telegram bot provides a time-based currency-gun.
 
 Self-executable jar will be located in `build/libs`
 
-### Deploy
+## Deploy
 
-[![Deploy to DigitalOcean](https://www.deploytodo.com/do-btn-blue-ghost.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/demidko/ешьусщище/tree/main)
+[![Deploy to DigitalOcean](https://www.deploytodo.com/do-btn-blue-ghost.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/demidko/timecobot/tree/main)
+

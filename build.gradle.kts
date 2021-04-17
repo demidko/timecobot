@@ -22,6 +22,7 @@ tasks.test {
 
 tasks.compileKotlin {
   kotlinOptions.jvmTarget = "15"
+  kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.time.ExperimentalTime"
 }
 
 tasks.jar {
