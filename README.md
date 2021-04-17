@@ -1,4 +1,4 @@
-# [@Timecobot](https:t.me/timecobot)
+# [@Timecobot](https://t.me/timecobot)
 
 Telegram bot provides a time-based currency-gun, or `timecoins`.
 
@@ -8,6 +8,8 @@ Telegram bot provides a time-based currency-gun, or `timecoins`.
 * Time can be used to redeem the user from the ban.
 
 ## Usage
+
+To start using the bot, just add it to the group with administrator rights.
 
 ### Time accumulation example
 
