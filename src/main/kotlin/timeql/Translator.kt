@@ -30,8 +30,11 @@ fun Iterator<String>.parseDuration(): Duration {
 
 }
 
-fun Iterator<String>.parseDurationUnit() = when(next()) {
-  is
+fun Iterator<Pair<String, Idea>>.parseDurationUnit() {
+  val token = next()
+  return when (token.second) {
+    else -> error("Unexpected token: $token")
+  }
 }
 
-fun Iterator<Pair<String, Idea>>.parseNumber() = next().toInt()
+fun Iterator<Pair<String, Idea>>.parseNumber() = next().first.toInt()

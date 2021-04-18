@@ -45,6 +45,11 @@ private fun String.isDiff(typeIdx: Int, otherIdx: Int): Boolean {
     // В остальных случаях считаем что ввод имени завершился
     return (other !in "-_") && !other.isLetter()
   }
+  // обрабатываем числа
+  if (type.isDigit()) {
+    // Разрешаем числа с плавающей точкой
+    return (other !in ".") && !other.isDigit()
+  }
   // обрабатываем символы которые являются разбивающими в любом случае
   if (type in ".,{}=:<>") {
     return true

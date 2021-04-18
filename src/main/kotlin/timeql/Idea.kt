@@ -6,10 +6,6 @@ import java.util.*
 @Suppress("EqualsOrHashCode", "LeakingThis")
 sealed class Idea(private vararg val stems: String) {
 
-  init {
-    allIdeas.add(this)
-  }
-
   companion object {
 
     private val allIdeas = LinkedList<Idea>()
@@ -22,6 +18,10 @@ sealed class Idea(private vararg val stems: String) {
       val idea = allIdeas.firstOrNull { it.stems.any(token::startsWith) }
       Pair(token, idea)
     }
+  }
+
+  init {
+    allIdeas.add(this)
   }
 
   sealed class ACTION(private vararg val stems: String) : Idea(*stems) {
