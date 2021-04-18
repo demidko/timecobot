@@ -9,6 +9,7 @@ plugins {
 }
 
 dependencies {
+  implementation(kotlin("reflect"))
   implementation("io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.0.2")
   implementation("ch.qos.logback:logback-classic:1.3.0-alpha5")
   testImplementation("org.junit.jupiter:junit-jupiter:5.8.0-M1")
