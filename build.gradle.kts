@@ -26,6 +26,11 @@ tasks.compileKotlin {
   kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.time.ExperimentalTime"
 }
 
+tasks.compileTestKotlin {
+  kotlinOptions.jvmTarget = "15"
+  kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.time.ExperimentalTime"
+}
+
 tasks.jar {
   manifest {
     attributes("Main-Class" to "AppKt")

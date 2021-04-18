@@ -1,4 +1,4 @@
-package timeql
+package speech
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo

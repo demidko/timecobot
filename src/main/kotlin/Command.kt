@@ -1,8 +1,11 @@
+import speech.MutableAction
 import kotlin.time.Duration
 
 sealed class Command {
 
-  object Status : Command()
+  object StatusCommand : Command()
 
-  class Mutable(action: timeql.Mutable, duration: Duration) : Command()
+  object NotAction : Command()
+
+  data class MutableCommand(val action: MutableAction, val duration: Duration) : Command()
 }

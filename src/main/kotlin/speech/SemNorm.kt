@@ -1,4 +1,4 @@
-package timeql
+package speech
 
 /** Набор нормализованных семантических представлений. */
 sealed class SemNorm(vararg val stems: String)
@@ -25,19 +25,19 @@ object Status : Action(
   "balance", "status", "score", "coins", "баланс", "статус", "счет", "узнать"
 )
 
-sealed class Mutable(vararg stems: String) : Action(*stems)
+sealed class MutableAction(vararg stems: String) : Action(*stems)
 
-object Transfer : Mutable(
+object Transfer : MutableAction(
   "transfer", "give", "take", "get", "keep", "держи", "бери", "возьми",
-  "получи", "трансфер", "перевод", "дар", "подар", "взял", "забер", "забир"
+  "получи", "трансфер", "перевод", "дар", "подар", "взял", "забер", "забир", "перевед", "перевест"
 )
 
-object Ban : Mutable(
+object Ban : MutableAction(
   "ban", "block", "freez", "mute", "бан", "блок", "забан",
   "заглох", "умри", "умер"
 )
 
-object Redeem : Mutable(
+object Redeem : MutableAction(
   "redeem", "unblock", "unban", "unmute", "разбан", "разблок", "ожив", "выкуп", "донат"
 )
 
@@ -54,9 +54,9 @@ private val knownSemNorms = listOf(
  * вида `забанить на 5 минут` в наборы нормализованных семантических представлений.
  */
 fun List<String>.withSemNorms() = map { token ->
-  val idea = knownSemNorms.firstOrNull {
-    it.stems.any { norm ->
-      token.toLowerCase().startsWith(norm)
+  val idea = knownSemNorms.firstOrNull { norm ->
+    norm.stems.any { stem ->
+      token.toLowerCase().startsWith(stem)
     }
   }
   Pair(token, idea)
