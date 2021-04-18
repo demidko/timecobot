@@ -2,7 +2,7 @@ import kotlin.time.Duration
 
 sealed class Command {
 
-  object CheckStatus : Command()
+  object Status : Command()
 
   class Transfer(val duration: Duration)
 

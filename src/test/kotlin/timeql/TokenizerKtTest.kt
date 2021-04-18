@@ -9,7 +9,7 @@ internal class TokenizerKtTest {
   @Test
   fun tokenize() {
     val actual =
-      "view2bull-action1 { keyName=\"click-respond\", context=\"vacancy-summary-button\" }".lexemes()
+      "view2bull-action1 { keyName=\"click-respond\", context=\"vacancy-summary-button\" }".tokenize()
     val expected = listOf(
       "view", "2", "bull-action", "1",
       "{",
@@ -27,14 +27,14 @@ internal class TokenizerKtTest {
 
   @Test
   fun degenerateCases() {
-    assertThat("..".lexemes(), equalTo(listOf(".", ".")))
-    assertThat("{}".lexemes(), equalTo(listOf("{", "}")))
+    assertThat("..".tokenize(), equalTo(listOf(".", ".")))
+    assertThat("{}".tokenize(), equalTo(listOf("{", "}")))
   }
 
   @Test
   fun tokenizeNames() {
-    assertThat("2names".lexemes(), equalTo(listOf("2", "names")))
-    assertThat("names12".lexemes(), equalTo(listOf("names", "12")))
+    assertThat("2names".tokenize(), equalTo(listOf("2", "names")))
+    assertThat("names12".tokenize(), equalTo(listOf("names", "12")))
   }
 
   @Test
@@ -42,6 +42,6 @@ internal class TokenizerKtTest {
     val actual = """
       "abc\"dfg"
     """.trimIndent()
-    assertThat(actual.lexemes(), equalTo(listOf("\"abc\\\"dfg\"")))
+    assertThat(actual.tokenize(), equalTo(listOf("\"abc\\\"dfg\"")))
   }
 }

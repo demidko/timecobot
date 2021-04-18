@@ -11,14 +11,21 @@ sealed class Idea(private vararg val stems: String) {
   }
 
   companion object {
+
     private val allIdeas = LinkedList<Idea>()
 
-    fun recognizeIdeaOrNull(token: String) = allIdeas.firstOrNull {
-      it.stems.any(token::startsWith)
+    /**
+     * Переводим набор токенов из контекстно свободной грамматики
+     * вида `забанить на 5 минут` в промежуточное представление известных нам идей.
+     */
+    fun List<String>.parse() = map { token ->
+      val idea = allIdeas.firstOrNull { it.stems.any(token::startsWith) }
+      Pair(token, idea)
     }
   }
 
   sealed class ACTION(private vararg val stems: String) : Idea(*stems) {
+
     object CHECK_STATUS : ACTION(
       "balance", "status", "score", "coins", "баланс", "статус", "счет", "узнать"
     )
@@ -40,7 +47,7 @@ sealed class Idea(private vararg val stems: String) {
 
   object NUMBER : Idea("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
 
-  sealed class TIME(private vararg val stems: String) : Idea(*stems) {
+  sealed class TIME(vararg stems: String) : Idea(*stems) {
 
     object YEAR : TIME("y", "г", "л")
 
