@@ -4,7 +4,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
 
 
-object InMemoryTimecoinStorage : TimecoinStorage {
+object InMemoryTimecoinsStorage : TimecoinsStorage {
 
   init {
     // тут накручиваем "зп" каждую минуту всем подряд
@@ -12,7 +12,7 @@ object InMemoryTimecoinStorage : TimecoinStorage {
 
   private val db = LinkedHashMap<Long, Duration>()
 
-  override fun register(account: Long) {
+  override fun startPeriodicCharges(telegramId: Long) {
     TODO("Not yet implemented")
   }
 

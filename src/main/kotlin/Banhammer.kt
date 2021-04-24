@@ -1,7 +1,7 @@
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
-import storages.TimecoinStorage
+import storages.TimecoinsStorage
 import java.time.Instant
 import kotlin.time.Duration
 import kotlin.time.seconds
@@ -17,7 +17,7 @@ private val ban = ChatPermissions(
   canPinMessages = false,
 )
 
-fun Bot.ban(duration: Duration, data: Message, storage: TimecoinStorage) {
+fun Bot.ban(duration: Duration, data: Message, storage: TimecoinsStorage) {
 
   val attacker = data.from?.id
     ?: error("You hasn't telegram id")
