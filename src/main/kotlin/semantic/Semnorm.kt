@@ -1,9 +1,10 @@
-package speech
+package semantic
 
 /** Набор нормализованных семантических представлений. */
-sealed class SemNorm(vararg val stems: String)
+sealed class Semnorm(vararg val stems: String)
 
-sealed class Time(vararg stems: String) : SemNorm(*stems)
+/** Общий тип для семантических представлений времени */
+sealed class Time(vararg stems: String) : Semnorm(*stems)
 
 object Year : Time("y", "г", "л")
 
@@ -19,45 +20,34 @@ object Minute : Time("m", "м")
 
 object Second : Time("s", "с")
 
-sealed class Action(vararg stems: String) : SemNorm(*stems)
 
-object Status : Action(
+object Status : Semnorm(
   "balance", "status", "score", "coins", "баланс", "статус", "счет", "узнать"
 )
 
-sealed class MutableAction(vararg stems: String) : Action(*stems)
-
-object Transfer : MutableAction(
+object Transfer : Semnorm(
   "transfer", "give", "take", "get", "keep", "держи", "бери", "возьми",
   "получи", "трансфер", "перевод", "дар", "подар", "взял", "забер", "забир", "перевед", "перевест"
 )
 
-object Ban : MutableAction(
+object Ban : Semnorm(
   "ban", "block", "freez", "mute", "бан", "блок", "забан",
   "заглох", "умри", "умер"
 )
 
-object Redeem : MutableAction(
+object Redeem : Semnorm(
   "redeem", "unblock", "unban", "unmute", "разбан", "разблок", "ожив", "выкуп", "донат"
 )
 
-object Number : SemNorm("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+object Number : Semnorm("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
 
-
-private val knownSemNorms = listOf(
+/** Список всех распознаваемых семантических норм */
+private val semNorms = listOf(
   Year, Month, Week, Day, Hour, Minute, Second,
   Status, Transfer, Ban, Redeem, Number
 )
 
-/**
- * Переводим набор токенов из контекстно свободной грамматики
- * вида `забанить на 5 минут` в наборы нормализованных семантических представлений.
- */
-fun List<String>.withSemNorms() = map { token ->
-  val idea = knownSemNorms.firstOrNull { norm ->
-    norm.stems.any { stem ->
-      token.toLowerCase().startsWith(stem)
-    }
-  }
-  Pair(token, idea)
+/** Переводим произвольную лексему напр. `забанить` в нормализованное семантическое представление. */
+internal fun findSemnorm(lexeme: String) = semNorms.firstOrNull {
+  it.stems.any(lexeme.toLowerCase()::startsWith)
 }

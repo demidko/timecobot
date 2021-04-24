@@ -1,12 +1,17 @@
-package speech
+package semantic
+
+/**  Токен состоит из лексемы и ее семантической нормы */
+data class Token(val lexeme: String, val semnorm: Semnorm?) {
+  constructor(lexeme: String) : this(lexeme, findSemnorm(lexeme))
+}
 
 /**
  * Функция осуществляет токенизацию и начальный лексический анализ:
  * выделение имен, управляющих инструкций, строковых и числовых литералов
  */
-fun String.tokenize() = splitByDifference().filterNot(String::isBlank)
+fun String.tokenize() = splitByDifference().filterNot(String::isBlank).map(::Token)
 
-/** Эта функция является ядром токенизатора, обеспечивающим разбор за линейное время. */
+/** Эта функция является ядром токенизатора, обеспечивающим разбор лексем за линейное время. */
 private fun String.splitByDifference(): List<String> =
   when (val diff = indexOfFirstDiff()) {
     -1 ->
@@ -29,8 +34,7 @@ private fun String.indexOfFirstDiff(): Int {
 }
 
 /**
- * Переопределяем понятие разницы между двумя символами, на основе которой строка бьется на
- * токены.
+ * Переопределяем понятие разницы между двумя символами, на основе которой строка бьется на лексемы.
  * @param typeIdx первый индекс символа задает тип токена
  * @param otherIdx и сравнивается с символом второго индекса
  * @return является ли второй индекс разбивающим символом?
