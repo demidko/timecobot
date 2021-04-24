@@ -25,7 +25,8 @@ To start using the bot, just add it to the group with admin rights.
 ./gradlew clean test shadowJar
 ```
 
-Self-executable jar will be located in `build/libs`
+Self-executable jar will be located in `build/libs`. Launch
+example: `TOKEN=... java -jar build/libs/*.jar`
 
 ## Deploy
 

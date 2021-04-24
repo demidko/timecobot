@@ -1,19 +1,18 @@
-import semantic.*
+package speech
+
 import kotlin.time.*
 
 sealed class Command
 
-object Status : Command()
+object StatusCommand : Command()
 
-class Unexpected(val token: Token) : Command()
+data class UnexpectedCommand(val token: Token) : Command()
 
-sealed class Mutable(val duration: Duration) : Command()
+data class BanCommand(val duration: Duration) : Command()
 
-class Ban(duration: Duration) : Mutable(duration)
+data class TransferCommand(val duration: Duration) : Command()
 
-class Transfer(duration: Duration) : Mutable(duration)
-
-class Redeem(duration: Duration) : Mutable(duration)
+data class RedeemCommand(val duration: Duration) : Command()
 
 /**
  * Функция распознает команду из произвольного текста
@@ -23,11 +22,11 @@ fun String.recognize(): Command {
   val it = tokenize().iterator()
   val token = it.next()
   return when (token.semnorm) {
-    is semantic.Status -> Status
-    is semantic.Ban -> it.parse(::Ban)
-    is semantic.Transfer -> it.parse(::Transfer)
-    is semantic.Redeem -> it.parse(::Redeem)
-    else -> Unexpected(token)
+    is Status -> StatusCommand
+    is Ban -> it.parse(::BanCommand)
+    is Transfer -> it.parse(::TransferCommand)
+    is Redeem -> it.parse(::RedeemCommand)
+    else -> UnexpectedCommand(token)
   }
 }
 

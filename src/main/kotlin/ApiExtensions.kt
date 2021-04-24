@@ -4,7 +4,6 @@ import com.github.kotlintelegrambot.entities.ReplyMarkup
 import java.util.*
 import kotlin.concurrent.schedule
 import kotlin.time.Duration
-import kotlin.time.seconds
 
 private val timer = Timer()
 
@@ -21,7 +20,7 @@ private val timer = Timer()
  * @param lifetime message lifetime
  * @return the sent [Message] on success
  */
-fun Bot.sendTempMessage(
+fun Bot.sendMessage(
   chatId: Long,
   text: String,
   parseMode: ParseMode? = null,
@@ -29,7 +28,7 @@ fun Bot.sendTempMessage(
   disableNotification: Boolean? = null,
   replyToMessageId: Long? = null,
   replyMarkup: ReplyMarkup? = null,
-  lifetime: Duration = 15.seconds
+  lifetime: Duration
 ) {
 
   val messageSendingResult = sendMessage(
@@ -48,7 +47,24 @@ fun Bot.sendTempMessage(
     ?.messageId
     ?: error("Failed to send message")
 
-  timer.schedule(lifetime.toLongMilliseconds()) {
+  deleteMessage(chatId, messageId, lifetime)
+}
+
+/**
+ * Use this method to delete a message, including service messages, with the following limitations:
+ * - A message can only be deleted if it was sent less than 48 hours ago.
+ * - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.
+ * - Bots can delete outgoing messages in private chats, groups, and supergroups.
+ * - Bots can delete incoming messages in private chats.
+ * - Bots granted `can_post_messages` permissions can delete outgoing messages in channels.
+ * - If the bot is an administrator of a group, it can delete any message there.
+ * - If the bot has `can_delete_messages` permission in a supergroup or a channel, it can delete any message there.
+ * @param chatId Unique identifier for the target chat.
+ * @param messageId Identifier of the message to delete.
+ * @param delay lifetime of the message to delete
+ * @return True on success.
+ */
+fun Bot.deleteMessage(chatId: Long, messageId: Long, delay: Duration) =
+  timer.schedule(delay.toLongMilliseconds()) {
     deleteMessage(chatId, messageId)
   }
-}
