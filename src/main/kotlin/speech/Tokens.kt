@@ -9,7 +9,7 @@ data class Token(val lexeme: String, val semnorm: Semnorm?) {
  * Функция осуществляет токенизацию и начальный лексический анализ:
  * выделение имен, управляющих инструкций, строковых и числовых литералов
  */
-fun String.tokenize() = splitByDifference().filterNot(String::isBlank).map(::Token)
+internal fun String.tokenize() = splitByDifference().filterNot(String::isBlank).map(::Token)
 
 /** Эта функция является ядром токенизатора, обеспечивающим разбор лексем за линейное время. */
 private fun String.splitByDifference(): List<String> =

@@ -6,8 +6,6 @@ sealed class Command
 
 object StatusCommand : Command()
 
-data class UnexpectedCommand(val token: Token) : Command()
-
 data class BanCommand(val duration: Duration) : Command()
 
 data class TransferCommand(val duration: Duration) : Command()
@@ -26,7 +24,7 @@ fun String.recognize(): Command {
     is Ban -> it.parse(::BanCommand)
     is Transfer -> it.parse(::TransferCommand)
     is Redeem -> it.parse(::RedeemCommand)
-    else -> UnexpectedCommand(token)
+    else -> error("Unexpected command: ${token.lexeme}")
   }
 }
 
