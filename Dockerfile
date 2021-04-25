@@ -3,7 +3,7 @@ FROM gradle:jdk16 as builder
 WORKDIR /project
 COPY src ./src
 COPY build.gradle.kts ./build.gradle.kts
-RUN --mount=type=cache,target=./.gradle gradle clean test shadowJar
+RUN gradle clean test shadowJar
 
 FROM openjdk:16 as backend
 WORKDIR /root
