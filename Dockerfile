@@ -7,5 +7,5 @@ RUN gradle clean test shadowJar
 
 FROM openjdk:16 as backend
 WORKDIR /root
-COPY --from=builder /project/build/*.jar ./app
+COPY --from=builder /project/build/libs/*.jar ./app
 ENTRYPOINT ["java", "-jar", "/root/app"]
