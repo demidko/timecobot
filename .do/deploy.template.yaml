@@ -12,4 +12,5 @@ spec:
           type: SECRET
           scope: RUN_TIME
         - key: DOCKER_BUILDKIT
-          value: 1
+          value: "1"
+          scope: BUILD_TIME
