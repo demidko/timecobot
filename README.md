@@ -2,7 +2,7 @@
 
 Telegram bot provides a time-based currency-gun, `timecoins`.
 
-* Each user accumulates time spent on Telegram.
+* _Each active user accumulates time spent on Telegram_.
 * Time can be passed on to other people.
 * The accumulated time can be used to block another user.
 * Time can be used to redeem the user from the ban.

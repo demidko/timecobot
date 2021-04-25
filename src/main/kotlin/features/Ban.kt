@@ -1,12 +1,15 @@
+package features
+
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
 import storages.TimeBank
+import telegram.delayDeleteMessage
+import telegram.sendTempMessage
 import java.time.Instant
 import kotlin.time.Duration
-import kotlin.time.seconds
 
-private val ban = ChatPermissions(
+private val customBan = ChatPermissions(
   canSendMessages = false,
   canSendMediaMessages = false,
   canSendPolls = false,
@@ -17,24 +20,30 @@ private val ban = ChatPermissions(
   canPinMessages = false,
 )
 
-fun Bot.ban(duration: Duration, data: Message, storage: TimeBank) {
-
-  val attacker = data.from?.id
+fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeBank) {
+  val attacker = attackerMessage
+    .from
+    ?.id
     ?: error("You hasn't telegram id")
-  val victimMessage = data.replyToMessage
+  val victimMessage = attackerMessage
+    .replyToMessage
     ?: error("You need to reply to the user to ban him")
-  val victim = victimMessage.from?.id
+  val victim = victimMessage
+    .from
+    ?.id
     ?: error("You need to reply to the user with telegram id to ban him")
-
   storage.use(attacker, duration) {
-    restrictChatMember(data.chat.id, victim, ban, Instant.now().epochSecond + it.inSeconds.toLong())
-    sendMessage(
-      data.chat.id,
+    restrictChatMember(
+      attackerMessage.chat.id,
+      victim,
+      customBan,
+      Instant.now().epochSecond + it.inSeconds.toLong()
+    )
+    sendTempMessage(
+      attackerMessage.chat.id,
       "💥",
       replyToMessageId = victimMessage.messageId,
-      lifetime = 15.seconds
     )
   }
-
-  deleteMessage(data.chat.id, data.messageId, 15.seconds)
+  delayDeleteMessage(attackerMessage.chat.id, attackerMessage.messageId)
 }

@@ -1,9 +1,12 @@
+package telegram
+
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import java.util.*
 import kotlin.concurrent.schedule
 import kotlin.time.Duration
+import kotlin.time.seconds
 
 private val timer = Timer()
 
@@ -20,7 +23,7 @@ private val timer = Timer()
  * @param lifetime message lifetime
  * @return the sent [Message] on success
  */
-fun Bot.sendMessage(
+fun Bot.sendTempMessage(
   chatId: Long,
   text: String,
   parseMode: ParseMode? = null,
@@ -28,7 +31,7 @@ fun Bot.sendMessage(
   disableNotification: Boolean? = null,
   replyToMessageId: Long? = null,
   replyMarkup: ReplyMarkup? = null,
-  lifetime: Duration
+  lifetime: Duration = 15.seconds
 ) {
 
   val messageSendingResult = sendMessage(
@@ -47,7 +50,7 @@ fun Bot.sendMessage(
     ?.messageId
     ?: error("Failed to send message")
 
-  deleteMessage(chatId, messageId, lifetime)
+  delayDeleteMessage(chatId, messageId, lifetime)
 }
 
 /**
@@ -64,7 +67,7 @@ fun Bot.sendMessage(
  * @param delay lifetime of the message to delete
  * @return True on success.
  */
-fun Bot.deleteMessage(chatId: Long, messageId: Long, delay: Duration) =
+fun Bot.delayDeleteMessage(chatId: Long, messageId: Long, delay: Duration = 15.seconds) =
   timer.schedule(delay.toLongMilliseconds()) {
     deleteMessage(chatId, messageId)
   }
