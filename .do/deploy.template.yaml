@@ -17,6 +17,6 @@ spec:
         - key: TOKEN
           type: SECRET
           scope: RUN_TIME
-        - key: DOCKER_BUILDKIT
-          value: "1"
-          scope: BUILD_TIME
+        - key: DATABASE_URL
+          scope: RUN_TIME
+          value: ${redis.DATABASE_URL}

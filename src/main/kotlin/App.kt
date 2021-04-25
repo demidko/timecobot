@@ -17,7 +17,8 @@ fun main(args: Array<String>) = bot {
   token = getenv("TOKEN")
   logLevel = Error
   val bank: TimeBank = InMemoryTimeBank
-  val log = getLogger("@Timecobot")
+  val log = getLogger("Bot")
+  log.info(getenv("DATABASE_URL"))
   dispatch {
     message {
       message.from?.id?.let(bank::register)
