@@ -10,4 +10,4 @@ spec:
       envs:
         - key: TOKEN
           type: SECRET
-          SCOPE: RUN_TIME
+          scope: RUN_TIME
