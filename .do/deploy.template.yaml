@@ -1,11 +1,5 @@
 spec:
   name: timecobot
-  databases:
-    - cluster_name: redis
-      engine: REDIS
-      name: redis
-      production: true
-      version: "6"
   workers:
     - name: backend
       dockerfile_path: Dockerfile
@@ -17,6 +11,3 @@ spec:
         - key: TOKEN
           type: SECRET
           scope: RUN_TIME
-        - key: DATABASE_URL
-          scope: RUN_TIME
-          value: ${redis.DATABASE_URL}

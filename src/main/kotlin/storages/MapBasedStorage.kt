@@ -2,7 +2,7 @@ package storages
 
 import org.redisson.Redisson
 import org.redisson.config.Config
-import org.slf4j.LoggerFactory
+import org.slf4j.LoggerFactory.getLogger
 import kotlin.time.Duration
 
 fun mapBasedStorage(): MutableMap<Long, Duration> {
@@ -15,7 +15,7 @@ fun mapBasedStorage(): MutableMap<Long, Duration> {
       .let(Redisson::create)
       .getMap("timecoins")
   } catch (e: RuntimeException) {
-    LoggerFactory.getLogger("Redis").error(e.message, e)
+    getLogger("Redis").warn(e.message, e)
     LinkedHashMap()
   }
 }
