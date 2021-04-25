@@ -11,3 +11,5 @@ spec:
         - key: TOKEN
           type: SECRET
           scope: RUN_TIME
+        - key: DOCKER_BUILDKIT
+          value: 1
