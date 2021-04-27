@@ -23,12 +23,4 @@ internal class MapBasedStorageKtTest {
     map[1] = 4
     println(client.keys.keysStream.toList())
   }
-
-  @Test
-  fun testRedis() {
-    println(getenv("REDIS_URL"))
-    println(getenv("REDIS_USER"))
-    println(getenv("REDIS_PASSWORD"))
-    println(getenv("DATABASE_URL"))
-  }
 }
