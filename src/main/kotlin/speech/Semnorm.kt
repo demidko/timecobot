@@ -44,7 +44,10 @@ object Status : Semnorm(
     "счёт",
     "узна",
     "!",
-    "timecoin"
+    "timecoin",
+    "check",
+    "start",
+    "/start"
   )
 )
 
