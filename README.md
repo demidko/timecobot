@@ -10,7 +10,7 @@ Telegram bot provides a time-based currency & gun:
 To start using the bot, just add [`@Timecobot`](https://t.me/timecobot) to the group with admin
 rights.
 
-## Examples
+## Usage
 
 The bot understands spoken language. Experiment!
 
