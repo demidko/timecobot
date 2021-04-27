@@ -7,8 +7,8 @@ import storages.redis.redisClient
 import java.lang.System.getenv
 import kotlin.concurrent.timer
 import kotlin.time.Duration
-import kotlin.time.milliseconds
 import kotlin.time.minutes
+import kotlin.time.seconds
 
 class TimeBank {
 
@@ -27,11 +27,11 @@ class TimeBank {
   }
 
   init {
-    val settlementPeriod = 1.minutes.toLongMilliseconds()
-    timer(period = settlementPeriod) {
+    val settlementPeriod = 1.minutes
+    timer(period = settlementPeriod.toLongMilliseconds()) {
       db.access {
         it.entries.forEach { entry ->
-          entry.setValue(entry.value + settlementPeriod)
+          entry.setValue(entry.value + settlementPeriod.inSeconds.toLong())
         }
       }
     }
@@ -57,24 +57,23 @@ class TimeBank {
   ) = use(fromAccount, duration) {
     db.access {
       val balance = it[toAccount] ?: 0
-      it[toAccount] = balance + duration.toLongMilliseconds()
+      it[toAccount] = balance + duration.inSeconds.toLong()
     }
     action()
   }
 
   /** @return статус счета */
   fun status(account: Long): Duration = db.access {
-    (it[account] ?: 0).milliseconds
+    (it[account] ?: 0).seconds
   }
 
   /** Метод для снятия времени со счета */
   fun use(account: Long, duration: Duration, action: (Duration) -> Unit) = db.access {
     val balance = it[account] ?: 0
-    if (balance.milliseconds < duration) {
+    if (balance.seconds < duration) {
       error("Not enough money. You only have $balance, but you need $duration")
     }
-    val newBalance = balance - duration.toLongMilliseconds()
-    it[account] = newBalance
-    action(newBalance.milliseconds)
+    it[account] = balance - duration.inSeconds.toLong()
+    action(duration)
   }
 }

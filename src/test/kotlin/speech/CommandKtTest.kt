@@ -5,6 +5,7 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.jupiter.api.Test
 import kotlin.time.hours
 import kotlin.time.minutes
+import kotlin.time.seconds
 
 class CommandKtTest {
 
@@ -23,5 +24,11 @@ class CommandKtTest {
   @Test
   fun checkStatus() {
     assertThat("счет".command(), equalTo(StatusCommand))
+  }
+
+  @Test
+  fun brokenCase() {
+    println("забань на 40 с".tokens())
+    //assertThat("забань на 40 с".command(), equalTo(BanCommand(40.seconds)))
   }
 }

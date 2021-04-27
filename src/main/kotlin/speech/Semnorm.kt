@@ -28,7 +28,7 @@ object Hour : Time(startsWithAny("h", "ч"))
 
 object Minute : Time(startsWithAny("m", "м"))
 
-object Second : Time(startsWithAny("sec", "сек"), equalsAny("s", "сек"))
+object Second : Time(startsWithAny("sec", "сек"), equalsAny("s", "с"))
 
 object Status : Semnorm(
   startsWithAny(
