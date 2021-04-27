@@ -1,21 +1,16 @@
-# [@Timecobot](https://t.me/timecobot)
+# Timecobot
 
-Telegram bot provides a time-based currency-gun, `timecoins`.
+Telegram bot provides a time-based currency & gun:
 
-* _Each active user accumulates time spent on Telegram_.
-* Time can be passed on to other people.
-* The accumulated time can be used to block another user.
-* Time can be used to redeem the user from the ban.
+1. Each active user accumulates time spent on Telegram.
+1. Time can be passed on to other people.
+1. The accumulated time can be used to block another user.
+1. Time can be used to redeem the user from the ban.
 
-To start using the bot, just add it to the group with admin rights.
+To start using the bot, just add [`@Timecobot`](https://t.me/timecobot) to the group with admin
+rights.
 
-### Time accumulation example
-
-### Time transfer example
-
-### Ban example
-
-### Redeem example
+## Examples
 
 ## Build
 
@@ -23,8 +18,8 @@ To start using the bot, just add it to the group with admin rights.
 ./gradlew clean test shadowJar
 ```
 
-Self-executable jar will be located in `build/libs`. Launch
-example: `TOKEN=... java -jar build/libs/*.jar`
+Self-executable jar will be located in `build/libs`. To start polling execute
+command `TOKEN=... java -jar build/libs/*.jar`
 
 ## Deploy
 

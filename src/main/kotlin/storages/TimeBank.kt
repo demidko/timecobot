@@ -1,7 +1,10 @@
 package storages
 
 import co.touchlab.stately.isolate.IsolateState
+import org.redisson.Redisson.create
 import org.slf4j.LoggerFactory.getLogger
+import storages.redis.redisClient
+import java.lang.System.getenv
 import kotlin.concurrent.timer
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
@@ -11,7 +14,17 @@ class TimeBank {
 
   private val log = getLogger(javaClass.simpleName)
 
-  private val db = IsolateState { mapBasedStorage() }
+  private val db = IsolateState {
+    try {
+      getenv("DATABASE_URL")
+        .let(::redisClient)
+        .let(::create)
+        .getMap<Long, Duration>("timecoins")
+    } catch (e: RuntimeException) {
+      log.warn(e.message)
+      LinkedHashMap()
+    }
+  }
 
   init {
     val settlementPeriod = 1.minutes

@@ -9,14 +9,18 @@ import features.ban
 import features.free
 import features.status
 import features.transfer
-import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import speech.*
 import storages.TimeBank
 import java.lang.System.getenv
 
-fun timecoinsBot(bank: TimeBank, log: Logger) = bot {
+fun timecobot() = bot {
+
+  val bank = TimeBank()
+  val log = LoggerFactory.getLogger("Bot")
   token = getenv("TOKEN")
   logLevel = Error
+
   dispatch {
     message {
       message.from?.id?.let(bank::register)
@@ -32,7 +36,7 @@ fun timecoinsBot(bank: TimeBank, log: Logger) = bot {
       } catch (e: RuntimeException) {
         bot.sendTempMessage(
           message.chat.id,
-          e.message ?: "Internal exception",
+          e.message ?: "Oops... Something is wrong 🤔",
           replyToMessageId = message.messageId
         )
         log.error(e.message, e)

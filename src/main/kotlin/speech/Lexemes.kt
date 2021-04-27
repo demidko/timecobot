@@ -4,7 +4,7 @@ package speech
  * Функция осуществляет начальный лексический анализ:
  * выделение имен, управляющих инструкций, строковых и числовых литералов
  */
-internal fun String.lexemes() = splitByDifference().filterNot(String::isBlank)
+fun String.lexemes() = splitByDifference().filterNot(String::isBlank)
 
 /** Эта функция является ядром лексера, обеспечивающим разбор лексем за линейное время. */
 private fun String.splitByDifference(): List<String> =
