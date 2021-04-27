@@ -28,7 +28,10 @@ fun timecobot() = bot {
     text {
       try {
         when (val command = text.command()) {
-          is BanCommand -> bot.ban(command.duration, message, bank)
+          is BanCommand -> {
+            log.info("$text --> ${command.duration}")
+            bot.ban(command.duration, message, bank)
+          }
           is FreeCommand -> bot.free(message, bank)
           is StatusCommand -> bot.status(message, bank)
           is TransferCommand -> bot.transfer(command.duration, message, bank)

@@ -32,6 +32,8 @@ object Second : Time(startsWithAny("sec", "сек"), equalsAny("s", "сек"))
 
 object Status : Semnorm(
   startsWithAny(
+    "time",
+    "врем",
     "balance",
     "status",
     "score",
