@@ -7,7 +7,7 @@ import storages.redis.redisClient
 import java.lang.System.getenv
 import kotlin.concurrent.timer
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.ZERO
+import kotlin.time.milliseconds
 import kotlin.time.minutes
 
 class TimeBank {
@@ -19,7 +19,7 @@ class TimeBank {
       getenv("DATABASE_URL")
         .let(::redisClient)
         .let(::create)
-        .getMap<Long, Duration>("timecoins")
+        .getMap<Long, Long>("timecoins")
     } catch (e: RuntimeException) {
       log.warn(e.message)
       LinkedHashMap()
@@ -27,8 +27,8 @@ class TimeBank {
   }
 
   init {
-    val settlementPeriod = 1.minutes
-    timer(period = settlementPeriod.toLongMilliseconds()) {
+    val settlementPeriod = 1.minutes.toLongMilliseconds()
+    timer(period = settlementPeriod) {
       db.access {
         it.entries.forEach { entry ->
           entry.setValue(entry.value + settlementPeriod)
@@ -43,7 +43,7 @@ class TimeBank {
    */
   fun register(account: Long) = db.access {
     if (account !in it.keys) {
-      it[account] = ZERO
+      it[account] = 0
       log.info("New telegram user: $account")
     }
   }
@@ -56,25 +56,25 @@ class TimeBank {
     action: () -> Unit = {}
   ) = use(fromAccount, duration) {
     db.access {
-      val balance = it[toAccount] ?: ZERO
-      it[toAccount] = balance + duration
+      val balance = it[toAccount] ?: 0
+      it[toAccount] = balance + duration.toLongMilliseconds()
     }
     action()
   }
 
   /** @return статус счета */
   fun status(account: Long): Duration = db.access {
-    it[account] ?: ZERO
+    (it[account] ?: 0).milliseconds
   }
 
   /** Метод для снятия времени со счета */
   fun use(account: Long, duration: Duration, action: (Duration) -> Unit) = db.access {
-    val balance = it[account] ?: ZERO
-    if (balance < duration) {
+    val balance = it[account] ?: 0
+    if (balance.milliseconds < duration) {
       error("Not enough money. You only have $balance, but you need $duration")
     }
-    val newBalance = balance - duration
+    val newBalance = balance - duration.toLongMilliseconds()
     it[account] = newBalance
-    action(newBalance)
+    action(newBalance.milliseconds)
   }
 }
