@@ -11,6 +11,7 @@ To start using the bot, just add [`@Timecobot`](https://t.me/timecobot) to the g
 rights.
 
 ## Examples
+![Ban2](examples/ban.jpg "Ban")
 
 ## Build
 
