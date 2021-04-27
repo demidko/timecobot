@@ -3,10 +3,15 @@ package features
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
+import org.slf4j.LoggerFactory.getLogger
 import storages.TimeBank
 import telegram.delayDeleteMessage
 import telegram.sendTempMessage
+import java.time.Instant
 import java.time.Instant.now
+import java.time.Instant.ofEpochSecond
+import java.time.LocalDateTime.now
+import java.time.ZoneId.of
 import kotlin.time.Duration
 import kotlin.time.seconds
 
@@ -20,6 +25,10 @@ private val customBan = ChatPermissions(
   canInviteUsers = true,
   canPinMessages = false,
 )
+
+private val VLAT = of("Asia/Vladivostok")
+
+private val log = getLogger("Ban")
 
 fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeBank) {
 
@@ -48,11 +57,22 @@ fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeBank) {
     ?.id
     ?: error("You need to reply to the user with telegram id to ban him")
   storage.use(attacker, duration) {
+
+    val untilSecond = Instant.now().epochSecond + it.inSeconds.toLong()
+
+    log.warn(
+      "${attackerMessage.text} restricted ${victimMessage.text} until ${
+        ofEpochSecond(
+          untilSecond
+        ).atZone(VLAT).toLocalDateTime()
+      }"
+    )
+
     restrictChatMember(
       attackerMessage.chat.id,
       victim,
       customBan,
-      now().epochSecond + it.inSeconds.toLong()
+      untilSecond
     )
     sendTempMessage(
       attackerMessage.chat.id,
