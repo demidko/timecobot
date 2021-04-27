@@ -12,6 +12,7 @@ rights.
 
 ## Examples
 
+The bot understands spoken language. Experiment!
 ![](examples/ban.jpg "Ban user")
 ![](examples/redeem.jpg "Redeem user")
 ![](examples/status.jpg "My status")
