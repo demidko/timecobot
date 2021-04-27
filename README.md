@@ -9,13 +9,13 @@ Telegram bot provides a time-based currency-gun, `timecoins`.
 
 To start using the bot, just add it to the group with admin rights.
 
-## Time accumulation example
+### Time accumulation example
 
-## Time transfer example
+### Time transfer example
 
-## Ban example
+### Ban example
 
-## Redeem example
+### Redeem example
 
 ## Build
 
