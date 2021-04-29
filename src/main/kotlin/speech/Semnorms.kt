@@ -22,7 +22,7 @@ object Month : Time(stem("mon", "мес"))
 
 object Week : Time(stem("week", "недел"))
 
-object Day : Time(stem("d", "д"))
+object Day : Time(stem("d", "д", "суток", "сутк"))
 
 object Hour : Time(word("h", "ч"), stem("час", "hour"))
 
