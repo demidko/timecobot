@@ -2,6 +2,7 @@ package telegram
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
+import kotlin.time.seconds
 
 const val faqRu = """
 Я дух чата, похоже вы призвали меня.
@@ -41,6 +42,6 @@ fun Bot.help(m: Message) {
     in 'А'..'Я' -> faqRu
     else -> faqEn
   }
-  sendTempMessage(m.chat.id, faq, replyToMessageId = m.messageId)
+  sendTempMessage(m.chat.id, faq, replyToMessageId = m.messageId, lifetime = 60.seconds)
   delayDeleteMessage(m.chat.id, m.messageId)
 }
