@@ -37,7 +37,7 @@ I understand English well. These orders can be formulated in different ways, exp
 /** Показать справку */
 fun Bot.help(m: Message) {
   val user = m.from ?: error("You hasn't telegram id")
-  val faq = when (user.firstName.first().toUpperCase()) {
+  val faq = when (user.firstName.firstOrNull()?.toUpperCase()) {
     in 'А'..'Я' -> faqRu
     else -> faqEn
   }
