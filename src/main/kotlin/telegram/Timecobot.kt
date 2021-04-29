@@ -5,12 +5,14 @@ import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.message
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.logging.LogLevel.Error
+import debug
 import org.slf4j.LoggerFactory
 import speech.*
 import storages.TimeStorage
 import java.lang.System.getenv
 import kotlin.time.seconds
 
+/** @return new @timecobot instance */
 fun timecobot() = bot {
   val bank = TimeStorage()
   val log = LoggerFactory.getLogger("Bot")
@@ -28,6 +30,7 @@ fun timecobot() = bot {
           is StatusCommand -> bot.status(message, bank)
           is TransferCommand -> bot.transfer(command.duration, message, bank)
           is HelpCommand -> bot.help(message)
+          is DebugCommand -> bot.debug(message)
         }
       } catch (e: RuntimeException) {
         bot.sendTempMessage(

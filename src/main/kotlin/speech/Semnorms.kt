@@ -125,6 +125,22 @@ object Help : Semnorm(
   )
 )
 
+/** Семантическое представление обращений к разработчику */
+object Debug : Semnorm(
+  stem(
+    "разраб",
+    "dev",
+    "создатель",
+    "creator",
+    "bot",
+    "программист",
+    "programmer",
+    "бот",
+    "автор",
+    "author"
+  )
+)
+
 /** Пропускаем семантическое представление префикса telegram-команд */
 object Skip : Semnorm(stem("/"))
 
@@ -148,7 +164,8 @@ private val semnorms = listOf(
   Transfer,
   Ban,
   Redeem,
-  Help
+  Help,
+  Debug
 )
 
 /**
@@ -158,5 +175,8 @@ private val semnorms = listOf(
  */
 private fun String.matches(norm: Semnorm) = norm.rules.any { it(this) }
 
-/** Переводим произвольную лексему напр. `забанить` в нормализованное семантическое представление. */
+/**
+ * Переводим произвольную лексему напр. `забанить` в нормализованное семантическое представление.
+ * Регистр не учитывается.
+ */
 val String.semnorm get() = semnorms.firstOrNull(toLowerCase()::matches)

@@ -5,6 +5,13 @@ import com.github.kotlintelegrambot.entities.Message
 import storages.TimeStorage
 import kotlin.time.Duration
 
+
+/**
+ * Перевести другомуц пользователю свое время
+ * @param duration время для перевода
+ * @param senderMessage сообщение с указанием кому перевести время
+ * @param storage хранилище времени
+ */
 fun Bot.transfer(duration: Duration, senderMessage: Message, storage: TimeStorage) {
   val sender = senderMessage
     .from

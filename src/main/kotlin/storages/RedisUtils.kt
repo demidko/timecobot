@@ -2,6 +2,11 @@ package storages
 
 import org.redisson.config.Config
 
+/**
+ * Configure redis client
+ * @param address connection string with login and password
+ * @return config object
+ */
 fun redisClient(address: String) = Config().apply {
   useSingleServer().apply {
 

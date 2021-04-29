@@ -26,6 +26,9 @@ object FreeCommand : Command()
 /** Команда запроса о помощи */
 object HelpCommand : Command()
 
+/** Команда обращения к разработчику */
+object DebugCommand : Command()
+
 /**
  * Функция распознает команду из произвольного текста
  * на основе наборов нормализованных семантических представлений.
@@ -38,6 +41,7 @@ private fun Iterator<Token>.parseCommand(): Command? = when (next().semnorm) {
   is Ban -> parseDuration(::BanCommand)
   is Transfer -> parseDuration(::TransferCommand)
   is Help -> HelpCommand
+  is Debug -> DebugCommand
   is Skip -> parseCommand()
   else -> null
 }
@@ -47,8 +51,8 @@ private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(pars
 private fun Iterator<Token>.parseDuration(): Duration {
   val (token, norm) = next()
   return when (norm) {
-    is Time -> norm.toDuration(parseInt())
-    is Number -> parseTime().toDuration(token.toInt())
+    is Time -> norm.toDuration(parseLong())
+    is Number -> parseTime().toDuration(token.toLong())
     else -> parseDuration()
   }
 }
@@ -61,15 +65,15 @@ private fun Iterator<Token>.parseTime(): Time {
   }
 }
 
-private fun Iterator<Token>.parseInt(): Int {
+private fun Iterator<Token>.parseLong(): Long {
   val (token, norm) = next()
   return when (norm) {
-    is Number -> token.toInt()
-    else -> parseInt()
+    is Number -> token.toLong()
+    else -> parseLong()
   }
 }
 
-private fun Time.toDuration(number: Int) = when (this) {
+private fun Time.toDuration(number: Long) = when (this) {
   is Second -> number.seconds
   is Minute -> number.minutes
   is Hour -> number.hours

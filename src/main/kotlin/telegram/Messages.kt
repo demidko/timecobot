@@ -8,6 +8,7 @@ import kotlin.concurrent.schedule
 import kotlin.time.Duration
 import kotlin.time.seconds
 
+/** Таймер для отложенного удаления сообщений */
 private val timer = Timer()
 
 /**
