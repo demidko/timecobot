@@ -36,7 +36,7 @@ The telegram understands spoken language. Experiment!
 ./gradlew clean test shadowJar
 ```
 
-Self-executable jar will be located in `build/libs`. To start polling execute command
+Self-executable jar will be located in `build/libs`. To start long polling execute command
 
 ```sh
 TOKEN=... java -jar build/libs/*.jar
