@@ -13,7 +13,7 @@ rights.
 
 ## Usage
 
-The telegram understands spoken language. Experiment!
+Timecobot understands spoken language. Experiment!
 
 ### Ban user
 
