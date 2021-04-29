@@ -1,5 +1,6 @@
 package speech
 
+import org.slf4j.LoggerFactory.getLogger
 import kotlin.time.*
 
 /** Класс представляет собой полностью формализованную команду Telegram-боту */
@@ -35,6 +36,8 @@ object DebugCommand : Command()
  */
 fun String.command() = tokens().iterator().parseCommand()
 
+private val log = getLogger("Commands")
+
 private fun Iterator<Token>.parseCommand(): Command? = when (next().semnorm) {
   is Status -> StatusCommand
   is Redeem -> FreeCommand
@@ -46,7 +49,14 @@ private fun Iterator<Token>.parseCommand(): Command? = when (next().semnorm) {
   else -> null
 }
 
-private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(parseDuration())
+private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(
+  try {
+    parseDuration()
+  } catch (e: RuntimeException) {
+    log.warn("duration not found, defaults are used", e)
+    5.minutes
+  }
+)
 
 private fun Iterator<Token>.parseDuration(): Duration {
   val (token, norm) = next()
