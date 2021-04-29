@@ -3,11 +3,11 @@ package telegram
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
 
-const val faq = """
+const val faqRu = """
 Я дух чата, похоже вы призвали меня.
 
 1. Время (валюта) начисляется вам автоматически, каждую минуту, совершенно бесплатно и безусловно.
-   Чтобы узнать свой баланс, напишите в чат запрос, например /баланс, /статус или /! , можно без префикса '/'.
+   Чтобы узнать свой баланс, напишите в чат запрос, например /баланс /статус или /! можно без префикса '/'.
    
 2. Чтобы забанить человека используйте приказы вида "бан 5 минут" или "блок на 2 часа" в ответном сообщении человеку.
    Я заблокирую его на указанное вами время: он останется в чате, но не сможет ничего писать.
@@ -16,11 +16,31 @@ const val faq = """
 
 4. Чтобы перевести время другому человеку напишите, например "переводи Васе 5 моих минут" в ответном сообщении этому человеку.
 
-Я неплохо понимаю русский язык в свободной форме. Эти приказы можно перформулировать по разному, эксперементируйте! Если в приказе что-то будет составлено
+Я неплохо понимаю русский язык в свободной форме. Эти приказы можно перформулировать по разному, эксперементируйте!
 """
 
+const val faqEn = """
+1. Time (currency) is credited to you automatically, every minute, completely free of charge and unconditionally.
+   To check your balance, send a request to the chat, for example /balance /status or /! possible without the '/' prefix.
+   
+2. To ban a person, use orders like “ban 5 minutes” or “block for 2 hours” in the reply message to that person.
+   I will block him for the time you specified: he will remain in the chat, but he will not be able to write anything.
+   
+3 To redeem a person from the ban, simply write to him in the reply message "unblock him" or "redeem".
+
+4. To pass the time to another person, write, for example, “give my 5 minutes to Vasya” in the reply message to this person.
+
+I understand English well. These orders can be formulated in different ways, experiment!
+"""
+
+
+/** Показать справку */
 fun Bot.help(m: Message) {
-  val user = m.from?.id ?: error("You hasn't telegram id")
+  val user = m.from ?: error("You hasn't telegram id")
+  val faq = when (user.firstName.first().toUpperCase()) {
+    in 'А'..'Я' -> faqRu
+    else -> faqEn
+  }
   sendTempMessage(m.chat.id, faq, replyToMessageId = m.messageId)
   delayDeleteMessage(m.chat.id, m.messageId)
 }

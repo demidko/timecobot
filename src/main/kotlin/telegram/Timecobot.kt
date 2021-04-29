@@ -7,12 +7,12 @@ import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.logging.LogLevel.Error
 import org.slf4j.LoggerFactory
 import speech.*
-import storages.TimeBank
+import storages.TimeStorage
 import java.lang.System.getenv
 import kotlin.time.seconds
 
 fun timecobot() = bot {
-  val bank = TimeBank()
+  val bank = TimeStorage()
   val log = LoggerFactory.getLogger("Bot")
   token = getenv("TOKEN")
   logLevel = Error

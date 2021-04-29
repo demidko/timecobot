@@ -2,6 +2,7 @@ package speech
 
 import kotlin.time.*
 
+/** Класс представляет собой полностью формализованную команду Telegram-боту */
 sealed class Command
 
 /** Команда проверки своего статуса */
@@ -22,6 +23,7 @@ data class TransferCommand(val duration: Duration) : Command()
 /** Команда выкупа другого пользователя из бана */
 object FreeCommand : Command()
 
+/** Команда запроса о помощи */
 object HelpCommand : Command()
 
 /**

@@ -3,10 +3,8 @@ package telegram
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
-import org.slf4j.LoggerFactory.getLogger
-import storages.TimeBank
+import storages.TimeStorage
 import java.time.Instant
-import java.time.ZoneId.of
 import kotlin.time.Duration
 import kotlin.time.seconds
 
@@ -21,7 +19,13 @@ private val customBan = ChatPermissions(
   canPinMessages = false,
 )
 
-fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeBank) {
+/**
+ * Забанить пользователя на указанное время
+ * @param duration время бана
+ * @param attackerMessage сообщение с указанием кого банить в ответе
+ * @param storage хранилище времени
+ */
+fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeStorage) {
 
   @Suppress("NAME_SHADOWING")
   val duration = if (duration < 30.seconds) {

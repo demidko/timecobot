@@ -3,7 +3,7 @@ package telegram
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
-import storages.TimeBank
+import storages.TimeStorage
 import java.time.Instant.now
 import kotlin.time.seconds
 
@@ -18,7 +18,12 @@ private val freedom = ChatPermissions(
   canPinMessages = true,
 )
 
-fun Bot.free(masterMessage: Message, storage: TimeBank) {
+/**
+ * Освободить пользователя из бана
+ * @param masterMessage сообщение с указанием кого разблокировать в ответе
+ * @param storage хранилище времени
+ */
+fun Bot.free(masterMessage: Message, storage: TimeStorage) {
   val master = masterMessage
     .from
     ?.id

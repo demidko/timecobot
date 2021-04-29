@@ -9,7 +9,8 @@ import kotlin.time.Duration
 import kotlin.time.minutes
 import kotlin.time.seconds
 
-class TimeBank {
+/** Хранилище времени всех пользователей */
+class TimeStorage {
 
   private val log = getLogger(javaClass.simpleName)
 

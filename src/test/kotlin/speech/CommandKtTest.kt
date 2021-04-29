@@ -30,4 +30,9 @@ class CommandKtTest {
   fun brokenCase() {
     assertThat("забань на 40 с".command(), equalTo(BanCommand(40.seconds)))
   }
+
+  @Test
+  fun helpTest() {
+    assertThat("help".command(), equalTo(HelpCommand))
+  }
 }

@@ -2,10 +2,10 @@ package telegram
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
-import storages.TimeBank
+import storages.TimeStorage
 import kotlin.time.Duration
 
-fun Bot.transfer(duration: Duration, senderMessage: Message, storage: TimeBank) {
+fun Bot.transfer(duration: Duration, senderMessage: Message, storage: TimeStorage) {
   val sender = senderMessage
     .from
     ?.id

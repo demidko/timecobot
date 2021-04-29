@@ -16,4 +16,9 @@ class TokensKtTest {
   fun statusTest() {
     assertThat("счет".tokens(), equalTo(listOf(Token("счет", Status))))
   }
+
+  @Test
+  fun helpTest() {
+    assertThat("help".tokens(), equalTo(listOf(Token("help", Help))))
+  }
 }
