@@ -5,10 +5,6 @@ import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.message
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.logging.LogLevel.Error
-import features.ban
-import features.free
-import features.status
-import features.transfer
 import org.slf4j.LoggerFactory
 import speech.*
 import storages.TimeBank
@@ -16,12 +12,10 @@ import java.lang.System.getenv
 import kotlin.time.seconds
 
 fun timecobot() = bot {
-
   val bank = TimeBank()
   val log = LoggerFactory.getLogger("Bot")
   token = getenv("TOKEN")
   logLevel = Error
-
   dispatch {
     message {
       message.from?.id?.let(bank::register)

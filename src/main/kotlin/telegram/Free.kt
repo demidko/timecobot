@@ -1,11 +1,9 @@
-package features
+package telegram
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
 import storages.TimeBank
-import telegram.delayDeleteMessage
-import telegram.sendTempMessage
 import java.time.Instant.now
 import kotlin.time.seconds
 

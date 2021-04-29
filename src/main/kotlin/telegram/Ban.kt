@@ -1,16 +1,11 @@
-package features
+package telegram
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
 import org.slf4j.LoggerFactory.getLogger
 import storages.TimeBank
-import telegram.delayDeleteMessage
-import telegram.sendTempMessage
 import java.time.Instant
-import java.time.Instant.now
-import java.time.Instant.ofEpochSecond
-import java.time.LocalDateTime.now
 import java.time.ZoneId.of
 import kotlin.time.Duration
 import kotlin.time.seconds
@@ -59,14 +54,6 @@ fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeBank) {
   storage.use(attacker, duration) {
 
     val untilSecond = Instant.now().epochSecond + it.inSeconds.toLong()
-
-    log.warn(
-      "${attackerMessage.text} restricted ${victimMessage.text} until ${
-        ofEpochSecond(
-          untilSecond
-        ).atZone(VLAT).toLocalDateTime()
-      }"
-    )
 
     restrictChatMember(
       attackerMessage.chat.id,

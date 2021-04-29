@@ -3,7 +3,6 @@ package storages
 import co.touchlab.stately.isolate.IsolateState
 import org.redisson.Redisson.create
 import org.slf4j.LoggerFactory.getLogger
-import storages.redis.redisClient
 import java.lang.System.getenv
 import kotlin.concurrent.timer
 import kotlin.time.Duration

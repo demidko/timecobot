@@ -1,4 +1,4 @@
-package storages.redis
+package storages
 
 import org.redisson.config.Config
 

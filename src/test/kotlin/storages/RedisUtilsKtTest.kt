@@ -1,10 +1,10 @@
-package storages.redis
+package storages
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.jupiter.api.Test
 
-internal class UtilsKtTest {
+internal class RedisUtilsKtTest {
 
   @Test
   fun redisClient() =

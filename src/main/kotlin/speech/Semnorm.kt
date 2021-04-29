@@ -53,21 +53,52 @@ object Status : Semnorm(
 
 object Transfer : Semnorm(
   startsWithAny(
-    "transfer", "give", "take", "get", "keep", "держи", "бери", "возьми",
-    "получи", "трансфер", "перевод", "дар", "подар", "взял", "забер", "забир", "перевед", "перевест"
+    "transfer",
+    "give",
+    "take",
+    "get",
+    "keep",
+    "держи",
+    "бери",
+    "возьми",
+    "трансфер",
+    "перевод",
+    "дар",
+    "подар",
+    "взял",
+    "забер",
+    "забир",
+    "перевед",
+    "перевест"
   )
 )
 
 object Ban : Semnorm(
   startsWithAny(
-    "ban", "block", "freez", "mute", "бан", "блок", "забан",
-    "заглох", "умри", "умер"
+    "ban",
+    "block",
+    "freez",
+    "mute",
+    "бан",
+    "блок",
+    "забан",
+    "заглох",
+    "умри",
+    "умер"
   )
 )
 
 object Redeem : Semnorm(
   startsWithAny(
-    "redeem", "unblock", "unban", "unmute", "разбан", "разблок", "ожив", "выкуп", "донат"
+    "redeem",
+    "unblock",
+    "unban",
+    "unmute",
+    "разбан",
+    "разблок",
+    "ожив",
+    "выкуп",
+    "донат"
   )
 )
 

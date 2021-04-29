@@ -28,7 +28,6 @@ class CommandKtTest {
 
   @Test
   fun brokenCase() {
-    println("забань на 40 с".tokens())
-    //assertThat("забань на 40 с".command(), equalTo(BanCommand(40.seconds)))
+    assertThat("забань на 40 с".command(), equalTo(BanCommand(40.seconds)))
   }
 }

@@ -1,18 +1,18 @@
 # Timecobot
 
-Telegram bot provides a time-based currency & gun:
+Telegram telegram provides a time-based currency & gun:
 
 1. Each active user accumulates time spent on Telegram.
 1. Time can be passed on to other people.
 1. The accumulated time can be used to block another user.
 1. Time can be used to redeem the user from the ban.
 
-To start using the bot, just add [`@Timecobot`](https://t.me/timecobot) to the group with admin
+To start using the telegram, just add [`@Timecobot`](https://t.me/timecobot) to the group with admin
 rights.
 
 ## Usage
 
-The bot understands spoken language. Experiment!
+The telegram understands spoken language. Experiment!
 
 ### Ban user
 
