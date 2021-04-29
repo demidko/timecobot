@@ -1,6 +1,6 @@
-# Timecobot
+# Timecobot Democracy
 
-Telegram telegram provides a time-based currency & gun:
+Telegram bot provides a time-based currency. The accumulated time can be used to block another user.
 
 1. Each active user accumulates time spent on Telegram.
 1. Time can be passed on to other people.
