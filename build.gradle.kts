@@ -19,7 +19,7 @@ dependencies {
 }
 
 tasks.compileKotlin {
-  kotlinOptions.jvmTarget = "15"
+  kotlinOptions.jvmTarget = "11"
   kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.time.ExperimentalTime"
 }
 
