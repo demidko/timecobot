@@ -27,6 +27,7 @@ fun timecobot() = bot {
           is FreeCommand -> bot.free(message, bank)
           is StatusCommand -> bot.status(message, bank)
           is TransferCommand -> bot.transfer(command.duration, message, bank)
+          is HelpCommand -> bot.help(message)
         }
       } catch (e: RuntimeException) {
         bot.sendTempMessage(

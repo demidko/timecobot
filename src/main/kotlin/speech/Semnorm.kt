@@ -1,12 +1,14 @@
 package speech
 
+// TODO speech dsl
+
 /** Правило нестрогого соответствия */
-private fun startsWithAny(vararg stems: String) = { word: String ->
+private fun start(vararg stems: String) = { word: String ->
   stems.any(word::startsWith)
 }
 
 /** Правило строгого соответствия */
-private fun equalsAny(vararg stems: String) = { word: String ->
+private fun eq(vararg stems: String) = { word: String ->
   stems.any(word::equals)
 }
 
@@ -16,22 +18,22 @@ sealed class Semnorm(vararg val rules: (String) -> Boolean)
 /** Общий тип для семантических представлений времени */
 sealed class Time(vararg rules: (String) -> Boolean) : Semnorm(*rules)
 
-object Year : Time(startsWithAny("y", "г", "л"))
+object Year : Time(start("y", "г", "л"))
 
-object Month : Time(startsWithAny("mon", "мес"))
+object Month : Time(start("mon", "мес"))
 
-object Week : Time(startsWithAny("week", "недел"))
+object Week : Time(start("week", "недел"))
 
-object Day : Time(startsWithAny("d", "д"))
+object Day : Time(start("d", "д"))
 
-object Hour : Time(startsWithAny("h", "ч"))
+object Hour : Time(start("h", "ч"))
 
-object Minute : Time(startsWithAny("m", "м"))
+object Minute : Time(start("m", "м"))
 
-object Second : Time(startsWithAny("sec", "сек"), equalsAny("s", "с"))
+object Second : Time(start("sec", "сек"), eq("s", "с"))
 
 object Status : Semnorm(
-  startsWithAny(
+  start(
     "time",
     "врем",
     "balance",
@@ -47,12 +49,11 @@ object Status : Semnorm(
     "timecoin",
     "check",
     "start",
-    "/start"
   )
 )
 
 object Transfer : Semnorm(
-  startsWithAny(
+  start(
     "transfer",
     "give",
     "take",
@@ -74,7 +75,7 @@ object Transfer : Semnorm(
 )
 
 object Ban : Semnorm(
-  startsWithAny(
+  start(
     "ban",
     "block",
     "freez",
@@ -89,7 +90,7 @@ object Ban : Semnorm(
 )
 
 object Redeem : Semnorm(
-  startsWithAny(
+  start(
     "redeem",
     "unblock",
     "unban",
@@ -102,14 +103,37 @@ object Redeem : Semnorm(
   )
 )
 
-object Number : Semnorm(startsWithAny("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"))
+object Help : Semnorm(
+  start(
+    "помощ",
+    "справк",
+    "поддержк",
+    "админ",
+    "модер",
+    "правил",
+    "помог",
+    "?",
+    "help",
+    "rule",
+    "faq",
+    "admin",
+    "moder",
+    "support"
+  )
+)
+
+object Skip : Semnorm(
+  start("/")
+)
+
+object Number : Semnorm(start("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"))
 
 private fun String.matches(norm: Semnorm) = norm.rules.any { it(this) }
 
 /** Список всех распознаваемых семантических норм */
 private val semnorms = listOf(
   Year, Month, Week, Day, Hour, Minute, Second,
-  Status, Transfer, Ban, Redeem, Number
+  Status, Transfer, Ban, Redeem, Number, Help
 )
 
 /** Переводим произвольную лексему напр. `забанить` в нормализованное семантическое представление. */

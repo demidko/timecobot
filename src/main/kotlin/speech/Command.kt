@@ -22,22 +22,25 @@ data class TransferCommand(val duration: Duration) : Command()
 /** Команда выкупа другого пользователя из бана */
 object FreeCommand : Command()
 
+object HelpCommand : Command()
+
 /**
  * Функция распознает команду из произвольного текста
  * на основе наборов нормализованных семантических представлений.
  */
-fun String.command(): Command? {
-  val it = tokens().iterator()
-  return when (it.next().semnorm) {
-    is Status -> StatusCommand
-    is Redeem -> FreeCommand
-    is Ban -> it.parse(::BanCommand)
-    is Transfer -> it.parse(::TransferCommand)
-    else -> null
-  }
+fun String.command() = tokens().iterator().parseCommand()
+
+private fun Iterator<Token>.parseCommand(): Command? = when (next().semnorm) {
+  is Status -> StatusCommand
+  is Redeem -> FreeCommand
+  is Ban -> parseDuration(::BanCommand)
+  is Transfer -> parseDuration(::TransferCommand)
+  is Help -> HelpCommand
+  is Skip -> parseCommand()
+  else -> null
 }
 
-private fun <T> Iterator<Token>.parse(ctor: (Duration) -> T) = ctor(parseDuration())
+private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(parseDuration())
 
 private fun Iterator<Token>.parseDuration(): Duration {
   val (token, norm) = next()
