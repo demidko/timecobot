@@ -46,8 +46,7 @@ object Status : Semnorm(
     "узна",
     "!",
     "timecoin",
-    "check",
-    "start",
+    "check"
   )
 )
 
@@ -121,7 +120,9 @@ object Help : Semnorm(
     "faq",
     "admin",
     "moder",
-    "support"
+    "support",
+    "start",
+    "старт"
   )
 )
 
