@@ -3,6 +3,7 @@ package speech
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.jupiter.api.Test
+import kotlin.time.days
 import kotlin.time.hours
 import kotlin.time.minutes
 import kotlin.time.seconds
@@ -34,5 +35,10 @@ class CommandKtTest {
   @Test
   fun helpTest() {
     assertThat("help".command(), equalTo(HelpCommand))
+  }
+
+  @Test
+  fun transferTest() {
+    assertThat("+5d".command(), equalTo(TransferCommand(5.days)))
   }
 }
