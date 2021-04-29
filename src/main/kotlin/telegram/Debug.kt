@@ -8,7 +8,7 @@ val log = LoggerFactory.getLogger("Message")
 
 /** Обращение к разработчику */
 fun Bot.debug(m: Message) {
-  log.info(m.text ?: m.toString())
+  log.info(m.toString())
   sendTempMessage(
     m.chat.id,
     "Developers will think about your message | Мы подумаем над этим 👏",
