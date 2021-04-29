@@ -43,7 +43,6 @@ class TimeBank {
   fun register(account: Long) = db.access {
     if (account !in it.keys) {
       it[account] = 0
-      log.info("New telegram user: $account")
     }
   }
 

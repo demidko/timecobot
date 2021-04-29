@@ -21,10 +21,6 @@ private val customBan = ChatPermissions(
   canPinMessages = false,
 )
 
-private val VLAT = of("Asia/Vladivostok")
-
-private val log = getLogger("Ban")
-
 fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeBank) {
 
   @Suppress("NAME_SHADOWING")
