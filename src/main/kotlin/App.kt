@@ -1,7 +1,1 @@
-import telegram.timecobot
-
-fun main() = timecobot().startPolling()
-
-
-
-
+fun main() = telegram.timecobot().startPolling()
