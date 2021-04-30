@@ -74,7 +74,7 @@ fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeStorage) 
     )
     sendTempMessage(
       attackerMessage.chat.id,
-      "You are banned for $duration 💥",
+      "💥",
       replyToMessageId = victimMessage.messageId,
     )
   }
