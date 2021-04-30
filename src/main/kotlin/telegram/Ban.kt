@@ -6,6 +6,7 @@ import com.github.kotlintelegrambot.entities.Message
 import storages.TimeStorage
 import java.time.Instant
 import kotlin.time.Duration
+import kotlin.time.days
 import kotlin.time.seconds
 
 private val customBan = ChatPermissions(
@@ -28,16 +29,26 @@ private val customBan = ChatPermissions(
 fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeStorage) {
 
   @Suppress("NAME_SHADOWING")
-  val duration = if (duration < 30.seconds) {
-    sendTempMessage(
-      attackerMessage.chat.id,
-      "$duration is too small for telegram api, 30 seconds are used.",
-      replyToMessageId = attackerMessage.messageId,
-      lifetime = 3.seconds
-    )
-    30.seconds
-  } else {
-    duration
+  val duration = when {
+    duration < 30.seconds -> {
+      sendTempMessage(
+        attackerMessage.chat.id,
+        "$duration is too small for telegram api, 30 seconds are used.",
+        replyToMessageId = attackerMessage.messageId,
+        lifetime = 3.seconds
+      )
+      30.seconds
+    }
+    duration > 366.days -> {
+      sendTempMessage(
+        attackerMessage.chat.id,
+        "$duration is too much for telegram api, 366 days are used.",
+        replyToMessageId = attackerMessage.messageId,
+        lifetime = 3.seconds
+      )
+      366.days
+    }
+    else -> duration
   }
 
   val attacker = attackerMessage
@@ -63,7 +74,7 @@ fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeStorage) 
     )
     sendTempMessage(
       attackerMessage.chat.id,
-      "💥",
+      "You are banned for $duration 💥",
       replyToMessageId = victimMessage.messageId,
     )
   }

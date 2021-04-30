@@ -32,7 +32,7 @@ fun Bot.sendTempMessage(
   disableNotification: Boolean? = null,
   replyToMessageId: Long? = null,
   replyMarkup: ReplyMarkup? = null,
-  lifetime: Duration = 5.seconds
+  lifetime: Duration = 15.seconds
 ) {
 
   val messageSendingResult = sendMessage(
@@ -68,7 +68,7 @@ fun Bot.sendTempMessage(
  * @param delay lifetime of the message to delete
  * @return True on success.
  */
-fun Bot.delayDeleteMessage(chatId: Long, messageId: Long, delay: Duration = 5.seconds) =
+fun Bot.delayDeleteMessage(chatId: Long, messageId: Long, delay: Duration = 15.seconds) =
   timer.schedule(delay.toLongMilliseconds()) {
     deleteMessage(chatId, messageId)
   }
