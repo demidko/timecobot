@@ -1,5 +1,4 @@
 <configuration>
-
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>
@@ -7,17 +6,7 @@
       </pattern>
     </encoder>
   </appender>
-
-  <appender name="filesystem" class="ch.qos.logback.core.FileAppender">
-    <file>events.log</file>
-    <pattern>
-      %d{HH:mm:ss, Asia/Vladivostok} [%thread] %.-1level %logger{36} - %msg%n%xEx{30}
-    </pattern>
-  </appender>
-
   <root level="INFO">
     <appender-ref ref="console"/>
-    <appender-ref ref="filesystem"/>
   </root>
-
 </configuration>
