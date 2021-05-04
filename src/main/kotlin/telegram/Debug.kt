@@ -4,7 +4,7 @@ import org.slf4j.LoggerFactory
 import telegram.delayDeleteMessage
 import telegram.sendTempMessage
 
-val log = LoggerFactory.getLogger("Message")
+private val log = LoggerFactory.getLogger("Message")
 
 /** Обращение к разработчику */
 fun Bot.debug(m: Message) {

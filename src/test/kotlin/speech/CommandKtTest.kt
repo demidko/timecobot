@@ -3,23 +3,23 @@ package speech
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.jupiter.api.Test
-import kotlin.time.days
-import kotlin.time.hours
-import kotlin.time.minutes
-import kotlin.time.seconds
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 class CommandKtTest {
 
   @Test
   fun toCommand() {
     val speech = "забань васю на 5 минут".command()
-    assertThat(speech, equalTo(BanCommand(5.minutes)))
+    assertThat(speech, equalTo(BanCommand(minutes(5))))
   }
 
   @Test
   fun toCommandOtherCase() {
     val speech = "переведи часов наверное 17 Пете".command()
-    assertThat(speech, equalTo(TransferCommand(17.hours)))
+    assertThat(speech, equalTo(TransferCommand(hours(17))))
   }
 
   @Test
@@ -29,7 +29,7 @@ class CommandKtTest {
 
   @Test
   fun brokenCase() {
-    assertThat("забань на 40 с".command(), equalTo(BanCommand(40.seconds)))
+    assertThat("забань на 40 с".command(), equalTo(BanCommand(seconds(40))))
   }
 
   @Test
@@ -39,6 +39,6 @@ class CommandKtTest {
 
   @Test
   fun transferTest() {
-    assertThat("+5d".command(), equalTo(TransferCommand(5.days)))
+    assertThat("+5d".command(), equalTo(TransferCommand(days(5))))
   }
 }

@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory.getLogger
 import java.lang.System.getenv
 import kotlin.concurrent.timer
 import kotlin.time.Duration
-import kotlin.time.minutes
-import kotlin.time.seconds
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 /** Хранилище времени всех пользователей */
 class TimeStorage {
@@ -27,11 +27,11 @@ class TimeStorage {
   }
 
   init {
-    val settlementPeriod = 1.minutes
-    timer(period = settlementPeriod.toLongMilliseconds()) {
+    val settlementPeriod = minutes(1)
+    timer(period = settlementPeriod.inWholeMilliseconds) {
       db.access {
-        it.entries.forEach { entry ->
-          entry.setValue(entry.value + settlementPeriod.inSeconds.toLong())
+        for (entry in it.entries) {
+          entry.setValue(entry.value + settlementPeriod.inWholeSeconds)
         }
       }
     }
@@ -56,23 +56,24 @@ class TimeStorage {
   ) = use(fromAccount, duration) {
     db.access {
       val balance = it[toAccount] ?: 0
-      it[toAccount] = balance + duration.inSeconds.toLong()
+      it[toAccount] = balance + duration.inWholeSeconds
     }
     action()
   }
 
   /** @return статус счета */
   fun status(account: Long): Duration = db.access {
-    (it[account] ?: 0).seconds
+    seconds(it[account] ?: 0)
   }
 
   /** Метод для снятия времени со счета */
   fun use(account: Long, duration: Duration, action: (Duration) -> Unit) = db.access {
     val balance = it[account] ?: 0
-    if (balance.seconds < duration) {
+    if (seconds(balance) < duration) {
       error("Not enough money. You only have $balance, but you need $duration")
     }
-    it[account] = balance - duration.inSeconds.toLong()
+
+    it[account] = balance - duration.inWholeSeconds
     action(duration)
   }
 }

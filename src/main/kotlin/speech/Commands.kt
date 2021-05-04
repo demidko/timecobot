@@ -1,7 +1,11 @@
 package speech
 
 import org.slf4j.LoggerFactory.getLogger
-import kotlin.time.*
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 /** Класс представляет собой полностью формализованную команду Telegram-боту */
 sealed class Command
@@ -54,7 +58,7 @@ private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(
     parseDuration()
   } catch (e: RuntimeException) {
     log.warn("duration not found, defaults are used", e)
-    5.minutes
+    minutes(5)
   }
 )
 
@@ -84,11 +88,11 @@ private fun Iterator<Token>.parseLong(): Long {
 }
 
 private fun Time.toDuration(number: Long) = when (this) {
-  is Second -> number.seconds
-  is Minute -> number.minutes
-  is Hour -> number.hours
-  is Day -> number.days
-  is Week -> number.days * 7
-  is Month -> number.days * 30
-  is Year -> number.days * 365
+  is Second -> seconds(number)
+  is Minute -> minutes(number)
+  is Hour -> hours(number)
+  is Day -> days(number)
+  is Week -> days(number) * 7
+  is Month -> days(number) * 30
+  is Year -> days(number) * 365
 }

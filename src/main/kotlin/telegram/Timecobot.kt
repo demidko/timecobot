@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 import speech.*
 import storages.TimeStorage
 import java.lang.System.getenv
-import kotlin.time.seconds
+import kotlin.time.Duration.Companion.seconds
 
 /** @return new @timecobot instance */
 fun timecobot() = bot {
@@ -37,7 +37,7 @@ fun timecobot() = bot {
           message.chat.id,
           e.message ?: "Oops... Something is wrong 🤔",
           replyToMessageId = message.messageId,
-          lifetime = 3.seconds
+          lifetime = seconds(3)
         )
         log.error(text, e)
         bot.delayDeleteMessage(message.chat.id, message.messageId)

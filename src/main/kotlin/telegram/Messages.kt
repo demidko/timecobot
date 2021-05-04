@@ -6,7 +6,7 @@ import com.github.kotlintelegrambot.entities.ReplyMarkup
 import java.util.*
 import kotlin.concurrent.schedule
 import kotlin.time.Duration
-import kotlin.time.seconds
+import kotlin.time.Duration.Companion.seconds
 
 /** Таймер для отложенного удаления сообщений */
 private val timer = Timer()
@@ -32,7 +32,7 @@ fun Bot.sendTempMessage(
   disableNotification: Boolean? = null,
   replyToMessageId: Long? = null,
   replyMarkup: ReplyMarkup? = null,
-  lifetime: Duration = 15.seconds
+  lifetime: Duration = seconds(15)
 ) {
 
   val messageSendingResult = sendMessage(
@@ -68,7 +68,7 @@ fun Bot.sendTempMessage(
  * @param delay lifetime of the message to delete
  * @return True on success.
  */
-fun Bot.delayDeleteMessage(chatId: Long, messageId: Long, delay: Duration = 15.seconds) =
-  timer.schedule(delay.toLongMilliseconds()) {
+fun Bot.delayDeleteMessage(chatId: Long, messageId: Long, delay: Duration = seconds(15)) =
+  timer.schedule(delay.inWholeMilliseconds) {
     deleteMessage(chatId, messageId)
   }

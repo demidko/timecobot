@@ -4,10 +4,10 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
 import storages.TimeStorage
-import java.time.Instant
+import java.time.Instant.now
 import kotlin.time.Duration
-import kotlin.time.days
-import kotlin.time.seconds
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.seconds
 
 private val customBan = ChatPermissions(
   canSendMessages = false,
@@ -30,23 +30,23 @@ fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeStorage) 
 
   @Suppress("NAME_SHADOWING")
   val duration = when {
-    duration < 30.seconds -> {
+    duration < seconds(30) -> {
       sendTempMessage(
         attackerMessage.chat.id,
         "$duration is too small for telegram api, 30 seconds are used.",
         replyToMessageId = attackerMessage.messageId,
-        lifetime = 3.seconds
+        lifetime = seconds(3)
       )
-      30.seconds
+      seconds(30)
     }
-    duration > 366.days -> {
+    duration > days(366) -> {
       sendTempMessage(
         attackerMessage.chat.id,
         "$duration is too much for telegram api, 366 days are used.",
         replyToMessageId = attackerMessage.messageId,
-        lifetime = 3.seconds
+        lifetime = seconds(3)
       )
-      366.days
+      days(366)
     }
     else -> duration
   }
@@ -64,7 +64,7 @@ fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeStorage) 
     ?: error("You need to reply to the user with telegram id to ban him")
   storage.use(attacker, duration) {
 
-    val untilSecond = Instant.now().epochSecond + it.inSeconds.toLong()
+    val untilSecond = now().epochSecond + it.inWholeSeconds
 
     restrictChatMember(
       attackerMessage.chat.id,

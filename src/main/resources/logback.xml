@@ -1,5 +1,4 @@
 <configuration>
-
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>
@@ -7,7 +6,6 @@
       </pattern>
     </encoder>
   </appender>
-
   <appender name="filesystem" class="ch.qos.logback.core.FileAppender">
     <file>events.log</file>
     <append>true</append>
@@ -21,5 +19,4 @@
     <appender-ref ref="console"/>
     <appender-ref ref="filesystem"/>
   </root>
-
 </configuration>

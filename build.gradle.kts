@@ -2,12 +2,10 @@ repositories {
   mavenCentral()
   maven("https://jitpack.io")
 }
-
 plugins {
   kotlin("jvm") version "1.5.0"
   id("com.github.johnrengelman.shadow") version "6.1.0"
 }
-
 dependencies {
   implementation("org.redisson:redisson:3.15.4")
   implementation("co.touchlab:stately-isolate-jvm:1.1.6-a1")
@@ -17,21 +15,17 @@ dependencies {
   testImplementation("com.natpryce:hamkrest:1.8.0.1")
   testImplementation("io.mockk:mockk:1.10.6")
 }
-
 tasks.compileKotlin {
   kotlinOptions.jvmTarget = "15"
   kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.time.ExperimentalTime"
 }
-
 tasks.compileTestKotlin {
   kotlinOptions.jvmTarget = "15"
   kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.time.ExperimentalTime"
 }
-
 tasks.test {
   useJUnitPlatform()
 }
-
 tasks.jar {
   manifest.attributes("Main-Class" to "AppKt")
 }
