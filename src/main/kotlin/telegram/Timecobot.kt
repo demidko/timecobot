@@ -12,10 +12,9 @@ import storages.TimeStorage
 import java.lang.System.getenv
 import kotlin.time.Duration.Companion.seconds
 
-private val log = getLogger("Bot")
-
 /** @return new @timecobot instance */
 fun timecobot() = bot {
+  val log = getLogger("Bot")
   token = getenv("TOKEN")
   logLevel = Error
   dispatch {

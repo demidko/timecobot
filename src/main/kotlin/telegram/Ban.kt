@@ -24,7 +24,6 @@ private val customBan = ChatPermissions(
  * Забанить пользователя на указанное время
  * @param duration время бана
  * @param attackerMessage сообщение с указанием кого банить в ответе
- * @param storage хранилище времени
  */
 fun Bot.ban(duration: Duration, attackerMessage: Message) {
 

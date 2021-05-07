@@ -5,7 +5,7 @@ import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
 import storages.TimeStorage.useTime
 import java.time.Instant.now
-import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 private val freedom = ChatPermissions(
   canSendMessages = true,
@@ -21,7 +21,6 @@ private val freedom = ChatPermissions(
 /**
  * Освободить пользователя из бана
  * @param masterMessage сообщение с указанием кого разблокировать в ответе
- * @param storage хранилище времени
  */
 fun Bot.free(masterMessage: Message) {
   val master = masterMessage
@@ -42,8 +41,7 @@ fun Bot.free(masterMessage: Message) {
     ?.forceReply
     ?.toLong()
     ?: error("This user already free")
-  val restrictionsDuration = Duration.seconds((freedomEpochSecond - now().epochSecond))
-  useTime(master, restrictionsDuration) {
+  useTime(master, seconds(freedomEpochSecond - now().epochSecond)) {
     restrictChatMember(masterMessage.chat.id, slave, freedom)
     sendTempMessage(
       masterMessage.chat.id,

@@ -10,7 +10,6 @@ import kotlin.time.Duration
  * Перевести другому пользователю часть своего времени
  * @param duration время для перевода
  * @param senderMessage сообщение с указанием кому перевести время
- * @param storage хранилище времени
  */
 fun Bot.transfer(duration: Duration, senderMessage: Message) {
   val sender = senderMessage
