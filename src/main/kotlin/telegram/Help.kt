@@ -5,14 +5,14 @@ import com.github.kotlintelegrambot.entities.Message
 import kotlin.time.Duration.Companion.seconds
 
 const val faqRu = """
-Я дух чата, похоже вы призвали меня.
+Справка по системе электронной демократии.
 
 1. Время (валюта) начисляется вам автоматически, каждую минуту, совершенно бесплатно и безусловно.
-   Чтобы узнать свой баланс, напишите в чат запрос, например слово баланс, статус или знак !
-   (В ответе используются сокращения d - дни, h - часы, m - минуты, s - секунды)
+Чтобы узнать свой баланс, напишите в чат запрос, например слово баланс, статус или знак !
+(В ответе используются сокращения d - дни, h - часы, m - минуты, s - секунды)
    
 2. Чтобы забанить человека используйте приказы вида `бан 5 минут` или `блок на 2 часа` в ответном сообщении человеку.
-   Я заблокирую его на указанное вами время: он останется в чате, но не сможет ничего писать.
+Я заблокирую его на указанное вами время: он останется в чате, но не сможет ничего писать.
    
 3 Чтобы выкупить человека из бана просто напишите `разбань его` или `выкупить` в ответному сообщении ему.
 
@@ -23,14 +23,16 @@ const val faqRu = """
 """
 
 const val faqEn = """
+Timecobot Democracy system manual.
+
 1. Time (currency) is credited to you automatically, every minute, completely free of charge and unconditionally.
-   To check your balance, send a request to the chat, for example word balance, status or ! symbol.
-   (In answer, d - days, h - hours, m - minutes, s - seconds)
+To check your balance, send a request to the chat, for example word balance, status or ! symbol.
+(The answer uses abbreviations, d - days, h - hours, m - minutes, s - seconds)
    
 2. To ban a person, use orders like `ban 5 minutes` or `block for 2 hours` in the reply message to that person.
-   I will block him for the time you specified: he will remain in the chat, but he will not be able to write anything.
+I will block him for the time you specified: he will remain in the chat, but he will not be able to write anything.
    
-3 To redeem a person from the ban, simply write to him in the reply message `unblock him` or `redeem`.
+3. To redeem a person from the ban, simply write to him in the reply message `unblock him` or `redeem`.
 
 4. To pass the time to another person, write, for example, `give my 5 minutes to John` in the reply message to this person.
 

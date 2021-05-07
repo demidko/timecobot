@@ -1,6 +1,6 @@
 # Timecobot Democracy
 
-Telegram bot provides a free time-based currency. The accumulated time can be used to block another
+This system provides a free time-based currency for Telegram. The accumulated time can be used to block another
 user. There are no discriminatory rules, administrators and moderators.
 
 1. Each active user accumulates time spent on Telegram.
@@ -8,12 +8,10 @@ user. There are no discriminatory rules, administrators and moderators.
 1. The accumulated time can be used to block another user.
 1. Time can be used to redeem the user from the ban.
 
-To start using the telegram, just add [`@Timecobot`](https://t.me/timecobot) to the group with admin
-rights.
-
 ## Usage
 
-Timecobot understands spoken language. Experiment!
+To start using the system, just add [`@Timecobot`](https://t.me/timecobot) to the group with admin
+rights. Bot understands spoken language. Experiment!
 
 ### Ban user
 

@@ -22,6 +22,4 @@ class TokensKtTest {
     assertThat("help".tokens(), equalTo(listOf(Token("help", Help))))
     assertThat("/help".tokens(), equalTo(listOf(Token("/", Skip), Token("help", Help))))
   }
-
-
 }

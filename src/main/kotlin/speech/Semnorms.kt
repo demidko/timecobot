@@ -1,19 +1,19 @@
 package speech
 
-/** Нормализованное семантическое представление: определяется правилами применяемыми к лексемам */
+/** Normalized semantic representation: defined by the rules that apply to lexemes. */
 sealed class Semnorm(vararg val rules: (String) -> Boolean)
 
-/** Правило нестрогого соответствия (стем) */
+/** Weak match rule (stem) */
 private fun stem(vararg stems: String) = { word: String ->
   stems.any(word::startsWith)
 }
 
-/** Правило строгого соответствия (слово) */
+/** Strict match rule (word) */
 private fun word(vararg words: String) = { word: String ->
   words.any(word::equals)
 }
 
-/** Общий тип для семантических представлений времени */
+/** Generic type for semantic representations of time */
 sealed class Time(vararg rules: (String) -> Boolean) : Semnorm(*rules)
 
 object Year : Time(stem("y", "г", "л"))
@@ -30,7 +30,7 @@ object Minute : Time(stem("m", "м"))
 
 object Second : Time(stem("sec", "сек"), word("s", "с"))
 
-/** Семантическое представление запроса баланса */
+/** Semantic representation of balance request */
 object Status : Semnorm(
   stem(
     "time",
@@ -50,7 +50,7 @@ object Status : Semnorm(
   )
 )
 
-/** Семантическое представление запроса перевода средств */
+/** Semantic representation of a money transfer request */
 object Transfer : Semnorm(
   stem(
     "transfer",
@@ -74,7 +74,7 @@ object Transfer : Semnorm(
   )
 )
 
-/** Семантическое представление бана */
+/** Semantic representation of a ban request */
 object Ban : Semnorm(
   stem(
     "ban",
@@ -91,7 +91,7 @@ object Ban : Semnorm(
   )
 )
 
-/** Семантическое представление выкупа */
+/** Semantic representation of a redeem request */
 object Redeem : Semnorm(
   stem(
     "redeem",
@@ -106,7 +106,7 @@ object Redeem : Semnorm(
   )
 )
 
-/** Семантическое представление просьбы о помощи */
+/** Semantic representation of a faq request */
 object Help : Semnorm(
   stem(
     "помощ",
@@ -128,7 +128,7 @@ object Help : Semnorm(
   )
 )
 
-/** Семантическое представление обращений к разработчику */
+/** Semantic representation of a tech support request */
 object Debug : Semnorm(
   stem(
     "разраб",
@@ -144,13 +144,13 @@ object Debug : Semnorm(
   )
 )
 
-/** Пропускаем семантическое представление префикса telegram-команд */
+/** Skip telegram-command prefix '/' */
 object Skip : Semnorm(stem("/"))
 
-/** Семантическое представление чисел */
+/** Semantic representation of numbers */
 object Number : Semnorm(stem("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"))
 
-/** Список всех распознаваемых семантических норм */
+/** List of all recognizable semantic norms */
 private val semnorms = listOf(
 
   Skip,
@@ -174,14 +174,13 @@ private val semnorms = listOf(
 )
 
 /**
- * Проверка, совпадает ли слово с семантической нормой?
- * Внимание! Учитывается регистр
- * @return true если совпадает и false если нет
+ * Check if the word matches the semantic norm?
+ * Attention! Case sensitive
  */
 private fun String.matches(norm: Semnorm) = norm.rules.any { it(this) }
 
 /**
- * Переводим произвольную лексему напр. `забанить` в нормализованное семантическое представление.
- * Регистр не учитывается.
+ * We translate an arbitrary token, for example `ban` in normalized semantic representation.
+ * Case insensitive.
  */
-val String.semnorm get() = semnorms.firstOrNull(toLowerCase()::matches)
+val String.semnorm get() = semnorms.firstOrNull(lowercase()::matches)
