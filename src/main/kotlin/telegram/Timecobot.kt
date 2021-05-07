@@ -6,29 +6,29 @@ import com.github.kotlintelegrambot.dispatcher.message
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.logging.LogLevel.Error
 import debug
-import org.slf4j.LoggerFactory
+import org.slf4j.LoggerFactory.getLogger
 import speech.*
 import storages.TimeStorage
 import java.lang.System.getenv
 import kotlin.time.Duration.Companion.seconds
 
+private val log = getLogger("Bot")
+
 /** @return new @timecobot instance */
 fun timecobot() = bot {
-  val bank = TimeStorage()
-  val log = LoggerFactory.getLogger("Bot")
   token = getenv("TOKEN")
   logLevel = Error
   dispatch {
     message {
-      message.from?.id?.let(bank::register)
+      message.from?.id?.let(TimeStorage::register)
     }
     text {
       try {
         when (val command = text.command()) {
-          is BanCommand -> bot.ban(command.duration, message, bank)
-          is FreeCommand -> bot.free(message, bank)
-          is StatusCommand -> bot.status(message, bank)
-          is TransferCommand -> bot.transfer(command.duration, message, bank)
+          is BanCommand -> bot.ban(command.duration, message)
+          is FreeCommand -> bot.free(message)
+          is StatusCommand -> bot.status(message)
+          is TransferCommand -> bot.transfer(command.duration, message)
           is HelpCommand -> bot.help(message)
           is DebugCommand -> bot.debug(message)
         }

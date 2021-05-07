@@ -1,6 +1,8 @@
 package storages
 
+import org.redisson.Redisson
 import org.redisson.config.Config
+import java.lang.System.getenv
 
 /**
  * Configure redis client
@@ -23,4 +25,10 @@ fun redisClient(address: String) = Config().apply {
       .substringBefore('@')
   }
 }
+
+fun <K, V> redisMap(name: String) =
+  getenv("DATABASE_URL")
+    .let(::redisClient)
+    .let(Redisson::create)
+    .getMap<K, V>(name)
 

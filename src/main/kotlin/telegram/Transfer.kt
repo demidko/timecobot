@@ -2,7 +2,7 @@ package telegram
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
-import storages.TimeStorage
+import storages.TimeStorage.transferTime
 import kotlin.time.Duration
 
 
@@ -12,7 +12,7 @@ import kotlin.time.Duration
  * @param senderMessage сообщение с указанием кому перевести время
  * @param storage хранилище времени
  */
-fun Bot.transfer(duration: Duration, senderMessage: Message, storage: TimeStorage) {
+fun Bot.transfer(duration: Duration, senderMessage: Message) {
   val sender = senderMessage
     .from
     ?.id
@@ -24,7 +24,7 @@ fun Bot.transfer(duration: Duration, senderMessage: Message, storage: TimeStorag
     .from
     ?.id
     ?: error("You need to reply to the user with telegram id to transfer time to him")
-  storage.transfer(sender, recipient, duration) {
+  transferTime(sender, recipient, duration) {
     sendTempMessage(
       senderMessage.chat.id,
       "+$duration",

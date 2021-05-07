@@ -3,7 +3,7 @@ package telegram
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
-import storages.TimeStorage
+import storages.TimeStorage.useTime
 import java.time.Instant.now
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
@@ -26,7 +26,7 @@ private val customBan = ChatPermissions(
  * @param attackerMessage сообщение с указанием кого банить в ответе
  * @param storage хранилище времени
  */
-fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeStorage) {
+fun Bot.ban(duration: Duration, attackerMessage: Message) {
 
   @Suppress("NAME_SHADOWING")
   val duration = when {
@@ -62,7 +62,8 @@ fun Bot.ban(duration: Duration, attackerMessage: Message, storage: TimeStorage) 
     .from
     ?.id
     ?: error("You need to reply to the user with telegram id to ban him")
-  storage.use(attacker, duration) {
+
+  useTime(attacker, duration) {
 
     val untilSecond = now().epochSecond + it.inWholeSeconds
 

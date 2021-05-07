@@ -3,7 +3,7 @@ package telegram
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
-import storages.TimeStorage
+import storages.TimeStorage.useTime
 import java.time.Instant.now
 import kotlin.time.Duration
 
@@ -23,7 +23,7 @@ private val freedom = ChatPermissions(
  * @param masterMessage сообщение с указанием кого разблокировать в ответе
  * @param storage хранилище времени
  */
-fun Bot.free(masterMessage: Message, storage: TimeStorage) {
+fun Bot.free(masterMessage: Message) {
   val master = masterMessage
     .from
     ?.id
@@ -43,7 +43,7 @@ fun Bot.free(masterMessage: Message, storage: TimeStorage) {
     ?.toLong()
     ?: error("This user already free")
   val restrictionsDuration = Duration.seconds((freedomEpochSecond - now().epochSecond))
-  storage.use(master, restrictionsDuration) {
+  useTime(master, restrictionsDuration) {
     restrictChatMember(masterMessage.chat.id, slave, freedom)
     sendTempMessage(
       masterMessage.chat.id,
