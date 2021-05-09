@@ -29,23 +29,20 @@ object DebugStorage {
   }
 
   fun startDebug(bot: Bot) {
-    timer(period = minutes(1).inWholeMilliseconds) {
+    timer(period = minutes(5).inWholeMilliseconds) {
       db.access { groups ->
         val chats = groups.mapNotNull {
+          val (chat, e) = bot.getChat(it)
+          if (e != null) {
+            log.warn(e.message)
+          }
           bot.getChat(it)
             .first
             ?.body()
             ?.result
         }
         val stats = chats.joinToString(separator = "\n") { chat ->
-          val lineBuilder = StringBuilder("* ${chat.id}")
-          chat.firstName?.let {
-            lineBuilder.append(" — ").append(it)
-          }
-          chat.lastName?.let {
-            lineBuilder.append(" ").append(it)
-          }
-          lineBuilder.append(" — ")
+          val line = StringBuilder("* ${chat.id} — ${chat.title} — ")
           when (val link = chat.username ?: chat.inviteLink) {
             null -> {
               bot.getChatAdministrators(chat.id)
@@ -54,10 +51,10 @@ object DebugStorage {
                 ?.result
                 ?.mapNotNull { it.user.username }
                 .orEmpty()
-                .let(lineBuilder::append)
+                .let(line::append)
             }
             else -> {
-              lineBuilder.append(link)
+              line.append(link)
             }
           }
         }
