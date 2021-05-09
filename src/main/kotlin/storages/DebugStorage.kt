@@ -63,7 +63,6 @@ object DebugStorage {
       }
     }
   }
-}
 
-fun debugGroup(id: Long) = db.access { it.add(id) }
+  fun debugGroup(id: Long) = db.access { it.add(id) }
 }
