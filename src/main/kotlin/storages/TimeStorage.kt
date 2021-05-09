@@ -33,10 +33,10 @@ object TimeStorage {
     val settlementPeriod = minutes(1)
     timer(period = settlementPeriod.inWholeMilliseconds) {
       db.access {
-        log.info("${it.size} connected users")
         for (entry in it.entries) {
           entry.setValue(entry.value + settlementPeriod.inWholeSeconds)
         }
+        log.info("${it.size} connected users")
       }
     }
   }
