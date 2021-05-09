@@ -137,17 +137,17 @@ object Help : Semnorm(
     "start",
     "старт",
     "разраб",
-    "dev",
+    "developer",
     "создатель",
     "creator",
-    "bot",
     "программист",
     "programmer",
     "coder",
     "бот",
     "автор",
     "author"
-  )
+  ),
+  word("bot")
 )
 
 /** Skip telegram-command prefix '/' */
