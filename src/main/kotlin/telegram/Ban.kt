@@ -78,5 +78,4 @@ fun Bot.ban(duration: Duration, attackerMessage: Message) {
       replyToMessageId = victimMessage.messageId,
     )
   }
-  delayDeleteMessage(attackerMessage.chat.id, attackerMessage.messageId)
 }

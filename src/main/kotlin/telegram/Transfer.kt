@@ -30,5 +30,4 @@ fun Bot.transfer(duration: Duration, senderMessage: Message) {
       replyToMessageId = recipientMessage.messageId,
     )
   }
-  delayDeleteMessage(senderMessage.chat.id, senderMessage.messageId)
 }

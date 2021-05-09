@@ -39,7 +39,6 @@ fun timecobot() = bot {
           lifetime = seconds(3)
         )
         log.error(text, e)
-        bot.delayDeleteMessage(message.chat.id, message.messageId)
       }
     }
   }

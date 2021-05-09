@@ -49,5 +49,4 @@ fun Bot.help(m: Message) {
     else -> faqEn
   }
   sendTempMessage(m.chat.id, faq, replyToMessageId = m.messageId, lifetime = seconds(60))
-  delayDeleteMessage(m.chat.id, m.messageId)
 }

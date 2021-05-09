@@ -49,5 +49,4 @@ fun Bot.free(masterMessage: Message) {
       replyToMessageId = slaveMessage.messageId,
     )
   }
-  delayDeleteMessage(masterMessage.chat.id, masterMessage.messageId)
 }

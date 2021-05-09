@@ -3,12 +3,12 @@ package speech
 /** Normalized semantic representation: defined by the rules that apply to lexemes. */
 sealed class Semnorm(vararg val rules: (String) -> Boolean)
 
-/** Weak match rule (stem) */
+/** Weak match rule (word's stem) */
 private fun stem(vararg stems: String) = { word: String ->
   stems.any(word::startsWith)
 }
 
-/** Strict match rule (word) */
+/** Strict match rule (whole word) */
 private fun word(vararg words: String) = { word: String ->
   words.any(word::equals)
 }
@@ -94,6 +94,14 @@ object Ban : Semnorm(
 /** Semantic representation of a redeem request */
 object Redeem : Semnorm(
   stem(
+    "liberat",
+    "heal",
+    "ransom",
+    "atonement",
+    "expiation",
+    "redemption",
+    "rescue",
+    "salvation",
     "redeem",
     "unblock",
     "unban",
@@ -102,7 +110,10 @@ object Redeem : Semnorm(
     "разблок",
     "ожив",
     "выкуп",
-    "донат"
+    "донат",
+    "исцел",
+    "спас",
+    "освобод"
   )
 )
 

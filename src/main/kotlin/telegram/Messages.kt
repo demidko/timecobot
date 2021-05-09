@@ -29,7 +29,7 @@ fun Bot.sendTempMessage(
   text: String,
   parseMode: ParseMode? = null,
   disableWebPagePreview: Boolean? = null,
-  disableNotification: Boolean? = null,
+  disableNotification: Boolean? = true,
   replyToMessageId: Long? = null,
   replyMarkup: ReplyMarkup? = null,
   lifetime: Duration = seconds(15)

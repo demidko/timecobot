@@ -8,5 +8,4 @@ import storages.TimeStorage.seeTime
 fun Bot.status(m: Message) {
   val user = m.from?.id ?: error("You hasn't telegram id")
   sendTempMessage(m.chat.id, "You have ${seeTime(user)}", replyToMessageId = m.messageId)
-  delayDeleteMessage(m.chat.id, m.messageId)
 }
