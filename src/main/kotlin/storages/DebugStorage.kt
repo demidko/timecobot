@@ -55,7 +55,7 @@ object DebugStorage {
             ?.mapNotNull { it.user.username }
             ?.map { "@$it" }
             .orEmpty()
-            .let { line.append(" — admin $it") }
+            .let { line.append(" — admins $it") }
           line
         }
         File("debug.md").writeText("$stats\n")
