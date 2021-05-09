@@ -33,9 +33,6 @@ object DebugStorage {
       db.access { groups ->
         val chats = groups.mapNotNull {
           val (chat, e) = bot.getChat(it)
-          if (e != null) {
-            log.warn(it.toString(), e)
-          }
           chat?.body()?.result
         }
         val stats = chats.joinToString(separator = "\n") { chat ->
