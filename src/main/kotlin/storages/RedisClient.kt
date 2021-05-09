@@ -9,7 +9,7 @@ import java.lang.System.getenv
  * @param address connection string with login and password
  * @return config object
  */
-fun redisClient(address: String) = Config().apply {
+fun redisConfig(address: String) = Config().apply {
   useSingleServer().apply {
 
     this.address = address
@@ -26,10 +26,15 @@ fun redisClient(address: String) = Config().apply {
   }
 }
 
-/** To use a Redis cluster you need to set the DATABASE_URL environment variable */
-fun <K, V> redisMap(name: String) =
+private val redissonClient by lazy {
   getenv("DATABASE_URL")
-    .let(::redisClient)
+    .let(::redisConfig)
     .let(Redisson::create)
-    .getMap<K, V>(name)
+}
+
+fun <K, V> redisMap(name: String) = redissonClient.getMap<K, V>(name)
+
+fun <T> redisSet(name: String) = redissonClient.getSet<T>(name)
+
+
 

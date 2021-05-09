@@ -7,6 +7,7 @@ import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.logging.LogLevel.Error
 import org.slf4j.LoggerFactory.getLogger
 import speech.*
+import stats.DebugStorage.debugGroup
 import storages.TimeStorage
 import java.lang.System.getenv
 import kotlin.time.Duration.Companion.seconds
@@ -17,9 +18,14 @@ fun timecobot() = bot {
   token = getenv("TOKEN")
   logLevel = Error
   dispatch {
+
     message {
-      message.from?.id?.let(TimeStorage::register)
+      message.from?.id?.let(TimeStorage::registerUser)
+      when (message.chat.type) {
+        "group", "supergroup" -> debugGroup(message.chat.id)
+      }
     }
+
     text {
       try {
         when (val command = text.command()) {

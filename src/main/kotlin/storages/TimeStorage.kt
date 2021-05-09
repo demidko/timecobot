@@ -16,6 +16,10 @@ object TimeStorage {
 
   private val log = getLogger(javaClass.simpleName)
 
+  /**
+   * Telegram users ids are keys
+   * Timecoins in whole seconds are values
+   */
   private val db = IsolateState {
     try {
       redisMap<Long, Long>("timecoins")
@@ -29,6 +33,7 @@ object TimeStorage {
     val settlementPeriod = minutes(1)
     timer(period = settlementPeriod.inWholeMilliseconds) {
       db.access {
+        log.info("${it.size} connected users")
         for (entry in it.entries) {
           entry.setValue(entry.value + settlementPeriod.inWholeSeconds)
         }
@@ -40,10 +45,8 @@ object TimeStorage {
    * After registration, the user begins to accumulate time.
    * If the user is already registered, then nothing will happen.
    */
-  fun register(account: Long) = db.access {
-    if (account !in it.keys) {
-      it[account] = 0
-    }
+  fun registerUser(id: Long) = db.access {
+    it.putIfAbsent(id, 0)
   }
 
   /** Method of transferring time from account to account */
