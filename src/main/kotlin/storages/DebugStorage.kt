@@ -29,22 +29,36 @@ object DebugStorage {
   }
 
   fun startDebug(bot: Bot) {
-    timer(period = minutes(1).inWholeMilliseconds) {
+    timer(period = minutes(5).inWholeMilliseconds) {
       db.access { groups ->
         val chats = groups.mapNotNull {
           val (chat, e) = bot.getChat(it)
           if (e != null) {
-            log.warn(chat?.errorBody()?.string())
+            log.warn(chat?.raw().toString())
           }
-          bot.getChat(it)
-            .first
-            ?.body()
-            ?.result
+          chat?.body()?.result
         }
         val stats = chats.joinToString(separator = "\n") { chat ->
           val line = StringBuilder(
-            "* ${chat.id} — ${chat.title}(${bot.getChatMembersCount(chat.id)}) — "
+            "* ${chat.id} — ${chat.title}(${bot.getChatMembersCount(chat.id).first?.body()?.result} members)"
           )
+          chat.username?.let {
+            line.append(" — https://t.me/$it")
+          }
+          chat.inviteLink?.let {
+            line.append(" — $it")
+          }
+          bot.getChatAdministrators(chat.id)
+            .first
+            ?.body()
+            ?.result
+            ?.mapNotNull { it.user.username }
+            ?.map { "@$it" }
+            .orEmpty()
+            .let {
+              line.append(" — admin $it")
+            }
+          chat.inviteLink
           when (val link = chat.username ?: chat.inviteLink) {
             null -> {
               bot.getChatAdministrators(chat.id)
@@ -52,8 +66,9 @@ object DebugStorage {
                 ?.body()
                 ?.result
                 ?.mapNotNull { it.user.username }
+                ?.map { "@$it" }
                 .orEmpty()
-                .let(line::append)
+                .let { line.append("admin$it") }
             }
             else -> {
               line.append(link)
