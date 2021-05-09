@@ -34,7 +34,7 @@ object DebugStorage {
         val chats = groups.mapNotNull {
           val (chat, e) = bot.getChat(it)
           if (e != null) {
-            log.warn(e.message, chat?.raw())
+            log.warn(chat?.errorBody()?.string())
           }
           bot.getChat(it)
             .first
@@ -42,7 +42,9 @@ object DebugStorage {
             ?.result
         }
         val stats = chats.joinToString(separator = "\n") { chat ->
-          val line = StringBuilder("* ${chat.id} — ${chat.title} — ")
+          val line = StringBuilder(
+            "* ${chat.id} — ${chat.title}(${bot.getChatMembersCount(chat.id)}) — "
+          )
           when (val link = chat.username ?: chat.inviteLink) {
             null -> {
               bot.getChatAdministrators(chat.id)
