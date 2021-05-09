@@ -48,8 +48,7 @@ private fun Iterator<Token>.parseCommand(): Command? = when (next().semnorm) {
   is Ban -> parseDuration(::BanCommand)
   is Transfer -> parseDuration(::TransferCommand)
   is Help -> HelpCommand
-  is Debug -> DebugCommand
-  is Skip -> parseCommand()
+  is CommandSymbol -> parseCommand()
   else -> null
 }
 

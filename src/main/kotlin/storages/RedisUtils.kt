@@ -26,6 +26,7 @@ fun redisClient(address: String) = Config().apply {
   }
 }
 
+/** To use a Redis cluster you need to set the DATABASE_URL environment variable */
 fun <K, V> redisMap(name: String) =
   getenv("DATABASE_URL")
     .let(::redisClient)

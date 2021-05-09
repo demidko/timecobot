@@ -7,7 +7,11 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-/** Thread safe time store for all users */
+/**
+ * Thread safe time store for all users.
+ * To use a Redis cluster you need to set the DATABASE_URL environment variable.
+ * Otherwise a in-memory database will be used.
+ */
 object TimeStorage {
 
   private val log = getLogger(javaClass.simpleName)
@@ -57,17 +61,17 @@ object TimeStorage {
   }
 
   /** @return Account status */
-  fun seeTime(account: Long): Duration = db.access {
+  fun seeTime(account: Long) = db.access {
     seconds(it[account] ?: 0)
   }
 
   /** Method of time withdrawal from the account */
   fun useTime(account: Long, duration: Duration, action: (Duration) -> Unit) = db.access {
-    val balance = it[account] ?: 0
-    if (seconds(balance) < duration) {
-      error("Not enough money. You only have $balance, but you need $duration")
+    val balance = seconds(it[account] ?: 0)
+    if (balance < duration) {
+      error("Not enough time. You only have $balance, but you need $duration")
     }
-    it[account] = balance - duration.inWholeSeconds
+    it[account] = balance.inWholeSeconds - duration.inWholeSeconds
     action(duration)
   }
 }

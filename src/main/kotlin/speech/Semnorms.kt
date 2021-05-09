@@ -135,13 +135,7 @@ object Help : Semnorm(
     "moder",
     "support",
     "start",
-    "старт"
-  )
-)
-
-/** Semantic representation of a tech support request */
-object Debug : Semnorm(
-  stem(
+    "старт",
     "разраб",
     "dev",
     "создатель",
@@ -149,6 +143,7 @@ object Debug : Semnorm(
     "bot",
     "программист",
     "programmer",
+    "coder",
     "бот",
     "автор",
     "author"
@@ -156,7 +151,7 @@ object Debug : Semnorm(
 )
 
 /** Skip telegram-command prefix '/' */
-object Skip : Semnorm(stem("/"))
+object CommandSymbol : Semnorm(stem("/"))
 
 /** Semantic representation of numbers */
 object Number : Semnorm(stem("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"))
@@ -164,7 +159,7 @@ object Number : Semnorm(stem("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"))
 /** List of all recognizable semantic norms */
 private val semnorms = listOf(
 
-  Skip,
+  CommandSymbol,
 
   Number,
 
@@ -180,8 +175,7 @@ private val semnorms = listOf(
   Transfer,
   Ban,
   Redeem,
-  Help,
-  Debug
+  Help
 )
 
 /**

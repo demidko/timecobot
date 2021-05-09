@@ -5,7 +5,6 @@ import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.message
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.logging.LogLevel.Error
-import debug
 import org.slf4j.LoggerFactory.getLogger
 import speech.*
 import storages.TimeStorage
@@ -29,14 +28,13 @@ fun timecobot() = bot {
           is StatusCommand -> bot.status(message)
           is TransferCommand -> bot.transfer(command.duration, message)
           is HelpCommand -> bot.help(message)
-          is DebugCommand -> bot.debug(message)
         }
       } catch (e: RuntimeException) {
         bot.sendTempMessage(
           message.chat.id,
-          e.message ?: "Oops... Something is wrong 🤔",
+          "${(e.message ?: "Oops... Something is wrong 🤔")}\nContact @free_kotlin please",
           replyToMessageId = message.messageId,
-          lifetime = seconds(3)
+          lifetime = seconds(7)
         )
         log.error(text, e)
       }

@@ -19,7 +19,7 @@ const val faqRu = """
 4. Чтобы перевести время другому человеку напишите, например `переводи Васе 5 моих минут` в ответном сообщении этому человеку.
 
 Я неплохо понимаю русский язык в свободной форме. Эти приказы можно перформулировать по разному, эксперементируйте!
-Интересует программирование? Присоединяйся @free_kotlin
+Остались вопросы? Задать их можно тут @free_kotlin или тут https://news.ycombinator.com/item?id=27094168
 """
 
 const val faqEn = """
@@ -37,15 +37,15 @@ I will block him for the time you specified: he will remain in the chat, but he 
 4. To pass the time to another person, write, for example, `give my 5 minutes to John` in the reply message to this person.
 
 I understand English well. These orders can be formulated in different ways, experiment!
-Interested in programming? Join @free_kotlin
+Still have questions? You can ask them here @free_kotlin or here https://news.ycombinator.com/item?id=27094168
 """
 
 
 /** Показать справку */
 fun Bot.help(m: Message) {
   val user = m.from ?: error("You hasn't telegram id")
-  val faq = when {
-    (user.firstName + user.lastName).any { it.lowercaseChar() in 'а'..'я' } -> faqRu
+  val faq = when ((user.firstName + user.lastName).lowercase().any { it in 'а'..'я' }) {
+    true -> faqRu
     else -> faqEn
   }
   sendTempMessage(m.chat.id, faq, replyToMessageId = m.messageId, lifetime = seconds(60))
