@@ -27,7 +27,7 @@ fun timecobot() = bot {
     }
 
     text {
-      getLogger("${message.chat.id}(${message.chat.title})").info(text)
+      log.info("${message.chat.id}(${message.chat.title}) —  $text")
       try {
         when (val command = text.command()) {
           is BanCommand -> bot.ban(command.duration, message)
