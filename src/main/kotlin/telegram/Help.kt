@@ -34,7 +34,7 @@ To check your balance, send a request to the chat, for example word ”balance�
 2. To ban a person, use orders like ”ban 5 minutes” or ”block for 2 hours” in the reply message to that person.
 I will block him for the time you specified: he will remain in the chat, but he will not be able to write anything.
    
-3. To redeem a person from the ban, simply write to him in the reply message ”unblock him” or `redeem`.
+3. To redeem a person from the ban, simply write to him in the reply message ”unblock him”, ”redeem” or ”ransom”.
 
 4. To pass the time to another person, write, for example, ”give my 5 minutes to John” in the reply message to this person.
 
