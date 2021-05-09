@@ -29,7 +29,7 @@ object DebugStorage {
   }
 
   fun startDebug(bot: Bot) {
-    timer(period = minutes(5).inWholeMilliseconds) {
+    timer(period = minutes(15).inWholeMilliseconds) {
       db.access { groups ->
         val chats = groups.mapNotNull {
           val (chat, e) = bot.getChat(it)

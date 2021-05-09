@@ -36,6 +36,10 @@ object TimeStorage {
         for (entry in it.entries) {
           entry.setValue(entry.value + settlementPeriod.inWholeSeconds)
         }
+      }
+    }
+    timer(period = minutes(15).inWholeMilliseconds) {
+      db.access {
         log.info("${it.size} connected users")
       }
     }
