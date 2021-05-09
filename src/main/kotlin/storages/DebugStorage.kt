@@ -61,7 +61,10 @@ object DebugStorage {
             }
           }
         }
-        File("debug.md").writeText(stats)
+        File("debug.md").apply {
+          writeText(stats)
+          appendText("\n")
+        }
         log.info("${groups.size} connected groups")
       }
     }
