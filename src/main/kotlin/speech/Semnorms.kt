@@ -16,17 +16,17 @@ private fun word(vararg words: String) = { word: String ->
 /** Generic type for semantic representations of time */
 sealed class Time(vararg rules: (String) -> Boolean) : Semnorm(*rules)
 
-object Year : Time(stem("y", "г", "л"))
+object Year : Time(word("y", "г", "л"), stem("year", "год", "лет"))
 
 object Month : Time(stem("mon", "мес"))
 
 object Week : Time(stem("week", "недел"))
 
-object Day : Time(stem("d", "д", "суток", "сутк"))
+object Day : Time(word("d", "д"), stem("day", "суток", "сутк"))
 
 object Hour : Time(word("h", "ч"), stem("час", "hour"))
 
-object Minute : Time(stem("m", "м"))
+object Minute : Time(word("m", "м"), stem("min", "мин"))
 
 object Second : Time(stem("sec", "сек"), word("s", "с"))
 

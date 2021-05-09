@@ -26,4 +26,12 @@ class TokensKtTest {
       equalTo(listOf(Token("///", CommandSymbol), Token("help", Help)))
     )
   }
+
+  @Test
+  fun muteTest() {
+    assertThat(
+      "mute 10s".tokens(),
+      equalTo(listOf(Token("mute", Ban), Token("10", Number), Token("s", Second)))
+    )
+  }
 }
