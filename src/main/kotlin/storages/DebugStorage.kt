@@ -34,7 +34,7 @@ object DebugStorage {
         val chats = groups.mapNotNull {
           val (chat, e) = bot.getChat(it)
           if (e != null) {
-            log.warn(chat?.raw().toString())
+            log.warn(it.toString(), e)
           }
           chat?.body()?.result
         }
