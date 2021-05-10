@@ -22,7 +22,6 @@ private val timer = Timer()
  * @param replyMarkup additional options - inline keyboard, custom reply keyboard, instructions to remove reply
  * keyboard or to force a reply from the user
  * @param lifetime message lifetime
- * @return the sent [Message] on success
  */
 fun Bot.sendTempMessage(
   chatId: Long,
