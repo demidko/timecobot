@@ -39,7 +39,7 @@ object TimeStorage {
     timer(period = settlementPeriod.inWholeMilliseconds) {
       db.access { time ->
         time.entries.forEach {
-          it.setValue(it.value + settlementPeriod.inWholeDays)
+          it.setValue(it.value + settlementPeriod.inWholeSeconds)
         }
         log.info("${time.size} users with total time ${seconds(time.values.sum())}")
       }
