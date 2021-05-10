@@ -64,7 +64,7 @@ fun Bot.ban(duration: Duration, attackerMessage: Message) {
 
   useTime(attacker, duration) {
 
-    val untilSecond = now().epochSecond + it.inWholeSeconds
+    val untilSecond = now().epochSecond + duration.inWholeSeconds
 
     restrictChatMember(
       attackerMessage.chat.id,

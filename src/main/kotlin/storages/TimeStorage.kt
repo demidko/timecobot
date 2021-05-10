@@ -50,9 +50,7 @@ object TimeStorage {
    * After registration, the user begins to accumulate time.
    * If the user is already registered, then nothing will happen.
    */
-  fun registerUser(id: Long) = db.access {
-    it.putIfAbsent(id, 60)
-  }
+  fun registerUser(id: Long) = db.access { it.putIfAbsent(id, 60) }
 
   /** Method of transferring time from account to account */
   fun transferTime(
@@ -62,8 +60,7 @@ object TimeStorage {
     action: () -> Unit = {}
   ) = useTime(fromAccount, duration) {
     db.access {
-      val balance = it[toAccount] ?: 0
-      it[toAccount] = balance + duration.inWholeSeconds
+      it[toAccount] = (it[toAccount] ?: 0) + duration.inWholeSeconds
     }
     action()
   }
@@ -74,13 +71,13 @@ object TimeStorage {
   }
 
   /** Method of time withdrawal from the account */
-  fun useTime(account: Long, duration: Duration, action: (Duration) -> Unit) = db.access {
+  fun useTime(account: Long, duration: Duration, action: () -> Unit) = db.access {
     val balance = seconds(it[account] ?: 0)
     if (balance < duration) {
       error("Not enough time. You only have $balance, but you need $duration")
     }
     it[account] = balance.inWholeSeconds - duration.inWholeSeconds
-    action(duration)
+    action()
   }
 }
 

@@ -31,14 +31,11 @@ object FreeCommand : Command()
 /** Команда запроса о помощи */
 object HelpCommand : Command()
 
-/** Команда обращения к разработчику */
-object DebugCommand : Command()
-
 /**
  * Функция распознает команду из произвольного текста
  * на основе наборов нормализованных семантических представлений.
  */
-fun String.command() = tokenize().iterator().parseCommand()
+fun String.parseCommand() = tokenize().iterator().parseCommand()
 
 private val log = getLogger("Commands")
 
@@ -56,7 +53,7 @@ private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(
   try {
     parseDuration()
   } catch (e: NumberFormatException) {
-    throw IllegalArgumentException("The number you specified could not be recognized", e)
+    error("The number you specified could not be recognized")
   }
 )
 
