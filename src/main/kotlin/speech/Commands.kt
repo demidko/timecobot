@@ -38,7 +38,7 @@ object DebugCommand : Command()
  * Функция распознает команду из произвольного текста
  * на основе наборов нормализованных семантических представлений.
  */
-fun String.command() = tokens().iterator().parseCommand()
+fun String.command() = tokenize().iterator().parseCommand()
 
 private val log = getLogger("Commands")
 

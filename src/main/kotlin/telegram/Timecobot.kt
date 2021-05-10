@@ -2,12 +2,10 @@ package telegram
 
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
-import com.github.kotlintelegrambot.dispatcher.message
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.logging.LogLevel.Error
 import org.slf4j.LoggerFactory.getLogger
 import speech.*
-import stats.DebugStorage.debugGroup
 import storages.TimeStorage
 import java.lang.System.getenv
 import kotlin.time.Duration.Companion.seconds
@@ -18,19 +16,8 @@ fun timecobot() = bot {
   token = getenv("TOKEN")
   logLevel = Error
   dispatch {
-
-    message {
+    text {
       message.from?.id?.let(TimeStorage::registerUser)
-      when (message.chat.type) {
-        "group", "supergroup" -> debugGroup(message.chat.id)
-      }
-    }
-
-    text {
-      println("${message.chat.id}(${message.chat.title}) —  $text")
-    }
-
-    text {
       try {
         when (val command = text.command()) {
           is BanCommand -> bot.ban(command.duration, message)
@@ -42,11 +29,11 @@ fun timecobot() = bot {
       } catch (e: RuntimeException) {
         bot.sendTempMessage(
           message.chat.id,
-          "${(e.message ?: "Oops... Something is wrong 🤔")}\nContact @free_kotlin please",
+          e.message ?: "Oops... Something is wrong 🤔",
           replyToMessageId = message.messageId,
           lifetime = seconds(7)
         )
-        log.error(text, e)
+        log.warn(text, e)
       }
     }
   }

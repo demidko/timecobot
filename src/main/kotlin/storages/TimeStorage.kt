@@ -1,7 +1,9 @@
 package storages
 
 import co.touchlab.stately.isolate.IsolateState
+import org.redisson.Redisson
 import org.slf4j.LoggerFactory.getLogger
+import java.lang.System.getenv
 import kotlin.concurrent.timer
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -22,7 +24,10 @@ object TimeStorage {
    */
   private val db = IsolateState {
     try {
-      redisMap<Long, Long>("timecoins")
+      getenv("DATABASE_URL")
+        .let(::redisConfig)
+        .let(Redisson::create)
+        .getMap<Long, Long>("timecoins")
     } catch (e: RuntimeException) {
       log.warn(e.message)
       LinkedHashMap()
@@ -36,11 +41,6 @@ object TimeStorage {
         for (entry in it.entries) {
           entry.setValue(entry.value + settlementPeriod.inWholeSeconds)
         }
-      }
-    }
-    timer(period = minutes(15).inWholeMilliseconds) {
-      db.access {
-        log.info("${it.size} connected users")
       }
     }
   }

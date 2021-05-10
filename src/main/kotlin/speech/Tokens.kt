@@ -4,15 +4,15 @@ package speech
 data class Token(val lexeme: String, val semnorm: Semnorm?)
 
 /** Эта функция является ядром токенайзера, обеспечивающим разбор токенов за линейное время. */
-fun String.tokens(): List<Token> =
+fun String.tokenize(): List<Token> =
   when (val diff = indexOfFirstDiff()) {
-    -1 -> tokenize()
+    -1 -> token()
     else ->
-      substring(0 until diff).tokenize() + substring(diff until length).tokens()
+      substring(0 until diff).token() + substring(diff until length).tokenize()
   }
 
 /** Обработка обнаруженных лексем */
-private fun String.tokenize() = when (isBlank()) {
+private fun String.token() = when (isBlank()) {
   true -> emptyList()
   else -> listOf(Token(this, semnorm))
 }
