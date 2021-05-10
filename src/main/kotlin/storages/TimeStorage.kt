@@ -34,6 +34,11 @@ object TimeStorage {
     }
   }
 
+  /**
+   * Each user accumulates time.
+   * This is analogous to the unconditional basic income.
+   * Minute by minute, hour by hour.
+   */
   init {
     val settlementPeriod = minutes(1)
     timer(period = settlementPeriod.inWholeMilliseconds) {
@@ -66,9 +71,7 @@ object TimeStorage {
   }
 
   /** @return Account status */
-  fun seeTime(account: Long) = db.access {
-    seconds(it[account] ?: 0)
-  }
+  fun seeTime(account: Long) = db.access { seconds(it[account] ?: 0) }
 
   /** Method of time withdrawal from the account */
   fun useTime(account: Long, duration: Duration, action: () -> Unit) = db.access {
