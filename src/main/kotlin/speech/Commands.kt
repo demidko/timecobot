@@ -52,7 +52,13 @@ private fun Iterator<Token>.parseCommand(): Command? = when (next().semnorm) {
   else -> null
 }
 
-private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(parseDuration())
+private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(
+  try {
+    parseDuration()
+  } catch (e: NumberFormatException) {
+    throw IllegalArgumentException("The number you specified could not be recognized", e)
+  }
+)
 
 private fun Iterator<Token>.parseDuration(): Duration {
   val (token, norm) = next()
