@@ -46,4 +46,9 @@ class CommandKtTest {
   fun muteTest() {
     assertThat("mute 10s".command(), equalTo(BanCommand(seconds(10))))
   }
+
+  @Test
+  fun sendTest() {
+    assertThat("send 10h".command(), equalTo(TransferCommand(hours(10))))
+  }
 }
