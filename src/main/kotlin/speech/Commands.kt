@@ -52,14 +52,7 @@ private fun Iterator<Token>.parseCommand(): Command? = when (next().semnorm) {
   else -> null
 }
 
-private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(
-  try {
-    parseDuration()
-  } catch (e: RuntimeException) {
-    log.warn("duration not found, defaults are used", e)
-    minutes(5)
-  }
-)
+private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(parseDuration())
 
 private fun Iterator<Token>.parseDuration(): Duration {
   val (token, norm) = next()
