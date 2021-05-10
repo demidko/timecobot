@@ -51,7 +51,7 @@ object TimeStorage {
    * If the user is already registered, then nothing will happen.
    */
   fun registerUser(id: Long) = db.access {
-    it.putIfAbsent(id, 0)
+    it.putIfAbsent(id, 60)
   }
 
   /** Method of transferring time from account to account */
