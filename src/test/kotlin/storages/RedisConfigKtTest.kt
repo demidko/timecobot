@@ -4,10 +4,10 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.jupiter.api.Test
 
-internal class RedisClientKtTest {
+internal class RedisConfigKtTest {
 
   @Test
-  fun redisClient() =
+  fun redisConfigTest() =
     redisConfig("rediss://root:23449cdf4934fd@crack-do-user-randombd.jb.ondigitalocean.com:37081")
       .useSingleServer()
       .run {

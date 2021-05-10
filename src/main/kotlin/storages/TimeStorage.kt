@@ -29,7 +29,7 @@ object TimeStorage {
         .let(Redisson::create)
         .getMap<Long, Long>("timecoins")
     } catch (e: RuntimeException) {
-      log.warn(e.message)
+      log.warn("${e.message}. In-memory database will be used")
       LinkedHashMap()
     }
   }
@@ -82,3 +82,4 @@ object TimeStorage {
     action(duration)
   }
 }
+

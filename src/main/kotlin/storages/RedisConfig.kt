@@ -23,6 +23,3 @@ fun redisConfig(address: String) = Config().apply {
       .substringBefore('@')
   }
 }
-
-
-
