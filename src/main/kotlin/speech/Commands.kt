@@ -52,7 +52,7 @@ private fun Iterator<Token>.parseCommand(): Command? = when (next().semnorm) {
 private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(
   try {
     parseDuration()
-  } catch (e: NumberFormatException) {
+  } catch (e: RuntimeException) {
     error("The number you specified could not be recognized")
   }
 )
