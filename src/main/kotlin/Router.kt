@@ -1,3 +1,4 @@
+import LastHourStat.addRequestStat
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandlerEnvironment
 import org.slf4j.LoggerFactory.getLogger
 import speech.*
@@ -10,29 +11,45 @@ import kotlin.time.Duration.Companion.milliseconds
 
 private val log = getLogger("Router")
 
-private val perHourStat = AtomicLong().apply {
-  timer(period = hours(1).inWholeMilliseconds) {
-    log.info("${getAndSet(0)} recognized requests per hour")
+private object LastHourStat {
+
+  private val perHourRequests = AtomicLong()
+  private val perHourTime = AtomicLong()
+
+  init {
+    timer(period = hours(1).inWholeMilliseconds) {
+      val requests = perHourRequests.getAndSet(0)
+      val time = perHourTime.getAndSet(0)
+      log.info("$requests recognized requests per hour (${time / requests}ms on average)")
+    }
+  }
+
+  fun addRequestStat(elapsedTimeMs: Long) {
+    perHourRequests.incrementAndGet()
+    perHourTime.addAndGet(elapsedTimeMs)
   }
 }
 
 fun TextHandlerEnvironment.routeRequest() {
-  var elapsedTime = 0L
+  var elapsedTimeMs = 0L
+  var useStat = true
   try {
-    elapsedTime = measureTimeMillis {
+    elapsedTimeMs = measureTimeMillis {
       when (val command = text.parseCommand()) {
         is BanCommand -> bot.ban(command.duration, message)
         is FreeCommand -> bot.free(message)
         is StatusCommand -> bot.status(message)
         is TransferCommand -> bot.transfer(command.duration, message)
         is HelpCommand -> bot.help(message)
-        else -> return
+        else -> useStat = false
       }
     }
   } finally {
-    if (elapsedTime > 500) {
-      log.warn("Too large request processed ${milliseconds(elapsedTime)}: $text")
+    if (elapsedTimeMs > 500) {
+      log.warn("Too large request processed ${milliseconds(elapsedTimeMs)}: $text")
+    }
+    if (useStat) {
+      addRequestStat(elapsedTimeMs)
     }
   }
-  perHourStat.incrementAndGet()
 }
