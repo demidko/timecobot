@@ -53,7 +53,7 @@ private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(
   try {
     parseDuration()
   } catch (e: RuntimeException) {
-    error("The number you specified could not be recognized")
+    error("Provide an integer for this command")
   }
 )
 
