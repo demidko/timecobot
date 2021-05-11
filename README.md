@@ -8,8 +8,6 @@ There are no discriminatory rules, administrators and moderators.
 1. The accumulated time can be used to block another user.
 1. Time can be used to ransom the user from the ban.
 
-View comments on [Hacker News](https://news.ycombinator.com/item?id=27114668)
-
 ## Usage
 
 To start using the system, just add [`@Timecobot`](https://t.me/timecobot) to the group with admin
