@@ -2,7 +2,7 @@
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>
-        [%thread] %.-1level %logger{36} - %msg%n%xEx{30}
+        %d{HH:mm:ss, Asia/Vladivostok} [%thread] %.-1level %logger{36} - %msg%n%xEx{30}
       </pattern>
     </encoder>
   </appender>
