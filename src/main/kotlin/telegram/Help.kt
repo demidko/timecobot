@@ -6,7 +6,7 @@ import com.github.kotlintelegrambot.entities.User
 import kotlin.time.Duration.Companion.seconds
 
 const val faqRu = """
-Справка по системе электронной демократии.
+Справка по Timecobot
 
 1. Время (валюта) начисляется вам автоматически, каждую минуту, совершенно бесплатно и безусловно.
 Чтобы узнать свой баланс, напишите в чат запрос, например слово ”баланс”, ”статус” или знак ”!”
@@ -25,7 +25,7 @@ const val faqRu = """
 """
 
 const val faqEn = """
-Timecobot Democracy system manual.
+Timecobot system manual.
 
 1. Time (currency) is credited to you automatically, every minute, completely free of charge and unconditionally.
 To check your balance, send a request to the chat, for example word ”balance”, ”status” or ”!” symbol.

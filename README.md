@@ -1,4 +1,4 @@
-# Timecobot Democracy
+# Timecobot: time-based Telegram currency
 
 This system provides a free time-based currency for Telegram. The accumulated time can be used to
 block another user. There are no discriminatory rules, administrators and moderators.
