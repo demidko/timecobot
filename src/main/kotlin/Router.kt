@@ -10,7 +10,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 private val log = getLogger("Router")
 
-internal val perHourStat = AtomicLong().apply {
+private val perHourStat = AtomicLong().apply {
   timer(period = hours(1).inWholeMilliseconds) {
     log.info("${getAndSet(0)} recognized requests per hour")
   }
