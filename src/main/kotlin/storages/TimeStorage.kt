@@ -40,8 +40,8 @@ object TimeStorage {
   init {
     val settlementPeriod = minutes(1)
     timer(period = settlementPeriod.inWholeMilliseconds) {
-      db.access { time ->
-        time.entries.forEach {
+      db.access { users ->
+        users.entries.forEach {
           it.setValue(it.value + settlementPeriod.inWholeSeconds)
         }
       }
@@ -60,23 +60,31 @@ object TimeStorage {
     toAccount: Long,
     duration: Duration,
     action: () -> Unit = {}
-  ) = useTime(fromAccount, duration) {
-    db.access {
-      it[toAccount] = (it[toAccount] ?: 0) + duration.inWholeSeconds
+  ) = db.access { timecoins ->
+    val sum = duration.inWholeSeconds
+    val balance = timecoins[fromAccount] ?: error("Not enough time.")
+    if (sum > balance) {
+      error("Not enough time. You only have ${seconds(balance)}, but you need $duration")
     }
+    timecoins[fromAccount] = balance - sum
+    timecoins[toAccount] = (timecoins[toAccount] ?: 0) + sum
     action()
   }
 
+
   /** @return Account status */
-  fun seeTime(account: Long) = db.access { seconds(it[account] ?: 0) }
+  fun seeTime(account: Long) = db.access { timecoins ->
+    seconds(timecoins[account] ?: error("You don't have time yet"))
+  }
 
   /** Method of time withdrawal from the account */
-  fun useTime(account: Long, duration: Duration, action: () -> Unit) = db.access {
-    val balance = seconds(it[account] ?: 0)
-    if (balance < duration) {
-      error("Not enough time. You only have $balance, but you need $duration")
+  fun useTime(account: Long, duration: Duration, action: () -> Unit) = db.access { timecoins ->
+    val sum = duration.inWholeSeconds
+    val balance = timecoins[account] ?: error("Not enough time.")
+    if (sum > balance) {
+      error("Not enough time. You only have ${seconds(balance)}, but you need $duration")
     }
-    it[account] = balance.inWholeSeconds - duration.inWholeSeconds
+    timecoins[account] = balance - sum
     action()
   }
 }
