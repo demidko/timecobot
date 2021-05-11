@@ -25,7 +25,7 @@ const val faqRu = """
 """
 
 const val faqEn = """
-Timecobot faq
+Timecobot FAQ
 
 1. Time (currency) is credited to you automatically, every minute, completely free of charge and unconditionally.
 To check your balance, send a request to the chat, for example word ”balance”, ”status” or ”!” symbol.
