@@ -17,9 +17,9 @@ rights. Bot understands spoken language (english and russian). Experiment!
 
 ![](examples/ban.jpg "Ban user")
 
-### Redeem user from ban
+### User ransom
 
-![](examples/redeem.jpg "Redeem user")
+![](examples/ransom.jpg "Redeem user")
 
 ### Check yourself status
 

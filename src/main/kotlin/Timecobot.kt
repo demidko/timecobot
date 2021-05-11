@@ -1,5 +1,6 @@
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
+import com.github.kotlintelegrambot.dispatcher.message
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.logging.LogLevel.Error
 import org.slf4j.LoggerFactory.getLogger
@@ -14,8 +15,10 @@ fun timecobot() = bot {
   token = getenv("TOKEN")
   logLevel = Error
   dispatch {
-    text {
+    message {
       message.from?.id?.let(TimeStorage::registerUser)
+    }
+    text {
       try {
         routeRequest()
       } catch (e: RuntimeException) {

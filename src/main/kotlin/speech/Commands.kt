@@ -37,7 +37,6 @@ object HelpCommand : Command()
  */
 fun String.parseCommand() = tokenize().iterator().parseCommand()
 
-private val log = getLogger("Commands")
 
 private fun Iterator<Token>.parseCommand(): Command? = when (next().semnorm) {
   is Status -> StatusCommand

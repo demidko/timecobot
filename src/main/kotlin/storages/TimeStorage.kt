@@ -16,8 +16,6 @@ import kotlin.time.Duration.Companion.seconds
  */
 object TimeStorage {
 
-  private val log = getLogger(javaClass.simpleName)
-
   /**
    * Telegram users ids are keys
    * Timecoins in whole seconds are values
@@ -29,7 +27,7 @@ object TimeStorage {
         .let(Redisson::create)
         .getMap<Long, Long>("timecoins")
     } catch (e: RuntimeException) {
-      log.warn("${e.message}. In-memory database will be used")
+      getLogger(javaClass.simpleName).warn("${e.message}. In-memory database will be used")
       LinkedHashMap()
     }
   }
@@ -46,7 +44,6 @@ object TimeStorage {
         time.entries.forEach {
           it.setValue(it.value + settlementPeriod.inWholeSeconds)
         }
-        log.info("${time.size} users with total time ${seconds(time.values.sum())}")
       }
     }
   }
