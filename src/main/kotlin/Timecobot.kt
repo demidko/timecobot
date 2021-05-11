@@ -14,6 +14,7 @@ fun timecobot() = bot {
   val log = getLogger("Bot")
   token = getenv("TOKEN")
   logLevel = Error
+  timeout
   dispatch {
     message {
       message.from?.id?.let(TimeStorage::registerUser)

@@ -21,7 +21,7 @@ const val faqRu = """
 
 Я неплохо понимаю русский язык в свободной форме. Эти приказы можно перформулировать по разному, эксперементируйте!
 
-Остались вопросы? Задать их можно тут @free_kotlin или тут https://news.ycombinator.com/item?id=27114668
+Остались вопросы? Задать их можно тут @free_kotlin
 """
 
 const val faqEn = """
@@ -40,7 +40,7 @@ I will block him for the time you specified: he will remain in the chat, but he 
 
 I understand English well. These orders can be formulated in different ways, experiment!
 
-Still have questions? You can ask them here @free_kotlin or here https://news.ycombinator.com/item?id=27114668
+Still have questions? You can ask them here @free_kotlin
 """
 
 /** faq */
