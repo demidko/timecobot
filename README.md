@@ -13,14 +13,6 @@ block another user. There are no discriminatory rules, administrators and modera
 To start using the system, just add [`@Timecobot`](https://t.me/timecobot) to the group with admin
 rights. Bot understands spoken language (english and russian). Experiment!
 
-### Ban user
-
-![](examples/ban.jpg "Ban user")
-
-### User ransom
-
-![](examples/ransom.jpg "Redeem user")
-
 ### Check yourself status
 
 ![](examples/status.jpg "My status")
@@ -28,6 +20,14 @@ rights. Bot understands spoken language (english and russian). Experiment!
 ### Transfer time to user
 
 ![](examples/transfer.jpg "Transfer time to user")
+
+### Ban user
+
+![](examples/ban.jpg "Ban user")
+
+### User ransom
+
+![](examples/ransom.jpg "User ransom")
 
 ## Build
 
