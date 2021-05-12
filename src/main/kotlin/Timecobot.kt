@@ -29,7 +29,7 @@ fun timecobot() = bot {
           replyToMessageId = message.messageId,
           lifetime = seconds(7)
         )
-        log.warn(message.toString(), e)
+        log.warn(text, e)
       }
     }
   }
