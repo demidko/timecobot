@@ -37,6 +37,7 @@ fun Bot.unban(masterMessage: Message) {
     .from
     ?.id
     ?: error("You need to reply to the user with telegram id to redeem him")
+
   val freedomEpochSecond = getChatMember(masterMessage.chat.id, slave)
     .first
     ?.body()
@@ -45,14 +46,13 @@ fun Bot.unban(masterMessage: Message) {
     ?.toLong()
     ?: error("This user already free")
 
-  val secondsForUnban = freedomEpochSecond - now().epochSecond
+  val banDurationSec = freedomEpochSecond - now().epochSecond
 
-  log.info("request for unbab is $secondsForUnban")
+  if (banDurationSec < 0) {
+    error("This user already free")
+  }
 
-  val durationForUnban = seconds(secondsForUnban)
-  log.info("duration for unban is $secondsForUnban")
-
-  useTime(master, durationForUnban) {
+  useTime(master, seconds(banDurationSec)) {
     restrictChatMember(masterMessage.chat.id, slave, freedom)
     sendTempMessage(
       masterMessage.chat.id,
