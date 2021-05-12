@@ -15,7 +15,7 @@ fun TextHandlerEnvironment.routeRequest() {
     elapsedTimeMs = measureTimeMillis {
       when (val command = text.command()) {
         is BanCommand -> bot.ban(command.duration, message)
-        is FreeCommand -> bot.free(message)
+        is FreeCommand -> bot.unban(message)
         is StatusCommand -> bot.status(message)
         is TransferCommand -> bot.transfer(command.duration, message)
         is HelpCommand -> bot.help(message)

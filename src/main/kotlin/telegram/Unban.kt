@@ -3,9 +3,12 @@ package telegram
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
+import org.slf4j.LoggerFactory.getLogger
 import storages.TimeStorage.useTime
 import java.time.Instant.now
 import kotlin.time.Duration.Companion.seconds
+
+private val log = getLogger("Unban")
 
 private val freedom = ChatPermissions(
   canSendMessages = true,
@@ -22,7 +25,7 @@ private val freedom = ChatPermissions(
  * Освободить пользователя из бана
  * @param masterMessage сообщение с указанием кого разблокировать в ответе
  */
-fun Bot.free(masterMessage: Message) {
+fun Bot.unban(masterMessage: Message) {
   val master = masterMessage
     .from
     ?.id
@@ -41,7 +44,15 @@ fun Bot.free(masterMessage: Message) {
     ?.forceReply
     ?.toLong()
     ?: error("This user already free")
-  useTime(master, seconds(freedomEpochSecond - now().epochSecond)) {
+
+  val secondsForUnban = freedomEpochSecond - now().epochSecond
+
+  log.info("request for unbab is $secondsForUnban")
+
+  val durationForUnban = seconds(secondsForUnban)
+  log.info("duration for unban is $secondsForUnban")
+
+  useTime(master, durationForUnban) {
     restrictChatMember(masterMessage.chat.id, slave, freedom)
     sendTempMessage(
       masterMessage.chat.id,
