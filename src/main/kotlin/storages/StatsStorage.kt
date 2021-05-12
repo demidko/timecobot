@@ -20,7 +20,11 @@ object StatsStorage {
     timer(period = minutes(5).inWholeMilliseconds) {
       val requests = perHourRequests.get()
       val time = perHourTime.get()
-      log.info("$requests req/hour (~${time / requests} ms/req)")
+      if (requests > 0) {
+        log.info("$requests req/h (~${time / requests} ms/req)")
+      } else {
+        log.info("0 req/h")
+      }
     }
   }
 
