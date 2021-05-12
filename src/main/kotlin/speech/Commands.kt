@@ -1,6 +1,5 @@
 package speech
 
-import org.slf4j.LoggerFactory.getLogger
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
@@ -35,15 +34,15 @@ object HelpCommand : Command()
  * Функция распознает команду из произвольного текста
  * на основе наборов нормализованных семантических представлений.
  */
-fun String.parseCommand() = tokenize().iterator().parseCommand()
+fun String.command() = tokens().iterator().command()
 
-private fun Iterator<Token>.parseCommand(): Command? = when (next().semnorm) {
+private fun Iterator<Token>.command(): Command? = when (next().semnorm) {
   is Status -> StatusCommand
   is Redeem -> FreeCommand
   is Ban -> parseDuration(::BanCommand)
   is Transfer -> parseDuration(::TransferCommand)
   is Help -> HelpCommand
-  is CommandSymbol -> parseCommand()
+  is CommandSymbol -> command()
   else -> null
 }
 
@@ -51,7 +50,7 @@ private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(
   try {
     parseDuration()
   } catch (e: RuntimeException) {
-    error("Provide an integer for this command")
+    error("Provide an time unit with integer for this command. For example ”1 day” or ”day 1”")
   }
 )
 

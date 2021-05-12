@@ -4,13 +4,13 @@ package speech
 data class Token(val lexeme: String, val semnorm: Semnorm?)
 
 /** Эта функция является ядром токенайзера, обеспечивающим разбор токенов за линейное время. */
-fun String.tokenize(): List<Token> = when (val diff = indexOfFirstDiff()) {
-  -1 -> token()
-  else -> substring(0 until diff).token() + substring(diff until length).tokenize()
+fun String.tokens(): List<Token> = when (val diff = indexOfFirstDiff()) {
+  -1 -> grep()
+  else -> substring(0 until diff).grep() + substring(diff until length).tokens()
 }
 
 /** Обработка обнаруженных лексем */
-private fun String.token() = when (isBlank()) {
+private fun String.grep() = when (isBlank()) {
   true -> emptyList()
   else -> listOf(Token(this, semnorm))
 }
@@ -47,7 +47,7 @@ private fun String.isDiff(typeIdx: Int, otherIdx: Int): Boolean {
   }
 
   // обрабатываем символы которые являются разбивающими в любом случае
-  if (type in ".,{}=:<>") {
+  if (type in ".,{}=:<>/\\") {
     return true
   }
 

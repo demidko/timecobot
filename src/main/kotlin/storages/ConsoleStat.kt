@@ -1,0 +1,5 @@
+package storages
+
+object ConsoleStat {
+
+}

@@ -22,7 +22,7 @@ object Month : Time(stem("mon", "мес"))
 
 object Week : Time(stem("week", "недел"))
 
-object Day : Time(word("d", "д"), stem("day", "суток", "сутк"))
+object Day : Time(word("d", "д"), stem("day", "суток", "сутк", "дня", "ден", "дне"))
 
 object Hour : Time(word("h", "ч"), stem("час", "hour"))
 
@@ -52,6 +52,9 @@ object Status : Semnorm(
 
 /** Semantic representation of a money transfer request */
 object Transfer : Semnorm(
+  word(
+    "дать"
+  ),
   stem(
     "transfer",
     "give",

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory.getLogger
 import java.lang.System.getenv
 import kotlin.concurrent.timer
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
@@ -40,9 +41,12 @@ object TimeStorage {
   init {
     val settlementPeriod = minutes(1)
     timer(period = settlementPeriod.inWholeMilliseconds) {
-      db.access { users ->
-        users.entries.forEach {
-          it.setValue(it.value + settlementPeriod.inWholeSeconds)
+      db.access {
+        for (user in it.entries) {
+          user.setValue(user.value + settlementPeriod.inWholeSeconds)
+          if (seconds(user.value) >= days(2000)) {
+            error("To much time bug fixed in stacktrace!")
+          }
         }
       }
     }
@@ -68,6 +72,14 @@ object TimeStorage {
     }
     timecoins[fromAccount] = balance - sum
     timecoins[toAccount] = (timecoins[toAccount] ?: 0) + sum
+
+    if (seconds(timecoins[toAccount] ?: 0) >= days(2000)) {
+      error("To much time bug fixed in stacktrace!")
+    }
+    if (seconds(timecoins[fromAccount] ?: 0) >= days(2000)) {
+      error("To much time bug fixed in stacktrace!")
+    }
+
     action()
   }
 
@@ -85,6 +97,11 @@ object TimeStorage {
       error("Not enough time. You only have ${seconds(balance)}, but you need $duration")
     }
     timecoins[account] = balance - sum
+
+    if (seconds(timecoins[account] ?: 0) >= days(2000)) {
+      error("To much time bug fixed in stacktrace!")
+    }
+
     action()
   }
 }
