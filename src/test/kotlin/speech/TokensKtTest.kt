@@ -21,10 +21,6 @@ class TokensKtTest {
   fun helpTest() {
     assertThat("help".tokens(), equalTo(listOf(Token("help", Help))))
     assertThat("/help".tokens(), equalTo(listOf(Token("/", CommandSymbol), Token("help", Help))))
-    assertThat(
-      "///help".tokens(),
-      equalTo(listOf(Token("///", CommandSymbol), Token("help", Help)))
-    )
   }
 
   @Test
