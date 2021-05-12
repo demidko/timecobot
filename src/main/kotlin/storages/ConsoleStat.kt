@@ -1,5 +1,0 @@
-package storages
-
-object ConsoleStat {
-
-}

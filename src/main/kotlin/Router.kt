@@ -1,34 +1,12 @@
-import LastHourStat.addRequestStat
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandlerEnvironment
 import org.slf4j.LoggerFactory.getLogger
 import speech.*
+import storages.StatsStorage.addRequestStat
 import telegram.*
-import java.util.concurrent.atomic.AtomicLong
-import kotlin.concurrent.timer
 import kotlin.system.measureTimeMillis
-import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
 
 private val log = getLogger("Router")
-
-private object LastHourStat {
-
-  private val perHourRequests = AtomicLong()
-  private val perHourTime = AtomicLong()
-
-  init {
-    timer(period = hours(1).inWholeMilliseconds) {
-      val requests = perHourRequests.getAndSet(0)
-      val time = perHourTime.getAndSet(0)
-      log.info("$requests recognized requests per hour (${time / requests}ms on average)")
-    }
-  }
-
-  fun addRequestStat(elapsedTimeMs: Long) {
-    perHourRequests.incrementAndGet()
-    perHourTime.addAndGet(elapsedTimeMs)
-  }
-}
 
 fun TextHandlerEnvironment.routeRequest() {
   var elapsedTimeMs = 0L

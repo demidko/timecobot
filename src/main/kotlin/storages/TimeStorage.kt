@@ -40,12 +40,13 @@ object TimeStorage {
    */
   init {
     val settlementPeriod = minutes(1)
+    val settlementPeriodSec = settlementPeriod.inWholeSeconds
     timer(period = settlementPeriod.inWholeMilliseconds) {
       db.access {
         for (user in it.entries) {
-          user.setValue(user.value + settlementPeriod.inWholeSeconds)
-          if (seconds(user.value) >= days(2000)) {
-            error("To much time bug fixed in stacktrace!")
+          user.setValue(user.value + settlementPeriodSec)
+          if (seconds(user.value) >= days(100)) {
+            error("To much time bug fixed in stacktrace! id${user.key}")
           }
         }
       }
@@ -73,10 +74,10 @@ object TimeStorage {
     timecoins[fromAccount] = balance - sum
     timecoins[toAccount] = (timecoins[toAccount] ?: 0) + sum
 
-    if (seconds(timecoins[toAccount] ?: 0) >= days(2000)) {
+    if (seconds(timecoins[toAccount] ?: 0) >= days(100)) {
       error("To much time bug fixed in stacktrace!")
     }
-    if (seconds(timecoins[fromAccount] ?: 0) >= days(2000)) {
+    if (seconds(timecoins[fromAccount] ?: 0) >= days(100)) {
       error("To much time bug fixed in stacktrace!")
     }
 
@@ -98,7 +99,7 @@ object TimeStorage {
     }
     timecoins[account] = balance - sum
 
-    if (seconds(timecoins[account] ?: 0) >= days(2000)) {
+    if (seconds(timecoins[account] ?: 0) >= days(100)) {
       error("To much time bug fixed in stacktrace!")
     }
 
