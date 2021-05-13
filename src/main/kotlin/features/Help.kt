@@ -7,7 +7,7 @@ import utils.sendTempMessage
 import kotlin.time.Duration.Companion.seconds
 
 const val faqRu = """
-Справка по Timecobot
+Чтобы начать использовать бота в вашей телеграм-группе, просто добавьте его с правами администратора.
 
 1. Время (валюта) начисляется вам автоматически, каждую минуту, совершенно бесплатно и безусловно.
 Чтобы узнать свой баланс, напишите в чат запрос, например слово ”баланс”, ”статус” или знак ”!”
@@ -26,7 +26,7 @@ const val faqRu = """
 """
 
 const val faqEn = """
-Timecobot FAQ
+To start using the bot in your telegram group, just add it as administrator.
 
 1. Time (currency) is credited to you automatically, every minute, completely free of charge and unconditionally.
 To check your balance, send a request to the chat, for example word ”balance”, ”status” or ”!” symbol.
