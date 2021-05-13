@@ -1,4 +1,4 @@
-package features.utils
+package utils
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatId

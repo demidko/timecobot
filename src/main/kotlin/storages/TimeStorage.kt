@@ -3,11 +3,11 @@ package storages
 import co.touchlab.stately.isolate.IsolateState
 import org.redisson.Redisson
 import org.slf4j.LoggerFactory.getLogger
+import toHumanTime
 import java.lang.System.getenv
 import kotlin.concurrent.timer
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
 
 /**
  * Thread safe time store for all users.
@@ -63,12 +63,12 @@ object TimeStorage {
     action: () -> Unit = {}
   ) = db.access { timecoins ->
     val sum = duration.inWholeSeconds
-    val balance = timecoins[fromAccount] ?: error("Not enough time.")
+    val balance = timecoins[fromAccount] ?: error("You don't have time yet.")
     if (sum > balance) {
       error(
         "Not enough time. "
-          + "You only have ~${seconds(balance)}, but you need $duration. "
-          + "Try to transfer a smaller amount"
+          + "You only have ${balance.toHumanTime()}, "
+          + "but you need ${duration.inWholeSeconds.toHumanTime()} "
       )
     }
     timecoins[fromAccount] = balance - sum
@@ -85,9 +85,13 @@ object TimeStorage {
   /** Method of time withdrawal from the account */
   fun useTime(account: Long, duration: Duration, action: () -> Unit) = db.access { timecoins ->
     val sum = duration.inWholeSeconds
-    val balance = timecoins[account] ?: error("Not enough time.")
+    val balance = timecoins[account] ?: error("You don't have time yet.")
     if (sum > balance) {
-      error("Not enough time. You only have ${seconds(balance)}, but you need $duration")
+      error(
+        "Not enough time. "
+          + "You only have ${balance.toHumanTime()}, "
+          + "but you need ${duration.inWholeSeconds.toHumanTime()}"
+      )
     }
     timecoins[account] = balance - sum
     action()

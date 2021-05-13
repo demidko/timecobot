@@ -4,7 +4,7 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
-import features.utils.sendTempMessage
+import utils.sendTempMessage
 import storages.TimeStorage.useTime
 import java.time.Instant.now
 import kotlin.time.Duration

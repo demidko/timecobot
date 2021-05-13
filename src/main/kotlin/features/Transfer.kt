@@ -2,8 +2,9 @@ package features
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
-import features.utils.sendTempMessage
 import storages.TimeStorage.transferTime
+import toHumanTime
+import utils.sendTempMessage
 import kotlin.time.Duration
 
 
@@ -26,7 +27,7 @@ fun Bot.transfer(duration: Duration, senderMessage: Message) {
   transferTime(sender, recipient, duration) {
     sendTempMessage(
       senderMessage.chat.id,
-      "+$duration",
+      "+${duration.inWholeSeconds.toHumanTime()}",
       replyToMessageId = recipientMessage.messageId,
     )
   }
