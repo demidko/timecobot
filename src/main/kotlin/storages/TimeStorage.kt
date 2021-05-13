@@ -65,7 +65,11 @@ object TimeStorage {
     val sum = duration.inWholeSeconds
     val balance = timecoins[fromAccount] ?: error("Not enough time.")
     if (sum > balance) {
-      error("Not enough time. You only have ${seconds(balance)}, but you need $duration")
+      error(
+        "Not enough time. "
+          + "You only have ~${seconds(balance)}, but you need $duration. "
+          + "Try to transfer a smaller amount"
+      )
     }
     timecoins[fromAccount] = balance - sum
     timecoins[toAccount] = (timecoins[toAccount] ?: 0) + sum
