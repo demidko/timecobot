@@ -1,5 +1,6 @@
 package speech
 
+import org.slf4j.LoggerFactory.getLogger
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
@@ -36,6 +37,8 @@ object HelpCommand : Command()
  */
 fun String.command() = tokens().iterator().command()
 
+private val log = getLogger("CommandsParser")
+
 private fun Iterator<Token>.command(): Command? = when (next().semnorm) {
   is Status -> StatusCommand
   is Redeem -> FreeCommand
@@ -57,8 +60,16 @@ private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(
 private fun Iterator<Token>.parseDuration(): Duration {
   val (token, norm) = next()
   return when (norm) {
-    is Time -> norm.toDuration(parseLong())
-    is Number -> parseTime().toDuration(token.toLong())
+    is Time -> try {
+      norm.toDuration(parseLong())
+    } catch (ignored: RuntimeException) {
+      norm.toDuration(1)
+    }
+    is Number -> try {
+      parseTime().toDuration(token.toLong())
+    } catch (ignored: RuntimeException) {
+      Minute.toDuration(token.toLong())
+    }
     else -> parseDuration()
   }
 }

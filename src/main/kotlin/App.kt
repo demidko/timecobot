@@ -6,10 +6,10 @@ import features.*
 import org.slf4j.LoggerFactory.getLogger
 import speech.*
 import storages.TimeStorage
-import utils.MissedReplyException
-import utils.notifyUserAbout
+import utils.sendTempMessage
 import java.lang.System.currentTimeMillis
 import java.lang.System.getenv
+import kotlin.time.Duration.Companion.seconds
 
 fun main() = bot {
   val log = getLogger("Bot")
@@ -27,15 +27,17 @@ fun main() = bot {
           is TransferCommand -> bot.transfer(command.duration, message)
           is HelpCommand -> bot.help(message)
         }
-      } catch (e: MissedReplyException) {
-        notifyUserAbout(e)
-        log.warn("${e.message}: $text")
       } catch (e: RuntimeException) {
-        notifyUserAbout(e)
         log.error(text, e)
+        bot.sendTempMessage(
+          message.chat.id,
+          e.message ?: "Oops... Something is wrong 🤔",
+          replyToMessageId = message.messageId,
+          lifetime = seconds(7)
+        )
       } finally {
         val elapsedMs = currentTimeMillis() - timestamp
-        if (elapsedMs > 75) {
+        if (elapsedMs > 500) {
           log.warn("Too large message processed ${elapsedMs}ms: $text")
         }
       }
