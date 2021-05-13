@@ -78,8 +78,8 @@ object TimeStorage {
 
 
   /** @return Account status */
-  fun seeTime(account: Long) = db.access { timecoins ->
-    seconds(timecoins[account] ?: error("You don't have time yet"))
+  fun seeTimeInWholeSeconds(account: Long) = db.access { timecoins ->
+    timecoins[account] ?: error("You don't have time yet")
   }
 
   /** Method of time withdrawal from the account */
