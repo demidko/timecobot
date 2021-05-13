@@ -45,6 +45,6 @@ TOKEN=... java -jar build/libs/*.jar
 
 [![Deploy to DigitalOcean](https://www.deploytodo.com/do-btn-blue-ghost.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/demidko/timecobot/tree/main)
 
-Also, you can use a Redis cluster to store the time: specify the Redis connection string on the
-target machine via the `DATABASE_URL` environment variable.
+You can use a Redis cluster to store the time: specify the Redis connection string on the target
+machine via the `DATABASE_URL` environment variable.
 
