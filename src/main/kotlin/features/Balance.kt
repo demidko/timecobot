@@ -12,7 +12,7 @@ fun Bot.balance(m: Message) {
     m.from
       ?.id
       ?.let(TimeStorage::seeTimeInWholeSeconds)
-      ?.secondsToHumanTime()
+      ?.secondsToBalance()
       ?: error("You hasn't telegram id")
 
   sendTempMessage(m.chat.id, balance, replyToMessageId = m.messageId)
@@ -21,7 +21,7 @@ fun Bot.balance(m: Message) {
 private const val years = 60L * 60L * 24L * 30L * 12L
 
 /** seconds to human time duration */
-fun Long.secondsToHumanTime() = when (val time = grepYears()) {
+fun Long.secondsToBalance() = when (val time = grepYears()) {
   "" -> "You don't have time"
   else -> "You have $time"
 }
