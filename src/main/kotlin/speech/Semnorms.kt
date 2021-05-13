@@ -73,7 +73,6 @@ object Transfer : Semnorm(
     "забир",
     "перевед",
     "перевест",
-    "+",
     "send"
   )
 )

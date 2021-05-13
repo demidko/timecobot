@@ -39,7 +39,7 @@ class CommandKtTest {
 
   @Test
   fun transferTest() {
-    assertThat("+5d".command(), equalTo(TransferCommand(days(5))))
+    assertThat("send5d".command(), equalTo(TransferCommand(days(5))))
   }
 
   @Test

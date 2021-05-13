@@ -9,7 +9,7 @@ plugins {
 dependencies {
   implementation("org.redisson:redisson:3.15.4")
   implementation("co.touchlab:stately-isolate-jvm:1.1.6-a1")
-  implementation("io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.0.2")
+  implementation("io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.0.4")
   implementation("ch.qos.logback:logback-classic:1.3.0-alpha5")
   testImplementation("org.junit.jupiter:junit-jupiter:5.8.0-M1")
   testImplementation("com.natpryce:hamkrest:1.8.0.1")

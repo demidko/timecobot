@@ -1,10 +1,13 @@
-package telegram
+package features
 
 import com.github.kotlintelegrambot.Bot
+import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
 import org.slf4j.LoggerFactory.getLogger
 import storages.TimeStorage.useTime
+import utils.innerMessageOrError
+import utils.sendTempMessage
 import java.time.Instant.now
 import kotlin.time.Duration.Companion.seconds
 
@@ -22,23 +25,21 @@ private val freedom = ChatPermissions(
 )
 
 /**
- * Освободить пользователя из бана
- * @param masterMessage сообщение с указанием кого разблокировать в ответе
+ * Unban user
+ * @param masterMessage a message indicating who to unblock in the reply
  */
 fun Bot.unban(masterMessage: Message) {
   val master = masterMessage
     .from
     ?.id
     ?: error("You hasn't telegram id")
-  val slaveMessage = masterMessage
-    .replyToMessage
-    ?: error("You need to reply to the user to redeem him")
+  val slaveMessage = masterMessage.innerMessageOrError("ransom")
   val slave = slaveMessage
     .from
     ?.id
-    ?: error("You need to reply to the user with telegram id to redeem him")
+    ?: error("Your need to reply to the user with telegram id to redeem him")
 
-  val freedomEpochSecond = getChatMember(masterMessage.chat.id, slave)
+  val freedomEpochSecond = getChatMember(fromId(masterMessage.chat.id), slave)
     .first
     ?.body()
     ?.result
@@ -53,7 +54,7 @@ fun Bot.unban(masterMessage: Message) {
   }
 
   useTime(master, seconds(banDurationSec)) {
-    restrictChatMember(masterMessage.chat.id, slave, freedom)
+    restrictChatMember(fromId(masterMessage.chat.id), slave, freedom)
     sendTempMessage(
       masterMessage.chat.id,
       "You are free now!",

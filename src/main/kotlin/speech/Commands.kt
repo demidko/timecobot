@@ -6,33 +6,33 @@ import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-/** Класс представляет собой полностью формализованную команду Telegram-боту */
+/** Fully formalized command for the Telegram bot */
 sealed class Command
 
-/** Команда проверки своего статуса */
+/** Team to check your status */
 object StatusCommand : Command()
 
 /**
- * Команда забанить другого пользователя
- * @param duration время бана
+ * The command to ban another user
+ * @param duration ban duration
  */
 data class BanCommand(val duration: Duration) : Command()
 
 /**
- * Команда перевода времени другому пользователю
- * @param duration время для перевода
+ * Command to transfer time to another user
+ * @param duration time duration for transfer
  */
 data class TransferCommand(val duration: Duration) : Command()
 
-/** Команда выкупа другого пользователя из бана */
+/** The command to buy another user out of the ban */
 object FreeCommand : Command()
 
-/** Команда запроса о помощи */
+/** Help request command */
 object HelpCommand : Command()
 
 /**
- * Функция распознает команду из произвольного текста
- * на основе наборов нормализованных семантических представлений.
+ * The function recognizes a command from free text
+ * based on sets of normalized semantic representations.
  */
 fun String.command() = tokens().iterator().command()
 

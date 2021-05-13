@@ -1,9 +1,12 @@
-package telegram
+package features
 
 import com.github.kotlintelegrambot.Bot
+import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
 import storages.TimeStorage.useTime
+import utils.innerMessageOrError
+import utils.sendTempMessage
 import java.time.Instant.now
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
@@ -13,7 +16,7 @@ private val customBan = ChatPermissions(
   canSendMessages = false,
   canSendMediaMessages = false,
   canSendPolls = false,
-  canSendOtherMessages = true,
+  canSendOtherMessages = false,
   canAddWebPagePreviews = false,
   canChangeInfo = false,
   canInviteUsers = true,
@@ -21,9 +24,9 @@ private val customBan = ChatPermissions(
 )
 
 /**
- * Забанить пользователя на указанное время
- * @param duration время бана
- * @param attackerMessage сообщение с указанием кого банить в ответе
+ * Ban a user for a specified time
+ * @param duration ban time
+ * @param attackerMessage message about who to ban in reply
  */
 fun Bot.ban(duration: Duration, attackerMessage: Message) {
 
@@ -34,7 +37,6 @@ fun Bot.ban(duration: Duration, attackerMessage: Message) {
         attackerMessage.chat.id,
         "$duration is too small for telegram api, 30 seconds are used.",
         replyToMessageId = attackerMessage.messageId,
-        lifetime = seconds(3)
       )
       seconds(30)
     }
@@ -43,31 +45,25 @@ fun Bot.ban(duration: Duration, attackerMessage: Message) {
         attackerMessage.chat.id,
         "$duration is too much for telegram api, 366 days are used.",
         replyToMessageId = attackerMessage.messageId,
-        lifetime = seconds(3)
       )
       days(366)
     }
     else -> duration
   }
 
-  val attacker = attackerMessage
-    .from
-    ?.id
-    ?: error("You hasn't telegram id")
-  val victimMessage = attackerMessage
-    .replyToMessage
-    ?: error("You need to reply to the user to ban him")
-  val victim = victimMessage
-    .from
-    ?.id
-    ?: error("You need to reply to the user with telegram id to ban him")
+  val attacker = attackerMessage.from?.id ?: error("You hasn't telegram id")
+  val victimMessage = attackerMessage.innerMessageOrError("ban")
+  val victim =
+    victimMessage.from
+      ?.id
+      ?: error("You need to reply to the user with telegram id to ban him")
 
   useTime(attacker, duration) {
 
     val untilSecond = now().epochSecond + duration.inWholeSeconds
 
     restrictChatMember(
-      attackerMessage.chat.id,
+      fromId(attackerMessage.chat.id),
       victim,
       customBan,
       untilSecond

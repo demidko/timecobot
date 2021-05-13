@@ -1,8 +1,9 @@
-package telegram
+package features
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.User
+import utils.sendTempMessage
 import kotlin.time.Duration.Companion.seconds
 
 const val faqRu = """
@@ -45,9 +46,7 @@ Still have questions? You can ask them here @free_kotlin
 
 /** faq */
 fun Bot.help(m: Message) {
-  val faq = m.from
-    ?.relatedFaq
-    ?: error("You hasn't telegram id")
+  val faq = m.from?.relatedFaq ?: error("You hasn't telegram id")
   sendTempMessage(m.chat.id, faq, replyToMessageId = m.messageId, lifetime = seconds(60))
 }
 
