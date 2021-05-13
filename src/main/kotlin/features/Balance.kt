@@ -2,8 +2,8 @@ package features
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
-import toHumanTime
 import storages.TimeStorage
+import toHumanTime
 import utils.sendTempMessage
 
 /** See balance */

@@ -68,7 +68,7 @@ object TimeStorage {
       error(
         "Not enough time. "
           + "You only have ${balance.toHumanTime()}, "
-          + "but you need ${duration.inWholeSeconds.toHumanTime()} "
+          + "but you need ${sum.toHumanTime()} "
       )
     }
     timecoins[fromAccount] = balance - sum
@@ -90,7 +90,7 @@ object TimeStorage {
       error(
         "Not enough time. "
           + "You only have ${balance.toHumanTime()}, "
-          + "but you need ${duration.inWholeSeconds.toHumanTime()}"
+          + "but you need ${sum.toHumanTime()}"
       )
     }
     timecoins[account] = balance - sum
