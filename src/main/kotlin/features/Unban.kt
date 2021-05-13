@@ -33,7 +33,7 @@ fun Bot.unban(masterMessage: Message) {
     .from
     ?.id
     ?: error("You hasn't telegram id")
-  val slaveMessage = masterMessage.innerMessageOrError("ransom")
+  val slaveMessage = masterMessage.innerMessageOrError("ransom him")
   val slave = slaveMessage
     .from
     ?.id

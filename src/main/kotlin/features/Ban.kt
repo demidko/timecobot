@@ -52,7 +52,7 @@ fun Bot.ban(duration: Duration, attackerMessage: Message) {
   }
 
   val attacker = attackerMessage.from?.id ?: error("You hasn't telegram id")
-  val victimMessage = attackerMessage.innerMessageOrError("ban")
+  val victimMessage = attackerMessage.innerMessageOrError("ban him")
   val victim =
     victimMessage.from
       ?.id

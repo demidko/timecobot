@@ -31,6 +31,9 @@ object FreeCommand : Command()
 /** Help request command */
 object HelpCommand : Command()
 
+/** Pin message */
+class PinCommand(val duration: Duration) : Command()
+
 /**
  * The function recognizes a command from free text
  * based on sets of normalized semantic representations.
@@ -46,6 +49,7 @@ private fun Iterator<Token>.command(): Command? = when (next().semnorm) {
   is Transfer -> parseDuration(::TransferCommand)
   is Help -> HelpCommand
   is CommandSymbol -> command()
+  is Pin -> parseDuration(::PinCommand)
   else -> null
 }
 

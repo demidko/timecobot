@@ -50,6 +50,8 @@ object Status : Semnorm(
   )
 )
 
+object Pin : Semnorm(stem("закреп", "pin"))
+
 /** Semantic representation of a money transfer request */
 object Transfer : Semnorm(
   word(
@@ -166,7 +168,8 @@ private val semnorms = listOf(
   Transfer,
   Ban,
   Redeem,
-  Help
+  Help,
+  Pin
 )
 
 /**

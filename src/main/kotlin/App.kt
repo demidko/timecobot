@@ -26,6 +26,7 @@ fun main() = bot {
           is StatusCommand -> bot.balance(message)
           is TransferCommand -> bot.transfer(command.duration, message)
           is HelpCommand -> bot.help(message)
+          is PinCommand -> bot.pin(command.duration, message)
         }
       } catch (e: RuntimeException) {
         log.error(text, e)

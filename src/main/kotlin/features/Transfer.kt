@@ -18,7 +18,7 @@ fun Bot.transfer(duration: Duration, senderMessage: Message) {
     .from
     ?.id
     ?: error("You hasn't telegram id")
-  val recipientMessage = senderMessage.innerMessageOrError("transfer time to")
+  val recipientMessage = senderMessage.innerMessageOrError("transfer time to him")
   val recipient = recipientMessage
     .from
     ?.id

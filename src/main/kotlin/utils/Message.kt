@@ -18,7 +18,7 @@ fun Message.innerMessageOrError(reason: String? = null) =
   when (replyToMessage) {
     null -> when (reason) {
       null -> throw MissedReplyException("You need to reply to the user")
-      else -> throw MissedReplyException("You need to reply to the user to $reason him")
+      else -> throw MissedReplyException("You need to reply to the user to $reason")
     }
     else -> replyToMessage!!
   }
