@@ -4,10 +4,9 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
+import features.utils.sendTempMessage
 import org.slf4j.LoggerFactory.getLogger
 import storages.TimeStorage.useTime
-import utils.innerMessageOrError
-import utils.sendTempMessage
 import java.time.Instant.now
 import kotlin.time.Duration.Companion.seconds
 
@@ -33,7 +32,8 @@ fun Bot.unban(masterMessage: Message) {
     .from
     ?.id
     ?: error("You hasn't telegram id")
-  val slaveMessage = masterMessage.innerMessageOrError("ransom him")
+  val slaveMessage =
+    masterMessage.replyToMessage ?: error("You need to reply to the user to ransom him")
   val slave = slaveMessage
     .from
     ?.id

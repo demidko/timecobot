@@ -3,7 +3,7 @@ package features
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.User
-import utils.sendTempMessage
+import features.utils.sendTempMessage
 import kotlin.time.Duration.Companion.seconds
 
 const val faqRu = """

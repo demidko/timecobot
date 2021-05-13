@@ -2,9 +2,8 @@ package features
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
+import features.utils.sendTempMessage
 import storages.TimeStorage.transferTime
-import utils.innerMessageOrError
-import utils.sendTempMessage
 import kotlin.time.Duration
 
 
@@ -18,7 +17,8 @@ fun Bot.transfer(duration: Duration, senderMessage: Message) {
     .from
     ?.id
     ?: error("You hasn't telegram id")
-  val recipientMessage = senderMessage.innerMessageOrError("transfer time to him")
+  val recipientMessage =
+    senderMessage.replyToMessage ?: error("You need to reply to the user to transfer time to him")
   val recipient = recipientMessage
     .from
     ?.id

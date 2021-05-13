@@ -1,8 +1,7 @@
-package utils
+package features.utils
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatId
-import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import java.util.*
@@ -11,17 +10,6 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 private val timer = Timer()
-
-class MissedReplyException(m: String) : RuntimeException()
-
-fun Message.innerMessageOrError(reason: String? = null) =
-  when (replyToMessage) {
-    null -> when (reason) {
-      null -> throw MissedReplyException("You need to reply to the user")
-      else -> throw MissedReplyException("You need to reply to the user to $reason")
-    }
-    else -> replyToMessage!!
-  }
 
 /**
  * Use this method to send text messages

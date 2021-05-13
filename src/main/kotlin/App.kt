@@ -6,7 +6,7 @@ import features.*
 import org.slf4j.LoggerFactory.getLogger
 import speech.*
 import storages.TimeStorage
-import utils.sendTempMessage
+import features.utils.sendTempMessage
 import java.lang.System.currentTimeMillis
 import java.lang.System.getenv
 import kotlin.time.Duration.Companion.seconds
