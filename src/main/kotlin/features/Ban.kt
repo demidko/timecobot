@@ -4,8 +4,8 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
-import utils.sendTempMessage
 import storages.TimeStorage.useTime
+import utils.sendTempMessage
 import java.time.Instant.now
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
@@ -57,6 +57,20 @@ fun Bot.ban(duration: Duration, attackerMessage: Message) {
     victimMessage.from
       ?.id
       ?: error("You need to reply to the user with telegram id to ban him")
+
+  val freedomEpochSecond = getChatMember(fromId(attackerMessage.chat.id), victim)
+    .first
+    ?.body()
+    ?.result
+    ?.forceReply
+    ?.toLong()
+
+  if (freedomEpochSecond != null) {
+    val banDurationSec = freedomEpochSecond - now().epochSecond
+    if (banDurationSec > 0) {
+      error("This user already blocked")
+    }
+  }
 
   useTime(attacker, duration) {
 
