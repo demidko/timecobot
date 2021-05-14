@@ -101,5 +101,5 @@ private fun Time.toDuration(number: Long) = when (this) {
   is Day -> days(number)
   is Week -> days(number) * 7
   is Month -> days(number) * 30
-  is Year -> days(number) * 365
+  is Year -> days(number) * 366
 }

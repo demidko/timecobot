@@ -16,9 +16,9 @@ private fun word(vararg words: String) = { word: String ->
 /** Generic type for semantic representations of time */
 sealed class Time(vararg rules: (String) -> Boolean) : Semnorm(*rules)
 
-object Year : Time(word("y", "г", "л"), stem("year", "год", "лет"))
+object Year : Time(word("y", "yr", "г", "л"), stem("year", "год", "лет"))
 
-object Month : Time(stem("mon", "мес"))
+object Month : Time(stem("mon", "mo", "мес"))
 
 object Week : Time(stem("week", "недел"))
 

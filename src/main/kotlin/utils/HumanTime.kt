@@ -2,7 +2,7 @@ import kotlin.time.Duration
 
 fun Duration.toHumanTime() = inWholeSeconds.toHumanTime()
 
-private const val years = 60L * 60L * 24L * 30L * 12L
+private const val years = 60L * 60L * 24L * 366
 
 /** seconds to human time duration */
 fun Long.toHumanTime() = when (val t = grepYears()) {
