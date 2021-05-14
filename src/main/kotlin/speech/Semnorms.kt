@@ -128,16 +128,12 @@ object Help : Semnorm(
   stem(
     "помощ",
     "справк",
-    "админ",
-    "модер",
     "правил",
     "помог",
     "?",
     "help",
     "rule",
     "faq",
-    "admin",
-    "moder",
     "start",
     "старт",
   )
