@@ -5,6 +5,7 @@ import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
 import storages.TimeStorage.useTime
+import toHumanView
 import utils.sendTempMessage
 import java.time.Instant.now
 import kotlin.time.Duration
@@ -42,7 +43,7 @@ fun Bot.ban(duration: Duration, attackerMessage: Message) {
     duration > days(366) -> {
       sendTempMessage(
         attackerMessage.chat.id,
-        "$duration is too much for telegram api, 366 days are used.",
+        "${duration.toHumanView()} is too much for telegram api, 1yr 1d are used",
         replyToMessageId = attackerMessage.messageId,
       )
       days(366)
