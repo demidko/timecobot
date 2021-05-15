@@ -32,6 +32,7 @@ object Second : Time(stem("sec", "сек"), word("s", "с"))
 
 /** Semantic representation of balance request */
 object Status : Semnorm(
+  word("!"),
   stem(
     "time",
     "врем",
@@ -44,7 +45,6 @@ object Status : Semnorm(
     "счет",
     "счёт",
     "узна",
-    "!",
     "timecoin",
     "check"
   )
@@ -127,10 +127,10 @@ object Redeem : Semnorm(
 object Help : Semnorm(
   stem(
     "помощ",
+    "?",
     "справк",
     "правил",
     "помог",
-    "?",
     "help",
     "rule",
     "faq",
