@@ -50,7 +50,7 @@ object Status : Semnorm(
   )
 )
 
-object Pin : Semnorm(stem("закреп", "pin"), word("пин"))
+object Pin : Semnorm(stem("закреп", "pin", "запин"), word("пин"))
 
 /** Semantic representation of a money transfer request */
 object Transfer : Semnorm(

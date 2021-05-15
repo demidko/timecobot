@@ -25,7 +25,7 @@ const val faqRu = """
 
 Я неплохо понимаю русский язык в свободной форме. Эти приказы можно перформулировать по разному, эксперементируйте!
 
-Остальные вопросы задать можно тут @free_kotlin
+Остальные вопросы задать можно тут @habr_chat
 """
 
 const val faqEn = """
@@ -46,7 +46,7 @@ I will block him for the time you specified: he will remain in the chat, but he 
 
 I understand English well. These orders can be formulated in different ways, experiment!
 
-Still have questions? You can ask them here @free_kotlin
+Still have questions? You can ask them here @habr_chat
 """
 
 /** faq */
