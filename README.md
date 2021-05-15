@@ -11,8 +11,8 @@ There are no discriminatory rules, administrators and moderators.
 ## Usage
 
 To start using the system, just add [`@Timecobot`](https://t.me/timecobot) to the group with admin
-rights (or join the [`@Habr_Chat`](https://t.me/habr_chat)). Bot understands spoken language (english
-and russian). Experiment!
+rights (or join the [`@Habr_Chat`](https://t.me/habr_chat)). Bot understands spoken language
+(english and russian). Experiment!
 
 ### Check yourself status
 
@@ -23,6 +23,8 @@ and russian). Experiment!
 ![](examples/transfer.jpg "Transfer time to user")
 
 ### Ban user
+
+User will remain in the chat, but he will not be able to write anything.
 
 ![](examples/ban.jpg "Ban user")
 
