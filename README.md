@@ -5,8 +5,10 @@ There are no discriminatory rules, administrators and moderators.
 
 1. Each features user accumulates time. Minute by minute, hour by hour.
 1. Time can be passed on to other people.
-1. The accumulated time can be used to block another user.
+1. The accumulated time can be used to block another user. User will remain in the chat, but he will
+   not be able to write anything.
 1. Time can be used to ransom the user from the ban.
+1. Time can be used to pin messages.
 
 ## Usage
 
@@ -22,15 +24,15 @@ rights (or join the [`@Habr_Chat`](https://t.me/habr_chat)). Bot understands spo
 
 ![](examples/transfer.jpg "Transfer time to user")
 
-### Ban user
+### Block user
 
 User will remain in the chat, but he will not be able to write anything.
 
-![](examples/ban.jpg "Ban user")
+![](examples/ban.jpg "Block user")
 
-### User ransom
+### Unblock user
 
-![](examples/ransom.jpg "User ransom")
+![](examples/ransom.jpg "Unblock user")
 
 ## Build
 

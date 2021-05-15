@@ -55,5 +55,8 @@ class CommandKtTest {
   @Test
   fun statusSymbolTest() {
     assertThat("/!".command(), equalTo(StatusCommand))
+    assertThat("!help".command(), equalTo(StatusCommand))
   }
+
+
 }

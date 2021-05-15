@@ -13,16 +13,18 @@ const val faqRu = """
 Чтобы узнать свой баланс, напишите в чат запрос, например слово ”баланс”, ”статус” или знак ”!”
 (В ответе используются сокращения d - дни, h - часы, m - минуты, s - секунды)
    
-2. Чтобы забанить человека используйте приказы вида ”бан 5 минут” или ”блок на 2 часа” в ответном сообщении человеку.
+2. Чтобы заблокировать человека используйте приказы вида ”бан 5 минут” или ”блок на 2 часа” в ответном сообщении человеку.
 Я заблокирую его на указанное вами время: он останется в чате, но не сможет ничего писать.
    
 3 Чтобы выкупить человека из бана просто напишите ”разбань его” или ”выкупить” в ответному сообщении ему.
 
 4. Чтобы перевести время другому человеку напишите, например ”переводи Васе 5 моих минут” в ответном сообщении этому человеку.
 
+5. Чтобы закрепить сообщения за ваше время, напишите что-то вроде ”закрепить на 2 часа” в ответе к сообщению.
+
 Я неплохо понимаю русский язык в свободной форме. Эти приказы можно перформулировать по разному, эксперементируйте!
 
-Остались вопросы? Задать их можно тут @free_kotlin
+Задать остальные вопросы к разработчикмм можно тут @free_kotlin
 """
 
 const val faqEn = """
@@ -39,9 +41,11 @@ I will block him for the time you specified: he will remain in the chat, but he 
 
 4. To pass the time to another person, write, for example, ”give my 5 minutes to John” in the reply message to this person.
 
+5. To pin message, write, for example ”pin for 2h” in reply message.
+
 I understand English well. These orders can be formulated in different ways, experiment!
 
-Still have questions? You can ask them here @free_kotlin
+Still have questions to developers? You can ask them here @free_kotlin
 """
 
 /** faq */

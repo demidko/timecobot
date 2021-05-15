@@ -32,8 +32,8 @@ object Second : Time(stem("sec", "сек"), word("s", "с"))
 
 /** Semantic representation of balance request */
 object Status : Semnorm(
-  word("!"),
   stem(
+    "!",
     "time",
     "врем",
     "balance",
