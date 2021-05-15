@@ -1,6 +1,7 @@
 package features
 
 import com.github.kotlintelegrambot.Bot
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.User
 import utils.sendTempMessage
@@ -24,7 +25,7 @@ const val faqRu = """
 
 Я неплохо понимаю русский язык в свободной форме. Эти приказы можно перформулировать по разному, эксперементируйте!
 
-Задать остальные вопросы к разработчикмм можно тут @free_kotlin
+Остальные вопросы задать можно тут @free_kotlin
 """
 
 const val faqEn = """
@@ -45,13 +46,17 @@ I will block him for the time you specified: he will remain in the chat, but he 
 
 I understand English well. These orders can be formulated in different ways, experiment!
 
-Still have questions to developers? You can ask them here @free_kotlin
+Still have questions? You can ask them here @free_kotlin
 """
 
 /** faq */
 fun Bot.help(m: Message) {
   val faq = m.from?.relatedFaq ?: error("You hasn't telegram id")
-  sendTempMessage(m.chat.id, faq, replyToMessageId = m.messageId, lifetime = seconds(60))
+  if(m.chat.id == m.from?.id) {
+    sendMessage(ChatId.fromId(m.chat.id), faq, replyToMessageId = m.messageId)
+  } else {
+    sendTempMessage(m.chat.id, faq, replyToMessageId = m.messageId, lifetime = seconds(60))
+  }
 }
 
 private val User.relatedFaq
