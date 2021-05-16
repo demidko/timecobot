@@ -29,14 +29,14 @@ const val faqRu = """
 """
 
 const val faqEn = """
-To start using the bot, just add it to the group with admin rights.
+To start using the bot, just add bot to the group with admin rights.
 
-1. Time (currency) is credited to you automatically, every minute, completely free of charge and unconditionally.
+1. Time (currency) is credited to you automatically, every minute, completely free and unconditionally.
 To check your balance, send a request to the chat, for example word ”balance”, ”status” or ”!” symbol.
 (The answer uses abbreviations, d - days, h - hours, m - minutes, s - seconds)
    
-2. To ban a person, use orders like ”ban 5 minutes” or ”block for 2 hours” in the reply message to that person.
-I will block him for the time you specified: he will remain in the chat, but he will not be able to write anything.
+2. To block a person, use requests like ”ban 5 minutes” or ”block for 2 hours” in the reply message to that person.
+I will block user for the time you specified: user will remain in the chat, but he will not be able to write anything.
    
 3. To ransom a person from the ban, simply write to him in the reply message ”unblock”, ”unban”, ”ransom” or ”redeem”.
 
@@ -44,7 +44,7 @@ I will block him for the time you specified: he will remain in the chat, but he 
 
 5. To pin message, write, for example, ”pin for 2h” in the reply message to this message.
 
-Еру bot understand English well. These orders can be formulated in different ways, experiment!
+The bot understand English well. These orders can be formulated in different ways, experiment!
 
 Still have questions? You can ask them here @timecochat
 """

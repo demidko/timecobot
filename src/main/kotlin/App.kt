@@ -1,8 +1,10 @@
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
+import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.message
 import com.github.kotlintelegrambot.dispatcher.text
+import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.logging.LogLevel.Error
 import org.slf4j.LoggerFactory.getLogger
 import speech.command
@@ -18,7 +20,13 @@ private val log = getLogger("Bot")
 fun main() = bot {
   token = getenv("TOKEN")
   logLevel = Error
+
   dispatch {
+
+    command("showname") {
+      bot.sendMessage(ChatId.fromId(message.chat.id), message.from?.firstName ?: "")
+    }
+
     text {
       val timestamp = currentTimeMillis()
       try {
