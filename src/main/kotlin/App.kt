@@ -39,8 +39,8 @@ fun main() = bot {
     }
 
     message {
-      bot.getChat(fromId(message.chat.id)).get().run {
-        log.info("${message.text} {\n  $title\n  $username\n  $inviteLink\n}")
+      bot.getChat(fromId(message.chat.id)).getOrNull()?.run {
+        log.info("${message.text ?: ""}{\n  $title\n  $username\n  $inviteLink\n}")
       }
     }
   }
