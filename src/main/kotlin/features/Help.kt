@@ -23,7 +23,7 @@ const val faqRu = """
 
 5. Чтобы закрепить сообщения за ваше время, напишите что-то вроде ”закрепить на 2 часа” в ответе к сообщению.
 
-Я неплохо понимаю русский язык в свободной форме. Эти приказы можно перформулировать по разному, эксперементируйте!
+Бот неплохо понимает русский в свободной форме. Эти приказы можно перформулировать по разному, эксперементируйте!
 
 Остальные вопросы задать можно тут @timecochat
 """
@@ -44,7 +44,7 @@ I will block him for the time you specified: he will remain in the chat, but he 
 
 5. To pin message, write, for example, ”pin for 2h” in the reply message to this message.
 
-I understand English well. These orders can be formulated in different ways, experiment!
+Еру bot understand English well. These orders can be formulated in different ways, experiment!
 
 Still have questions? You can ask them here @timecochat
 """
