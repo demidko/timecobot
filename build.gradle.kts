@@ -7,6 +7,7 @@ plugins {
   id("com.github.johnrengelman.shadow") version "6.1.0"
 }
 dependencies {
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.0")
   implementation("org.redisson:redisson:3.15.4")
   implementation("co.touchlab:stately-isolate-jvm:1.1.6-a1")
   implementation("io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.0.4")
