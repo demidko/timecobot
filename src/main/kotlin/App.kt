@@ -41,7 +41,7 @@ fun main() = bot {
     message {
       message.chat.run {
         log.info(
-          "${message.text ?: ""}{" +
+          "${message.text ?: ""}\n{\n" +
             "  $title $firstName $lastName\n" +
             "  $bio $description\n" +
             "  @$username\n" +
