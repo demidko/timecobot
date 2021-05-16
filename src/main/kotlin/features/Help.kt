@@ -51,7 +51,7 @@ Still have questions? You can ask them here @timecochat
 
 /** faq */
 fun Bot.help(m: Message) {
-  val faq = m.from?.relatedFaq ?: error("You hasn't telegram id")
+  val faq = m.from?.relatedFaq() ?: error("You hasn't telegram id")
   if (m.chat.id == m.from?.id) {
     sendMessage(ChatId.fromId(m.chat.id), faq, replyToMessageId = m.messageId)
   } else {
@@ -59,12 +59,11 @@ fun Bot.help(m: Message) {
   }
 }
 
-private val User.relatedFaq
-  get() = when {
-    isRussian -> faqRu
-    else -> faqEn
-  }
+private fun User.relatedFaq() = when {
+  isRussian() -> faqRu
+  else -> faqEn
+}
 
-private val User.isRussian
-  get() =
-    (firstName + lastName).lowercase().any { it in 'а'..'я' }
+private fun User.isRussian() = firstName.isRussian() || lastName.isRussian()
+
+private fun String?.isRussian() = this?.lowercase()?.any { it in 'а'..'я' } ?: false
