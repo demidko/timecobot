@@ -8,7 +8,7 @@ import utils.sendTempMessage
 import kotlin.time.Duration.Companion.seconds
 
 const val faqRu = """
-Чтобы начать использовать бота в вашей телеграм-группе, просто добавьте его с правами администратора.
+Чтобы начать использовать бота, добавьте его в группу с правами администратора.
 
 1. Время (валюта) начисляется вам автоматически, каждую минуту, совершенно бесплатно и безусловно.
 Чтобы узнать свой баланс, напишите в чат запрос, например слово ”баланс”, ”статус” или знак ”!”
@@ -25,11 +25,11 @@ const val faqRu = """
 
 Я неплохо понимаю русский язык в свободной форме. Эти приказы можно перформулировать по разному, эксперементируйте!
 
-Остальные вопросы задать можно тут @habr_chat
+Остальные вопросы задать можно тут @timecochat
 """
 
 const val faqEn = """
-To start using the bot in your telegram group, just add it as administrator.
+To start using the bot, just add it to the group with admin rights.
 
 1. Time (currency) is credited to you automatically, every minute, completely free of charge and unconditionally.
 To check your balance, send a request to the chat, for example word ”balance”, ”status” or ”!” symbol.
@@ -46,13 +46,13 @@ I will block him for the time you specified: he will remain in the chat, but he 
 
 I understand English well. These orders can be formulated in different ways, experiment!
 
-Still have questions? You can ask them here @habr_chat
+Still have questions? You can ask them here @timecochat
 """
 
 /** faq */
 fun Bot.help(m: Message) {
   val faq = m.from?.relatedFaq ?: error("You hasn't telegram id")
-  if(m.chat.id == m.from?.id) {
+  if (m.chat.id == m.from?.id) {
     sendMessage(ChatId.fromId(m.chat.id), faq, replyToMessageId = m.messageId)
   } else {
     sendTempMessage(m.chat.id, faq, replyToMessageId = m.messageId, lifetime = seconds(60))

@@ -12,8 +12,8 @@ There are no discriminatory rules, administrators and moderators.
 
 ## Usage
 
-To start using the system, just add [`@Timecobot`](https://t.me/timecobot) to the group with admin
-rights (or join the [`@Habr_Chat`](https://t.me/habr_chat)). Bot understands spoken language
+To start using the system, just add [`@timecobot`](https://t.me/timecobot) to the group with admin
+rights (or join the [`@timecochat`](https://t.me/timecochat)). Bot understands spoken language
 (english and russian). Experiment!
 
 ### Check yourself status
