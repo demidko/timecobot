@@ -1,14 +1,14 @@
 import kotlin.time.Duration
 
-fun Duration.toHumanView() = inWholeSeconds.toHumanView()
-
-private const val years = 60L * 60L * 24L * 365
+fun Duration.print() = inWholeSeconds.printSeconds()
 
 /** seconds to human time duration */
-fun Long.toHumanView() = when (val t = grepYears()) {
+fun Long.printSeconds() = when (val t = grepYears()) {
   "" -> "0s"
   else -> t.trim()
 }
+
+private const val years = 60L * 60L * 24L * 365
 
 fun Long.grepYears() = when (val count = div(years)) {
   0L -> grepMonth()

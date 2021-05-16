@@ -3,7 +3,7 @@ package storages
 import co.touchlab.stately.isolate.IsolateState
 import org.redisson.Redisson
 import org.slf4j.LoggerFactory.getLogger
-import toHumanView
+import printSeconds
 import java.lang.System.getenv
 import kotlin.concurrent.timer
 import kotlin.time.Duration
@@ -67,8 +67,8 @@ object TimeStorage {
     if (sum > balance) {
       error(
         "Not enough time. "
-          + "You only have ${balance.toHumanView()}, "
-          + "but you need ${sum.toHumanView()} "
+          + "You only have ${balance.printSeconds()}, "
+          + "but you need ${sum.printSeconds()} "
       )
     }
     timecoins[fromAccount] = balance - sum
@@ -89,8 +89,8 @@ object TimeStorage {
     if (sum > balance) {
       error(
         "Not enough time. "
-          + "You only have ${balance.toHumanView()}, "
-          + "but you need ${sum.toHumanView()}"
+          + "You only have ${balance.printSeconds()}, "
+          + "but you need ${sum.printSeconds()}"
       )
     }
     timecoins[account] = balance - sum

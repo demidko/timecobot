@@ -4,7 +4,7 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.Message
 import storages.TimeStorage
-import toHumanView
+import printSeconds
 import utils.sendTempMessage
 
 /** See balance */
@@ -14,7 +14,7 @@ fun Bot.balance(m: Message) {
     m.from
       ?.id
       ?.let(TimeStorage::seeTimeInWholeSeconds)
-      ?.toHumanView()
+      ?.printSeconds()
       ?: error("You hasn't telegram id")
 
   if (m.chat.id == m.from?.id) {

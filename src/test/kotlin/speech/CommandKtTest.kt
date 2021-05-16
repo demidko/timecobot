@@ -24,7 +24,7 @@ class CommandKtTest {
 
   @Test
   fun checkStatus() {
-    assertThat("счет".command(), equalTo(StatusCommand))
+    assertThat("счет".command(), equalTo(BalanceCommand))
   }
 
   @Test
@@ -54,8 +54,8 @@ class CommandKtTest {
 
   @Test
   fun statusSymbolTest() {
-    assertThat("/!".command(), equalTo(StatusCommand))
-    assertThat("!help".command(), equalTo(StatusCommand))
+    assertThat("/!".command(), equalTo(BalanceCommand))
+    assertThat("!help".command(), equalTo(BalanceCommand))
   }
 
 

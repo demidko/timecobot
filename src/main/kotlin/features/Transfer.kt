@@ -3,7 +3,7 @@ package features
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
 import storages.TimeStorage.transferTime
-import toHumanView
+import print
 import utils.sendTempMessage
 import kotlin.time.Duration
 
@@ -27,7 +27,7 @@ fun Bot.transfer(duration: Duration, senderMessage: Message) {
   transferTime(sender, recipient, duration) {
     sendTempMessage(
       senderMessage.chat.id,
-      "+${duration.toHumanView()}",
+      "+${duration.print()}",
       replyToMessageId = recipientMessage.messageId,
     )
   }

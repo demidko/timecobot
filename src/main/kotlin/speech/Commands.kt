@@ -1,6 +1,9 @@
 package speech
 
-import org.slf4j.LoggerFactory.getLogger
+import com.github.kotlintelegrambot.Bot
+import com.github.kotlintelegrambot.entities.Message
+import features.*
+import pin
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
@@ -8,31 +11,45 @@ import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 /** Fully formalized command for the Telegram bot */
-sealed class Command
+sealed class Command {
+  abstract fun execute(bot: Bot, m: Message)
+}
 
 /** Team to check your status */
-object StatusCommand : Command()
+object BalanceCommand : Command() {
+  override fun execute(bot: Bot, m: Message) = bot.balance(m)
+}
 
 /**
  * The command to ban another user
  * @param duration ban duration
  */
-data class BanCommand(val duration: Duration) : Command()
+data class BanCommand(val duration: Duration) : Command() {
+  override fun execute(bot: Bot, m: Message) = bot.ban(duration, m)
+}
 
 /**
  * Command to transfer time to another user
  * @param duration time duration for transfer
  */
-data class TransferCommand(val duration: Duration) : Command()
+data class TransferCommand(val duration: Duration) : Command() {
+  override fun execute(bot: Bot, m: Message) = bot.transfer(duration, m)
+}
 
 /** The command to buy another user out of the ban */
-object FreeCommand : Command()
+object FreeCommand : Command() {
+  override fun execute(bot: Bot, m: Message) = bot.unban(m)
+}
 
 /** Help request command */
-object HelpCommand : Command()
+object HelpCommand : Command() {
+  override fun execute(bot: Bot, m: Message) = bot.help(m)
+}
 
 /** Pin message */
-class PinCommand(val duration: Duration) : Command()
+class PinCommand(val duration: Duration) : Command() {
+  override fun execute(bot: Bot, m: Message) = bot.pin(duration, m)
+}
 
 /**
  * The function recognizes a command from free text
@@ -40,10 +57,8 @@ class PinCommand(val duration: Duration) : Command()
  */
 fun String.command() = tokens().iterator().command()
 
-private val log = getLogger("CommandsParser")
-
 private fun Iterator<Token>.command(): Command? = when (next().semnorm) {
-  is Status -> StatusCommand
+  is Status -> BalanceCommand
   is Redeem -> FreeCommand
   is Ban -> parseDuration(::BanCommand)
   is Transfer -> parseDuration(::TransferCommand)
@@ -53,13 +68,12 @@ private fun Iterator<Token>.command(): Command? = when (next().semnorm) {
   else -> null
 }
 
-private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = ctor(
-  try {
-    parseDuration()
-  } catch (e: RuntimeException) {
-    error("Provide an time unit with integer for this command. For example ”1 day” or ”day 1”")
-  }
-)
+private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = try {
+  ctor(parseDuration())
+} catch (e: RuntimeException) {
+  error("Provide an time unit with integer for this command. For example ”1 day” or ”day 1”")
+}
+
 
 private fun Iterator<Token>.parseDuration(): Duration {
   val (token, norm) = next()
