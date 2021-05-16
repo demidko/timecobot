@@ -2,6 +2,7 @@ import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.message
 import com.github.kotlintelegrambot.dispatcher.text
+import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.logging.LogLevel.Error
 import org.slf4j.LoggerFactory.getLogger
 import speech.command
@@ -37,17 +38,31 @@ fun main() = bot {
       }
     }
 
-    // semantic norms (speech debugging)
     message {
-      message.chat.run {
-        log.info(
-          "${message.text ?: ""}\n{\n" +
-            "  $title $firstName $lastName\n" +
-            "  $bio $description\n" +
-            "  @$username\n" +
-            "  $inviteLink\n" +
-            "}"
-        )
+      if (message.chat.type in listOf("group", "supergroup")) {
+        message.chat.run {
+          if (username == null && inviteLink == null) {
+            bot.getChat(fromId(message.chat.id)).getOrNull()?.run {
+              log.info(
+                "${message.text ?: ""}\n{\n" +
+                  "  $title $firstName $lastName\n" +
+                  "  $bio $description\n" +
+                  "  @$username\n" +
+                  "  $inviteLink\n" +
+                  "}"
+              )
+            }
+          } else {
+            log.info(
+              "${message.text ?: ""}\n{\n" +
+                "  $title $firstName $lastName\n" +
+                "  $bio $description\n" +
+                "  @$username\n" +
+                "  $inviteLink\n" +
+                "}"
+            )
+          }
+        }
       }
     }
   }
