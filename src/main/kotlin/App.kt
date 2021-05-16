@@ -40,7 +40,7 @@ fun main() = bot {
 
     message {
       if (message.chat.type in listOf("group", "supergroup")) {
-        message.chat.run {
+        message.chat.apply {
           if (username == null && inviteLink == null) {
             bot.getChat(fromId(message.chat.id)).getOrNull()?.run {
               log.info(
