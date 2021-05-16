@@ -42,7 +42,7 @@ I will block him for the time you specified: he will remain in the chat, but he 
 
 4. To pass the time to another person, write, for example, ”give my 5 minutes to John” in the reply message to this person.
 
-5. To pin message, write, for example ”pin for 2h” in reply message.
+5. To pin message, write, for example, ”pin for 2h” in the reply message to this message.
 
 I understand English well. These orders can be formulated in different ways, experiment!
 
