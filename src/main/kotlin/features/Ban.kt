@@ -89,7 +89,11 @@ fun Bot.ban(duration: Duration, attackerMessage: Message) {
       customBan,
       untilSecond
     )
-    logBan(attacker, attackerMessage, duration, victimMessage)
+    sendTempMessage(
+      attackerMessage.chat.id,
+      "💥",
+      replyToMessageId = victimMessage.messageId,
+    )
   }
 }
 
