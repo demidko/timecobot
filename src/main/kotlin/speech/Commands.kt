@@ -64,7 +64,7 @@ private fun Iterator<Token>.command(): Command? = when (next().semnorm) {
   is Transfer -> parseDuration(::TransferCommand)
   is Help -> HelpCommand
   is CommandSymbol -> command()
-  is Pin -> parseDuration(::PinCommand)
+  is Pin -> null //parseDuration(::PinCommand)
   else -> null
 }
 
