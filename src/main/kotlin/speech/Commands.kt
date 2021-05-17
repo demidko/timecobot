@@ -47,8 +47,8 @@ object HelpCommand : Command() {
 }
 
 /** Pin message */
-class PinCommand(val duration: Duration) : Command() {
-  override fun execute(bot: Bot, m: Message) = bot.pin(duration, m)
+object PinCommand : Command() {
+  override fun execute(bot: Bot, m: Message) = bot.pin(m)
 }
 
 /**
@@ -64,7 +64,7 @@ private fun Iterator<Token>.command(): Command? = when (next().semnorm) {
   is Transfer -> parseDuration(::TransferCommand)
   is Help -> HelpCommand
   is CommandSymbol -> command()
-  is Pin -> null //parseDuration(::PinCommand)
+  is Pin -> PinCommand
   else -> null
 }
 

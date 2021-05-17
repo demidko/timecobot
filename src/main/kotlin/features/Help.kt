@@ -21,7 +21,7 @@ const val faqRu = """
 
 4. Чтобы перевести время другому человеку напишите, например ”переводи Васе 5 моих минут” в ответном сообщении этому человеку.
 
-5. Чтобы закрепить сообщения за ваше время, напишите что-то вроде ”закрепить на 2 часа” в ответе к сообщению.
+5. Чтобы закрепить сообщения за ваше время, напишите что-то вроде ”закрепить” в ответе к сообщению.
 
 Эти приказы можно перформулировать по разному, эксперементируйте!
 Остальные вопросы задать можно тут @timecochat
@@ -41,7 +41,7 @@ Bot will block user specified time: user will remain in the chat, but he will no
 
 4. To pass the time to another person, write, for example, ”give my 5 minutes to John” in the reply message to this person.
 
-5. To pin message, write, for example, ”pin for 2h” in the reply message to this message.
+5. To pin message, write, for example, ”pin” in the reply message to this message.
 
 These orders can be formulated in different ways, experiment!
 Still have questions? You can ask them here @timecochat

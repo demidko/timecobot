@@ -1,10 +1,8 @@
 package storages
 
 import co.touchlab.stately.isolate.IsolateState
-import org.redisson.Redisson
 import org.slf4j.LoggerFactory.getLogger
 import printSeconds
-import java.lang.System.getenv
 import kotlin.concurrent.timer
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -22,10 +20,7 @@ object TimeStorage {
    */
   private val db = IsolateState {
     try {
-      getenv("DATABASE_URL")
-        .let(::redisConfig)
-        .let(Redisson::create)
-        .getMap<Long, Long>("timecoins")
+      Redis.getMap<Long, Long>("timecoins")
     } catch (e: RuntimeException) {
       getLogger(javaClass.simpleName).warn("${e.message}. In-memory database will be used")
       LinkedHashMap()

@@ -1,14 +1,14 @@
 # Timecobot
 
 Telegram bot provides time-based currency. The accumulated time can be used to block another user.
-There are no discriminatory rules, administrators and moderators.
+There are no discriminatory rules, administrators and moderators. Bot also can be used to pin
+messages.
 
 1. Each user accumulates time. Minute by minute, hour by hour.
 1. Time can be passed on to other people.
 1. The accumulated time can be used to block another user.  
    User will remain in the chat, but user will not be able to write anything.
 1. Time can be used to ransom the user from the ban.
-1. Time can be used to pin messages.
 
 ## Usage
 
