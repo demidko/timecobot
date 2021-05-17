@@ -25,7 +25,9 @@ object BalanceCommand : Command() {
  * @param duration ban duration
  */
 data class BanCommand(val duration: Duration) : Command() {
-  override fun execute(bot: Bot, m: Message) = bot.ban(duration, m)
+  override fun execute(bot: Bot, m: Message) {
+    if (m.replyToMessage != null) bot.ban(duration, m)
+  }
 }
 
 /**
@@ -33,12 +35,16 @@ data class BanCommand(val duration: Duration) : Command() {
  * @param duration time duration for transfer
  */
 data class TransferCommand(val duration: Duration) : Command() {
-  override fun execute(bot: Bot, m: Message) = bot.transfer(duration, m)
+  override fun execute(bot: Bot, m: Message) {
+    if (m.replyToMessage != null) bot.transfer(duration, m)
+  }
 }
 
 /** The command to buy another user out of the ban */
 object FreeCommand : Command() {
-  override fun execute(bot: Bot, m: Message) = bot.unban(m)
+  override fun execute(bot: Bot, m: Message) {
+    if (m.replyToMessage != null) bot.unban(m)
+  }
 }
 
 /** Help request command */
@@ -48,7 +54,9 @@ object HelpCommand : Command() {
 
 /** Pin message */
 object PinCommand : Command() {
-  override fun execute(bot: Bot, m: Message) = bot.pin(m)
+  override fun execute(bot: Bot, m: Message) {
+    if (m.replyToMessage != null) bot.pin(m)
+  }
 }
 
 /**

@@ -83,27 +83,29 @@ fun Bot.ban(duration: Duration, attackerMessage: Message) {
   val untilSecond = currentEpochSecond + previousBanDurationSec + duration.inWholeSeconds
 
   useTime(attacker, duration) {
-
     restrictChatMember(
       fromId(attackerMessage.chat.id),
       victim,
       customBan,
       untilSecond
     )
-    sendTempMessage(
-      attackerMessage.chat.id,
-      "💥",
-      replyToMessageId = victimMessage.messageId,
-    )
-
-    // attack permanent notification in chat
-    val attackerName = attackerMessage.from?.firstName ?: "id$attacker"
-    val logMessage = "[$attackerName](tg://user?id=$attacker) 💥 ${duration.print()}"
-    sendMessage(
-      fromId(attackerMessage.chat.id),
-      logMessage,
-      parseMode = MARKDOWN_V2,
-      replyToMessageId = victimMessage.messageId
-    )
+    logBan(attacker, attackerMessage, duration, victimMessage)
   }
+}
+
+/** attack permanent notification in chat */
+private fun Bot.logBan(
+  attacker: Long,
+  attackerMessage: Message,
+  duration: Duration,
+  victimMessage: Message
+) {
+  val attackerName = attackerMessage.from?.firstName ?: "id$attacker"
+  val logMessage = "💥 ${duration.print()} [$attackerName](tg://user?id=$attacker)"
+  sendMessage(
+    fromId(attackerMessage.chat.id),
+    logMessage,
+    parseMode = MARKDOWN_V2,
+    replyToMessageId = victimMessage.messageId
+  )
 }
