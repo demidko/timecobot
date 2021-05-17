@@ -4,9 +4,9 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
-import utils.sendTempMessage
 import org.slf4j.LoggerFactory.getLogger
 import storages.TimeStorage.useTime
+import utils.sendTempMessage
 import java.time.Instant.now
 import kotlin.time.Duration.Companion.seconds
 
@@ -58,7 +58,7 @@ fun Bot.unban(masterMessage: Message) {
     sendTempMessage(
       masterMessage.chat.id,
       "You are free now!",
-      replyToMessageId = slaveMessage.messageId,
+      replyToMessageId = slaveMessage.messageId
     )
   }
 }

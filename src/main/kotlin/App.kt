@@ -15,18 +15,12 @@ import java.lang.System.currentTimeMillis
 import java.lang.System.getenv
 import kotlin.time.Duration.Companion.seconds
 
-private val log = getLogger("Bot")
 
 fun main() = bot {
+  val log = getLogger("Bot")
   token = getenv("TOKEN")
   logLevel = Error
-
   dispatch {
-
-    command("showname") {
-      bot.sendMessage(ChatId.fromId(message.chat.id), message.from?.firstName ?: "")
-    }
-
     text {
       val timestamp = currentTimeMillis()
       try {
@@ -47,6 +41,5 @@ fun main() = bot {
         }
       }
     }
-    message(MessageHandlerEnvironment::handleChat)
   }
 }.startPolling()

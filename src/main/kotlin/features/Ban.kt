@@ -93,6 +93,16 @@ fun Bot.ban(duration: Duration, attackerMessage: Message) {
       attackerMessage.chat.id,
       "💥",
       replyToMessageId = victimMessage.messageId,
+      lifetime = seconds(3)
+    )
+
+    // attack permanent notification in chat
+    val attackerName = attackerMessage.from?.firstName ?: "id$attacker"
+    val logMessage = "[$attackerName](tg://user?id=$attacker) 💥 ${duration.print()}"
+    sendMessage(
+      fromId(attackerMessage.chat.id),
+      logMessage,
+      replyToMessageId = victimMessage.messageId
     )
   }
 }

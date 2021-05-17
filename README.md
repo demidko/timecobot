@@ -17,21 +17,21 @@ rights. Bot understands spoken language (english and russian). Experiment!
 
 ### Check yourself status
 
-![](examples/status.jpg "My status")
+![](img/status.jpg "My status")
 
 ### Transfer time to user
 
-![](examples/transfer.jpg "Transfer time to user")
+![](img/transfer.jpg "Transfer time to user")
 
 ### Block user
 
 User will remain in the chat, but he will not be able to write anything.
 
-![](examples/ban.jpg "Block user")
+![](img/ban.jpg "Block user")
 
 ### Unblock user
 
-![](examples/ransom.jpg "Unblock user")
+![](img/ransom.jpg "Unblock user")
 
 ## Build
 
