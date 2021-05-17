@@ -26,7 +26,8 @@ object BalanceCommand : Command() {
  */
 data class BanCommand(val duration: Duration) : Command() {
   override fun execute(bot: Bot, m: Message) {
-    if (m.replyToMessage != null) bot.ban(duration, m)
+    if (m.replyToMessage != null)
+      bot.ban(duration, m)
   }
 }
 
@@ -36,14 +37,16 @@ data class BanCommand(val duration: Duration) : Command() {
  */
 data class TransferCommand(val duration: Duration) : Command() {
   override fun execute(bot: Bot, m: Message) {
-    if (m.replyToMessage != null) bot.transfer(duration, m)
+    if (m.replyToMessage != null)
+      bot.transfer(duration, m)
   }
 }
 
 /** The command to buy another user out of the ban */
 object FreeCommand : Command() {
   override fun execute(bot: Bot, m: Message) {
-    if (m.replyToMessage != null) bot.unban(m)
+    if (m.replyToMessage != null)
+      bot.unban(m)
   }
 }
 
@@ -55,9 +58,12 @@ object HelpCommand : Command() {
 /** Pin message */
 object PinCommand : Command() {
   override fun execute(bot: Bot, m: Message) {
-    if (m.replyToMessage != null) bot.pin(m)
+    if (m.replyToMessage != null)
+      bot.pin(m)
   }
 }
+
+class ParsingException(e: RuntimeException) : RuntimeException(e)
 
 /**
  * The function recognizes a command from free text
@@ -65,15 +71,19 @@ object PinCommand : Command() {
  */
 fun String.command() = tokens().iterator().command()
 
-private fun Iterator<Token>.command(): Command? = when (next().semnorm) {
-  is Status -> BalanceCommand
-  is Redeem -> FreeCommand
-  is Ban -> parseDuration(::BanCommand)
-  is Transfer -> parseDuration(::TransferCommand)
-  is Help -> HelpCommand
-  is CommandSymbol -> command()
-  is Pin -> PinCommand
-  else -> null
+private fun Iterator<Token>.command(): Command? = try {
+  when (next().semnorm) {
+    is Status -> BalanceCommand
+    is Redeem -> FreeCommand
+    is Ban -> parseDuration(::BanCommand)
+    is Transfer -> parseDuration(::TransferCommand)
+    is Help -> HelpCommand
+    is CommandSymbol -> command()
+    is Pin -> PinCommand
+    else -> null
+  }
+} catch (e: RuntimeException) {
+  throw ParsingException(e)
 }
 
 private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = try {
