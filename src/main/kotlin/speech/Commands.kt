@@ -3,6 +3,7 @@ package speech
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
 import features.*
+import org.slf4j.LoggerFactory.getLogger
 import pin
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
@@ -63,27 +64,28 @@ object PinCommand : Command() {
   }
 }
 
-class ParsingException(e: RuntimeException) : RuntimeException(e)
+private val log = getLogger("Parser")
 
 /**
  * The function recognizes a command from free text
  * based on sets of normalized semantic representations.
  */
-fun String.command() = tokens().iterator().command()
-
-private fun Iterator<Token>.command(): Command? = try {
-  when (next().semnorm) {
-    is Status -> BalanceCommand
-    is Redeem -> FreeCommand
-    is Ban -> parseDuration(::BanCommand)
-    is Transfer -> parseDuration(::TransferCommand)
-    is Help -> HelpCommand
-    is CommandSymbol -> command()
-    is Pin -> PinCommand
-    else -> null
-  }
+fun String.command() = try {
+  tokens().iterator().command()
 } catch (e: RuntimeException) {
-  throw ParsingException(e)
+  log.warn(this, e)
+  null
+}
+
+private fun Iterator<Token>.command(): Command? = when (next().semnorm) {
+  is Status -> BalanceCommand
+  is Redeem -> FreeCommand
+  is Ban -> parseDuration(::BanCommand)
+  is Transfer -> parseDuration(::TransferCommand)
+  is Help -> HelpCommand
+  is CommandSymbol -> command()
+  is Pin -> PinCommand
+  else -> null
 }
 
 private fun <T> Iterator<Token>.parseDuration(ctor: (Duration) -> T) = try {

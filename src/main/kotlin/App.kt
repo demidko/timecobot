@@ -3,7 +3,6 @@ import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.logging.LogLevel.Error
 import org.slf4j.LoggerFactory.getLogger
-import speech.ParsingException
 import speech.command
 import storages.TimeStorage
 import utils.sendTempMessage
@@ -21,8 +20,6 @@ fun main() = bot {
       try {
         message.from?.id?.let(TimeStorage::registerUser)
         text.command()?.execute(bot, message)
-      } catch (e: ParsingException) {
-        log.warn(text, e)
       } catch (e: RuntimeException) {
         log.error(text, e)
         bot.sendTempMessage(
