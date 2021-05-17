@@ -1,20 +1,14 @@
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
-import com.github.kotlintelegrambot.dispatcher.command
-import com.github.kotlintelegrambot.dispatcher.handlers.MessageHandlerEnvironment
-import com.github.kotlintelegrambot.dispatcher.message
 import com.github.kotlintelegrambot.dispatcher.text
-import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.logging.LogLevel.Error
 import org.slf4j.LoggerFactory.getLogger
 import speech.command
 import storages.TimeStorage
-import utils.handleChat
 import utils.sendTempMessage
 import java.lang.System.currentTimeMillis
 import java.lang.System.getenv
 import kotlin.time.Duration.Companion.seconds
-
 
 fun main() = bot {
   val log = getLogger("Bot")
