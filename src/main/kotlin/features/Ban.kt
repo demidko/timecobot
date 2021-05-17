@@ -4,6 +4,7 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
+import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN_V2
 import print
 import storages.TimeStorage.useTime
 import utils.sendTempMessage
@@ -93,7 +94,6 @@ fun Bot.ban(duration: Duration, attackerMessage: Message) {
       attackerMessage.chat.id,
       "💥",
       replyToMessageId = victimMessage.messageId,
-      lifetime = seconds(3)
     )
 
     // attack permanent notification in chat
@@ -102,6 +102,7 @@ fun Bot.ban(duration: Duration, attackerMessage: Message) {
     sendMessage(
       fromId(attackerMessage.chat.id),
       logMessage,
+      parseMode = MARKDOWN_V2,
       replyToMessageId = victimMessage.messageId
     )
   }
