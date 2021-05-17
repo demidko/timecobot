@@ -22,7 +22,7 @@ fun main() = bot {
         message.from?.id?.let(TimeStorage::registerUser)
         text.command()?.execute(bot, message)
       } catch (e: ParsingException) {
-        log.warn(text, e.message)
+        log.warn(text, e)
       } catch (e: RuntimeException) {
         log.error(text, e)
         bot.sendTempMessage(
