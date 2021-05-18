@@ -31,7 +31,7 @@ object Minute : Time(word("m", "м"), stem("min", "мин"))
 object Second : Time(stem("sec", "сек"), word("s", "с"))
 
 /** Semantic representation of balance request */
-object Status : Semnorm(
+object Balance : Semnorm(
   stem(
     "!",
     "time",
@@ -101,7 +101,7 @@ object Ban : Semnorm(
 )
 
 /** Semantic representation of a redeem request */
-object Redeem : Semnorm(
+object Unban : Semnorm(
   stem(
     "liberat",
     "heal",
@@ -163,10 +163,10 @@ private val semnorms = listOf(
   Minute,
   Second,
 
-  Status,
+  Balance,
   Transfer,
   Ban,
-  Redeem,
+  Unban,
   Help,
   Pin
 )
@@ -181,4 +181,4 @@ private fun String.matches(norm: Semnorm) = norm.rules.any { it(this) }
  * We translate an arbitrary token, for example `ban` in normalized semantic representation.
  * Case insensitive.
  */
-val String.semnorm get() = semnorms.firstOrNull(lowercase()::matches)
+fun String.semnorm() = semnorms.firstOrNull(lowercase()::matches)

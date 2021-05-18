@@ -3,7 +3,7 @@ import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.logging.LogLevel.Error
 import org.slf4j.LoggerFactory.getLogger
-import speech.command
+import speech.parseCommand
 import storages.TimeStorage
 import utils.sendTempMessage
 import java.lang.System.currentTimeMillis
@@ -19,7 +19,7 @@ fun main() = bot {
       val timestamp = currentTimeMillis()
       try {
         message.from?.id?.let(TimeStorage::registerUser)
-        text.command()?.execute(bot, message)
+        text.parseCommand()?.execute(bot, message)
       } catch (e: RuntimeException) {
         log.error(text, e)
         bot.sendTempMessage(

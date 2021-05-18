@@ -1,4 +1,4 @@
-package features
+package commands
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatId
@@ -47,13 +47,16 @@ These orders can be formulated in different ways, experiment!
 Still have questions? You can ask them here @timecochat
 """
 
-/** faq */
-fun Bot.help(m: Message) {
-  val faq = m.from?.relatedFaq() ?: error("You hasn't telegram id")
-  if (m.chat.id == m.from?.id) {
-    sendMessage(ChatId.fromId(m.chat.id), faq, replyToMessageId = m.messageId)
-  } else {
-    sendTempMessage(m.chat.id, faq, replyToMessageId = m.messageId, lifetime = seconds(60))
+
+/** Help request command */
+object Help : Command {
+  override fun execute(bot: Bot, m: Message) {
+    val faq = m.from?.relatedFaq() ?: error("You hasn't telegram id")
+    if (m.chat.id == m.from?.id) {
+      bot.sendMessage(ChatId.fromId(m.chat.id), faq, replyToMessageId = m.messageId)
+    } else {
+      bot.sendTempMessage(m.chat.id, faq, replyToMessageId = m.messageId, lifetime = seconds(60))
+    }
   }
 }
 

@@ -4,15 +4,15 @@ package speech
 data class Token(val lexeme: String, val semnorm: Semnorm?)
 
 /** This function is the core of the tokenizer, providing parsing of tokens in linear time. */
-fun String.tokens(): List<Token> = when (val diff = indexOfFirstDiff()) {
+fun String.tokenize(): List<Token> = when (val diff = indexOfFirstDiff()) {
   -1 -> grep()
-  else -> substring(0 until diff).grep() + substring(diff until length).tokens()
+  else -> substring(0 until diff).grep() + substring(diff until length).tokenize()
 }
 
 /** Processing discovered lexemes */
 private fun String.grep() = when (isBlank()) {
   true -> emptyList()
-  else -> listOf(Token(this, semnorm))
+  else -> listOf(Token(this, semnorm()))
 }
 
 /** @return the first character idx differs in type from the previous ones (or -1) */
