@@ -4,7 +4,6 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.Message
-import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN_V2
 import print
 import storages.TimeStorage.useTime
 import utils.sendTempMessage
@@ -101,22 +100,5 @@ value class Ban(val duration: Duration) : Command {
       )
     }
   }
-}
-
-/** attack permanent notification in chat */
-private fun Bot.logBan(
-  attacker: Long,
-  attackerMessage: Message,
-  duration: Duration,
-  victimMessage: Message
-) {
-  val attackerName = attackerMessage.from?.firstName ?: "id$attacker"
-  val logMessage = "💥 ${duration.print()} [$attackerName](tg://user?id=$attacker)"
-  sendMessage(
-    fromId(attackerMessage.chat.id),
-    logMessage,
-    parseMode = MARKDOWN_V2,
-    replyToMessageId = victimMessage.messageId
-  )
 }
 
