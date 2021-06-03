@@ -15,8 +15,10 @@ import java.util.*
 import kotlin.concurrent.schedule
 import kotlin.time.Duration
 
+private val log = getLogger("Timecobot")
+private val timer = Timer()
+
 fun Bot(token: String, coins: Timecoins, pins: PinnedMessages) = bot {
-  val log = getLogger("Timecobot")
   this.token = token
   logLevel = Error
   dispatch {
@@ -36,8 +38,6 @@ fun Bot(token: String, coins: Timecoins, pins: PinnedMessages) = bot {
     }
   }
 }
-
-private val timer = Timer()
 
 /**
  * Use this method to send text messages
@@ -140,9 +140,16 @@ fun Bot.execute(query: String, message: Message, coins: Timecoins, pins: PinnedM
 
 fun Bot.execute(token: Iterator<Token>, message: Message, coins: Timecoins, pins: PinnedMessages) {
   if (!token.hasNext()) {
+    log.warn("no token")
     return
   }
   when (val semnorm = token.next().semnorm) {
-    is Executable -> semnorm.execute(token, this, message, coins, pins)
+    is Executable -> {
+      log.warn("Executable $semnorm")
+      semnorm.execute(token, this, message, coins, pins)
+    }
+    else -> {
+      log.warn("No executable: $semnorm")
+    }
   }
 }
