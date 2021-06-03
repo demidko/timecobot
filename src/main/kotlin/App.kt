@@ -11,6 +11,6 @@ fun main() {
   val bot = Bot(getenv("TOKEN"), coins, pins)
 
   coins.schedulePayments(minutes(24))
-  bot.scheduleUnpinMessages(pins)
+  //bot.scheduleUnpinMessages(pins)
   bot.startPolling()
 }
