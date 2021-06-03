@@ -27,8 +27,8 @@ fun Bot(tok: String, coins: Timecoins, pins: PinnedMessages) = bot {
       log.info(text)
       val timestamp = currentTimeMillis()
       try {
-        message.from?.id?.let(coins::register)
-        bot.execute(text, message, coins, pins)
+        // message.from?.id?.let(coins::register)
+        // bot.execute(text, message, coins, pins)
       } catch (e: RuntimeException) {
         log.error(text, e)
       } finally {

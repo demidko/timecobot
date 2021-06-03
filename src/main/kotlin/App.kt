@@ -1,6 +1,6 @@
 import org.redisson.Redisson.create
+import org.slf4j.LoggerFactory
 import java.lang.System.getenv
-import kotlin.time.Duration.Companion.minutes
 
 
 fun main() {
@@ -10,7 +10,9 @@ fun main() {
   val pins: PinnedMessages = redis.mapOrLocal("pins")
   val bot = Bot(getenv("TOKEN"), coins, pins)
 
-  coins.schedulePayments(minutes(24))
+  //coins.schedulePayments(minutes(24))
   //bot.scheduleUnpinMessages(pins)
+
+  LoggerFactory.getLogger("BB").info("start")
   bot.startPolling()
 }
