@@ -20,8 +20,6 @@ fun Bot(token: String, coins: Timecoins, pins: PinnedMessages) = bot {
   this.token = token
   logLevel = Error
   dispatch {
-    bot.scheduleUnpinMessages(pins)
-    log.info("Auto unpin enabled")
     text {
       val timestamp = currentTimeMillis()
       try {
@@ -117,7 +115,7 @@ fun Bot.pinChatMessageTemporary(db: PinnedMessages, chat: Long, m: Long, duratio
 /**
  * The task of periodic unpinning obsolete messages
  */
-private fun Bot.scheduleUnpinMessages(db: PinnedMessages) =
+fun Bot.scheduleUnpinMessages(db: PinnedMessages) =
   timer.schedule(period = 1_000, delay = 0) {
     val currentEpochSecond = Instant.now().epochSecond
     db.access { pins ->
