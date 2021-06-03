@@ -1,4 +1,19 @@
-package speech
+import semnorms.*
+import semnorms.Number
+import semnorms.commands.Balance
+import semnorms.commands.Command
+import semnorms.commands.Help
+import semnorms.commands.Unban
+import semnorms.commands.durable.Ban
+import semnorms.commands.durable.Pin
+import semnorms.commands.durable.Transfer
+
+/** list of all useful semnorms */
+private val semnorms = listOf(
+  Command, Number,
+  Year, Month, Week, Day, Hour, Minute, Second,
+  Balance, Transfer, Ban, Unban, Help, Pin
+)
 
 /** A token consists of a lexeme and its semantic norm. */
 data class Token(val lexeme: String, val semnorm: Semnorm?)
@@ -12,7 +27,12 @@ fun String.tokenize(): List<Token> = when (val diff = indexOfFirstDiff()) {
 /** Processing discovered lexemes */
 private fun String.grep() = when (isBlank()) {
   true -> emptyList()
-  else -> listOf(Token(this, semnorm()))
+  else -> listOf(
+    Token(
+      this,
+      semnorms.firstOrNull(lowercase()::matches)
+    )
+  )
 }
 
 /** @return the first character idx differs in type from the previous ones (or -1) */

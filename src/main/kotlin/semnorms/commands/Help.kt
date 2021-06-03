@@ -1,11 +1,57 @@
-package commands
+package semnorms.commands
 
+import PinnedMessages
+import Timecoins
+import Token
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.User
-import utils.sendTempMessage
+import semnorms.Executable
+import semnorms.stem
+import sendTempMessage
 import kotlin.time.Duration.Companion.seconds
+
+/** Semantic representation of a faq request */
+object Help : Executable(
+  stem(
+    "помощ",
+    "справк",
+    "правил",
+    "help",
+    "rule",
+    "faq",
+    "start",
+    "старт",
+  )
+) {
+
+  override fun execute(
+    token: Iterator<Token>,
+    bot: Bot,
+    message: Message,
+    coins: Timecoins,
+    pins: PinnedMessages
+  ) {
+    val faq = message.from?.relatedFaq() ?: return
+    if (message.chat.id == message.from?.id) {
+      bot.sendMessage(ChatId.fromId(message.chat.id), faq, replyToMessageId = message.messageId)
+    } else {
+      bot.sendTempMessage(
+        message.chat.id, faq, replyToMessageId = message.messageId, lifetime = seconds(60)
+      )
+    }
+  }
+}
+
+private fun User.relatedFaq() = when {
+  isRussian() -> faqRu
+  else -> faqEn
+}
+
+private fun User.isRussian() = firstName.isRussian() || lastName.isRussian()
+
+private fun String?.isRussian() = this?.lowercase()?.any { it in 'а'..'я' } ?: false
 
 const val faqRu = """
 Чтобы начать использовать бота, добавьте его в группу с правами администратора.
@@ -46,25 +92,3 @@ Bot will block user specified time: user will remain in the chat, but he will no
 These orders can be formulated in different ways, experiment!
 Still have questions? You can ask them here @timecochat
 """
-
-
-/** Help request command */
-object Help : Command {
-  override fun execute(bot: Bot, m: Message) {
-    val faq = m.from?.relatedFaq() ?: error("You hasn't telegram id")
-    if (m.chat.id == m.from?.id) {
-      bot.sendMessage(ChatId.fromId(m.chat.id), faq, replyToMessageId = m.messageId)
-    } else {
-      bot.sendTempMessage(m.chat.id, faq, replyToMessageId = m.messageId, lifetime = seconds(60))
-    }
-  }
-}
-
-private fun User.relatedFaq() = when {
-  isRussian() -> faqRu
-  else -> faqEn
-}
-
-private fun User.isRussian() = firstName.isRussian() || lastName.isRussian()
-
-private fun String?.isRussian() = this?.lowercase()?.any { it in 'а'..'я' } ?: false
