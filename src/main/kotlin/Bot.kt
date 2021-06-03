@@ -21,8 +21,10 @@ private val timer = Timer()
 fun Bot(tok: String, coins: Timecoins, pins: PinnedMessages) = bot {
   token = tok
   logLevel = Error
+  log.info("Tok: $tok")
   dispatch {
     text {
+      log.info(text)
       val timestamp = currentTimeMillis()
       try {
         message.from?.id?.let(coins::register)
@@ -31,9 +33,9 @@ fun Bot(tok: String, coins: Timecoins, pins: PinnedMessages) = bot {
         log.error(text, e)
       } finally {
         val elapsedMs = currentTimeMillis() - timestamp
-        //if (elapsedMs > 500) {
-        log.warn("Too large message processed (${elapsedMs}ms): $text")
-        //}
+        if (elapsedMs > 500) {
+          log.warn("Too large message processed (${elapsedMs}ms): $text")
+        }
       }
     }
   }
