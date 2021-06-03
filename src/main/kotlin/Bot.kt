@@ -18,8 +18,8 @@ import kotlin.time.Duration
 private val log = getLogger("Timecobot")
 private val timer = Timer()
 
-fun Bot(token: String, coins: Timecoins, pins: PinnedMessages) = bot {
-  this.token = token
+fun Bot(tok: String, coins: Timecoins, pins: PinnedMessages) = bot {
+  token = tok
   logLevel = Error
   dispatch {
     text {
@@ -31,9 +31,9 @@ fun Bot(token: String, coins: Timecoins, pins: PinnedMessages) = bot {
         log.error(text, e)
       } finally {
         val elapsedMs = currentTimeMillis() - timestamp
-        if (elapsedMs > 500) {
-          log.warn("Too large message processed (${elapsedMs}ms): $text")
-        }
+        //if (elapsedMs > 500) {
+        log.warn("Too large message processed (${elapsedMs}ms): $text")
+        //}
       }
     }
   }
