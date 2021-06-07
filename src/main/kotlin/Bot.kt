@@ -10,10 +10,10 @@ import com.github.kotlintelegrambot.logging.LogLevel.Error
 import org.slf4j.LoggerFactory.getLogger
 import semnorms.Executable
 import java.lang.System.currentTimeMillis
-import java.time.Instant
 import java.util.*
 import kotlin.concurrent.schedule
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 private val log = getLogger("Timecobot")
 private val timer = Timer()
@@ -62,7 +62,7 @@ fun Bot.sendTempMessage(
   disableNotification: Boolean? = true,
   replyToMessageId: Long? = null,
   replyMarkup: ReplyMarkup? = null,
-  lifetime: Duration = Duration.seconds(15)
+  lifetime: Duration = seconds(15)
 ) {
 
   val messageSendingResult = sendMessage(
@@ -98,7 +98,7 @@ fun Bot.sendTempMessage(
  * @param delay lifetime of the message to delete
  * @return True on success.
  */
-fun Bot.delayDeleteMessage(chatId: Long, messageId: Long, delay: Duration = Duration.seconds(15)) =
+fun Bot.delayDeleteMessage(chatId: Long, messageId: Long, delay: Duration = seconds(15)) =
   timer.schedule(delay.inWholeMilliseconds) {
     deleteMessage(ChatId.fromId(chatId), messageId)
   }
@@ -115,26 +115,6 @@ fun Bot.pinChatMessageTemporary(db: PinnedMessages, chat: Long, m: Long, duratio
     pinChatMessage(ChatId.fromId(chat), m)
   }
 
-/**
- * The task of periodic unpinning obsolete messages
- */
-fun Bot.scheduleUnpinMessages(db: PinnedMessages) =
-  timer.schedule(period = 1_000, delay = 0) {
-    val currentEpochSecond = Instant.now().epochSecond
-    db.access { pins ->
-      for ((chat, messages) in pins) {
-        val chatId = ChatId.fromId(chat)
-        val deprecatedMessages =
-          messages
-            .filterValues { it <= currentEpochSecond }
-            .keys
-        for (messageId in deprecatedMessages) {
-          unpinChatMessage(chatId, messageId)
-          messages.remove(messageId)
-        }
-      }
-    }
-  }
 
 fun Bot.execute(query: String, message: Message, coins: Timecoins, pins: PinnedMessages) {
   val token = query.tokenize().iterator()

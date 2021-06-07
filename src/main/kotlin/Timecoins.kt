@@ -1,5 +1,4 @@
 import co.touchlab.stately.isolate.IsolateState
-import java.lang.System.currentTimeMillis
 import kotlin.concurrent.timer
 import kotlin.time.Duration
 
@@ -12,10 +11,6 @@ private typealias SecondsCount = Long
  * (telegram users ids) to (timecoins in whole seconds)
  */
 typealias Timecoins = IsolateState<MutableMap<UserId, SecondsCount>>
-
-private val deafultPaymentMillis = 60_000
-
-private var latestMillis = currentTimeMillis()
 
 /**
  * After registration, the user begins to accumulate time.
@@ -83,5 +78,3 @@ fun Timecoins.schedulePayments(period: Duration) =
       println("+++ ok")
     }
   }
-
-
