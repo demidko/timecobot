@@ -76,12 +76,10 @@ inline fun Timecoins.using(account: UserId, duration: Duration, crossinline onSu
  * @param period settlement period (price of one minute)
  */
 fun Timecoins.schedulePayments(period: Duration) =
-  timer(period = 1_000) {
+  timer(period = period.inWholeMilliseconds) {
     access {
       println("+++ ...")
-      it.replaceAll { x, coins ->
-        coins + 60
-      }
+      it.replaceAll { _, coins -> coins + 60 }
       println("+++ ok")
     }
   }
