@@ -1,4 +1,5 @@
 import co.touchlab.stately.isolate.IsolateState
+import java.lang.System.currentTimeMillis
 import kotlin.concurrent.timer
 import kotlin.time.Duration
 
@@ -12,11 +13,17 @@ private typealias SecondsCount = Long
  */
 typealias Timecoins = IsolateState<MutableMap<UserId, SecondsCount>>
 
+private val deafultPaymentMillis = 60_000
+
+private var latestMillis = currentTimeMillis()
+
 /**
  * After registration, the user begins to accumulate time.
  * If the user is already registered, then nothing will happen.
  */
-fun Timecoins.register(user: UserId) = access { it.putIfAbsent(user, 60) }
+fun Timecoins.register(user: UserId) = access {
+  it.putIfAbsent(user, 60)
+}
 
 /** Method of transferring time from account to account */
 inline fun Timecoins.transfer(
@@ -69,11 +76,13 @@ inline fun Timecoins.using(account: UserId, duration: Duration, crossinline onSu
  * @param period settlement period (price of one minute)
  */
 fun Timecoins.schedulePayments(period: Duration) =
-  timer(period = period.inWholeMilliseconds) {
+  timer(period = 1_000) {
     access {
-      for (user in it.entries) {
-        user.setValue(user.value + 60)
+      println("+++ ...")
+      it.replaceAll { x, coins ->
+        coins + 60
       }
+      println("+++ ok")
     }
   }
 

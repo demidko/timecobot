@@ -43,7 +43,7 @@ User will remain in the chat, but he will not be able to write anything.
 Self-executable jar will be located in `build/libs`. To start long polling execute command
 
 ```sh
-TOKEN=... java -jar build/libs/*.jar
+DATABASE_URL=rediss://example.com:37081 TOKEN=4760:zGTAaKGo java -jar build/libs/*-all.jar
 ```
 
 ## Deploy
@@ -52,4 +52,8 @@ TOKEN=... java -jar build/libs/*.jar
 
 You can use a Redis cluster to store the time: specify the connection string via the `DATABASE_URL`
 environment variable.
+
+## TODO
+
+1. 'Ban feature' to restrict group's admins
 

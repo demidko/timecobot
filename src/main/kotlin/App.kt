@@ -1,18 +1,15 @@
 import org.redisson.Redisson.create
-import org.slf4j.LoggerFactory
 import java.lang.System.getenv
+import kotlin.time.Duration.Companion.seconds
 
 
 fun main() {
 
   val redis = create(clientOf(getenv("DATABASE_URL")))
-  val coins: Timecoins = redis.mapOrLocal("timecoins")
-  val pins: PinnedMessages = redis.mapOrLocal("pins")
+  val coins: Timecoins = redis.getDatabase("timecoins")
+  val pins: PinnedMessages = redis.getDatabase("pins")
   val bot = Bot(getenv("TOKEN"), coins, pins)
-
-  //coins.schedulePayments(minutes(24))
+  coins.schedulePayments(seconds(60))
   //bot.scheduleUnpinMessages(pins)
-
-  LoggerFactory.getLogger("BB").info("start")
   bot.startPolling()
 }
