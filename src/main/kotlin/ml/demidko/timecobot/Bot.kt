@@ -1,6 +1,7 @@
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
+import com.github.kotlintelegrambot.dispatcher.message
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
@@ -8,6 +9,8 @@ import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.logging.LogLevel.Error
+import ml.demidko.timecobot.Query
+import ml.demidko.timecobot.Storage
 import org.slf4j.LoggerFactory.getLogger
 import java.lang.System.currentTimeMillis
 import java.time.Instant
@@ -26,11 +29,16 @@ fun Bot(apiToken: String, storage: Storage) =
     logLevel = Error
     this.build { }
     dispatch {
+      message {
+        if (storage.isMuted(message.chat.id, message.from?.id ?: return@message)) {
+          bot.deleteMessage(fromId(message.chat.id), message.messageId)
+        }
+      }
       text {
         val fromId = message.from?.id ?: return@text
         val timestamp = currentTimeMillis()
         try {
-          if (storage.isMutedAdmin(message.chat.id, fromId)) {
+          if (storage.isMuted(message.chat.id, fromId)) { // TODO проверить нужен ли копипаст
             bot.deleteMessage(fromId(message.chat.id), message.messageId)
             return@text
           }
@@ -142,7 +150,7 @@ fun Bot.restrictChatAdmin(
   storage: Storage
 ) {
   if (userId in listAdminIds(chatId)) {
-    storage.muteAdmin((chatId as ChatId.Id).id, userId, untilEpochSecond)
+    storage.muteUser((chatId as ChatId.Id).id, userId, untilEpochSecond)
   } else {
     restrictChatMember(chatId, userId, chatPermissions, untilEpochSecond)
   }

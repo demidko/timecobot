@@ -1,3 +1,5 @@
+package ml.demidko.timecobot
+
 import co.touchlab.stately.isolate.IsolateState
 import com.github.demidko.print.utils.printSeconds
 import org.slf4j.LoggerFactory.getLogger
@@ -13,12 +15,12 @@ import kotlin.time.Duration.Companion.minutes
 /**
  * @param storedTime telegram id to seconds count
  * @param pinnedMessages chat id to (messages id to last pinned second)
- * @param restrictedAdmins chat id to (admin id to last ban second)
+ * @param restrictedUsers chat id to (admin id to last ban second)
  */
 class Storage(
   val storedTime: IsolateState<MutableMap<Long, Long>>,
-  val pinnedMessages: IsolateState<MutableMap<Long, MutableMap<Long, Long>>>,
-  val restrictedAdmins: IsolateState<MutableMap<Long, MutableMap<Long, Long>>>
+  val pinnedMessages: IsolateState<HashMap<Long, HashMap<Long, Long>>>,
+  val restrictedUsers: IsolateState<HashMap<Long, HashMap<Long, Long>>>
 ) {
 
   private val log = getLogger("Database")
@@ -38,14 +40,13 @@ class Storage(
     }
   }
 
-  fun muteAdmin(chat: Long, admin: Long, second: Long) =
-    restrictedAdmins.access {
-      it.getOrPut(chat, ::mutableMapOf)
-        .put(admin, second)
+  fun muteUser(chat: Long, admin: Long, second: Long) =
+    restrictedUsers.access {
+      it.getOrPut(chat, ::HashMap).put(admin, second)
     }
 
-  fun isMutedAdmin(chat: Long, user: Long): Boolean =
-    restrictedAdmins.access {
+  fun isMuted(chat: Long, user: Long): Boolean =
+    restrictedUsers.access {
       val admins = it[chat] ?: return@access false
       val untilSeconds = admins[user] ?: return@access false
       if (Instant.now().epochSecond > untilSeconds) {

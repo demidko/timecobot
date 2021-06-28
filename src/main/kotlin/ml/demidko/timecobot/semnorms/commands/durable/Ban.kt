@@ -1,12 +1,12 @@
-package semnorms.commands.durable
+package ml.demidko.timecobot.semnorms.commands.durable
 
-import Query
+import ml.demidko.timecobot.Query
 import com.github.demidko.print.utils.print
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
 import restrictChatAdmin
-import semnorms.commands.Durable
-import semnorms.stem
+import ml.demidko.timecobot.semnorms.commands.Durable
+import ml.demidko.timecobot.semnorms.stem
 import java.time.Instant.now
 import java.util.*
 import kotlin.time.Duration

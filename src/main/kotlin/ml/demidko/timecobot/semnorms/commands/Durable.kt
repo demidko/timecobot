@@ -1,12 +1,12 @@
-package semnorms.commands
+package ml.demidko.timecobot.semnorms.commands
 
-import Query
+import ml.demidko.timecobot.Query
 import com.github.demidko.tokenizer.Token
-import semnorms.Executable
-import semnorms.Minute.toDuration
-import semnorms.Rule
-import semnorms.Semnorm
-import semnorms.Time
+import ml.demidko.timecobot.semnorms.Executable
+import ml.demidko.timecobot.semnorms.Minute.toDuration
+import ml.demidko.timecobot.semnorms.Rule
+import ml.demidko.timecobot.semnorms.Semnorm
+import ml.demidko.timecobot.semnorms.Time
 import kotlin.time.Duration
 
 abstract class Durable(vararg rules: Rule) : Executable(*rules) {
@@ -24,7 +24,7 @@ fun Iterator<Token<Semnorm?>>.parseDuration(): Duration {
     } catch (ignored: RuntimeException) {
       norm.toDuration(1)
     }
-    is semnorms.Number -> try {
+    is ml.demidko.timecobot.semnorms.Number -> try {
       parseTime().toDuration(token.toLong())
     } catch (ignored: RuntimeException) {
       toDuration(token.toLong())
