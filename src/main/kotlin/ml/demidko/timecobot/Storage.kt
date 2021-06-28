@@ -33,7 +33,7 @@ class Storage(
     timer(period = minutes(1).inWholeMilliseconds) {
       storedTime.access {
         for (entry in it.entries) {
-          entry.setValue(entry.value + 60)
+          entry.setValue(entry.value + 4)
         }
       }
       log.info("All users are credited with one minute")
