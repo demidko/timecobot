@@ -1,7 +1,6 @@
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
-import com.github.kotlintelegrambot.dispatcher.message
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
@@ -28,28 +27,19 @@ fun Bot(apiToken: String, storage: Storage) =
     token = apiToken
     logLevel = Error
     dispatch {
-      message {
-        if (storage.isMuted(message.chat.id, message.from?.id ?: return@message)) {
-          bot.deleteMessage(fromId(message.chat.id), message.messageId)
-        }
-      }
       text {
         val fromId = message.from?.id ?: return@text
         val timestamp = currentTimeMillis()
         try {
-          if (storage.isMuted(message.chat.id, fromId)) { // TODO проверить нужен ли копипаст
-            bot.deleteMessage(fromId(message.chat.id), message.messageId)
-            return@text
-          }
           storage.registerUser(fromId)
           Query(bot, storage, message).execute()
         } catch (e: RuntimeException) {
           log.error(text, e)
         } finally {
           val elapsedMs = currentTimeMillis() - timestamp
-          if (elapsedMs > 500) {
-            log.warn("Too large message processed (${elapsedMs}ms): $text")
-          }
+          //if (elapsedMs > 500) {
+          log.warn("(${elapsedMs}ms): $text")
+          //}
         }
       }
     }
