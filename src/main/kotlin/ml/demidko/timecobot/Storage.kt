@@ -2,6 +2,7 @@ package ml.demidko.timecobot
 
 import co.touchlab.stately.isolate.IsolateState
 import com.github.demidko.print.utils.printSeconds
+import org.redisson.api.RMap
 import org.slf4j.LoggerFactory.getLogger
 import java.time.Instant
 import kotlin.concurrent.timer
@@ -18,9 +19,9 @@ import kotlin.time.Duration.Companion.minutes
  * @param restrictedUsers chat id to (admin id to last ban second)
  */
 class Storage(
-  val storedTime: IsolateState<MutableMap<Long, Long>>,
-  val pinnedMessages: IsolateState<HashMap<Long, HashMap<Long, Long>>>,
-  val restrictedUsers: IsolateState<HashMap<Long, HashMap<Long, Long>>>
+  val storedTime: IsolateState<RMap<Long, Long>>,
+  val pinnedMessages: IsolateState<RMap<Long, MutableMap<Long, Long>>>,
+  val restrictedUsers: IsolateState<RMap<Long, MutableMap<Long, Long>>>
 ) {
 
   private val log = getLogger("Database")
@@ -42,7 +43,7 @@ class Storage(
 
   fun muteUser(chat: Long, admin: Long, second: Long) =
     restrictedUsers.access {
-      it.getOrPut(chat, ::HashMap).put(admin, second)
+      it.getOrPut(chat, ::mutableMapOf).put(admin, second)
     }
 
   fun isMuted(chat: Long, user: Long): Boolean =
@@ -60,7 +61,7 @@ class Storage(
    * After registration, the user begins to accumulate time.
    * If the user is already registered, then nothing will happen.
    */
-  fun registerUser(user: Long) = storedTime.access { it.putIfAbsent(user, 60) }
+  fun registerUser(user: Long) = storedTime.access { it.fastPutIfAbsent(user, 60) }
 
   /** Method of transferring time from account to account */
   inline fun transfer(

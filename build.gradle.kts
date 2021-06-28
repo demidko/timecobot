@@ -9,7 +9,7 @@ plugins {
 dependencies {
   implementation("com.github.demidko:tokenizer:2021.06.27")
   implementation("com.github.demidko:print-utils:2021.06.27")
-  implementation("com.github.demidko:redis-utils:2021.06.30")
+  implementation("com.github.demidko:redis-utils:2021.07.02")
   implementation("io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.0.4")
   implementation("ch.qos.logback:logback-classic:1.3.0-alpha5")
   testImplementation("org.junit.jupiter:junit-jupiter:5.8.0-M1")
