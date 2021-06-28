@@ -1,8 +1,7 @@
 package ml.demidko.timecobot.semnorms.commands.durable
 
-import ml.demidko.timecobot.Query
 import com.github.kotlintelegrambot.entities.ChatId
-import pinChatMessageTemporary
+import ml.demidko.timecobot.Query
 import ml.demidko.timecobot.semnorms.commands.Durable
 import ml.demidko.timecobot.semnorms.stem
 import ml.demidko.timecobot.semnorms.word
@@ -14,7 +13,7 @@ object Pin : Durable(stem("закреп", "pin", "запин"), word("пин")) 
     val user = message.from?.id ?: return
     val messageId = message.replyToMessage?.messageId ?: return
     storage.use(duration, user) {
-      bot.pinChatMessageTemporary(storage, message.chat.id, messageId, duration)
+      //bot.pinChatMessageTemporary(storage, message.chat.id, messageId, duration)
     }
     val chatId = ChatId.fromId(message.chat.id)
     bot.pinChatMessage(chatId, messageId)

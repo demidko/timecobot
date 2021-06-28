@@ -2,9 +2,7 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.text
-import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
-import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.logging.LogLevel.Error
@@ -105,29 +103,5 @@ fun Bot.delayDeleteMessage(chatId: Long, messageId: Long, delay: Duration = seco
     deleteMessage(fromId(chatId), messageId)
   }
 
-
-fun Bot.restrictChatAdmin(
-  chatId: ChatId,
-  userId: Long,
-  chatPermissions: ChatPermissions,
-  untilEpochSecond: Long,
-  storage: Storage
-) {
-  if (userId in listAdminIds(chatId)) {
-    storage.muteUser((chatId as ChatId.Id).id, userId, untilEpochSecond)
-  } else {
-    restrictChatMember(chatId, userId, chatPermissions, untilEpochSecond)
-  }
-}
-
-fun Bot.listAdminIds(chatId: ChatId) = getChatAdministrators(chatId)
-  .getOrDefault(listOf())
-  .map { it.user.id }
-
-fun Bot.pinChatMessageTemporary(db: Storage, chat: Long, m: Long, duration: Duration) =
-  db.pinnedMessages.access {
-    it.fastPutIfAbsent(chat, mutableMapOf())
-    pinChatMessage(fromId(chat), m)
-  }
 
 

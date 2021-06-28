@@ -4,7 +4,6 @@ import co.touchlab.stately.isolate.IsolateState
 import com.github.demidko.print.utils.printSeconds
 import org.redisson.api.RMap
 import org.slf4j.LoggerFactory.getLogger
-import java.time.Instant
 import kotlin.concurrent.timer
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -18,11 +17,7 @@ import kotlin.time.Duration.Companion.minutes
  * @param pinnedMessages chat id to (messages id to last pinned second)
  * @param restrictedUsers chat id to (admin id to last ban second)
  */
-class Storage(
-  val storedTime: IsolateState<RMap<Long, Long>>,
-  val pinnedMessages: IsolateState<RMap<Long, MutableMap<Long, Long>>>,
-  val restrictedUsers: IsolateState<RMap<Long, MutableMap<Long, Long>>>
-) {
+class Storage(val storedTime: IsolateState<RMap<Long, Long>>) {
 
   private val log = getLogger("Database")
 
@@ -37,25 +32,10 @@ class Storage(
           entry.setValue(entry.value + 4)
         }
       }
-      log.info("All users are credited with one minute")
+      log.info("All users are credited with 4s")
     }
   }
 
-  fun muteUser(chat: Long, admin: Long, second: Long) =
-    restrictedUsers.access {
-      it.getOrPut(chat, ::mutableMapOf).put(admin, second)
-    }
-
-  fun isMuted(chat: Long, user: Long): Boolean =
-    restrictedUsers.access {
-      val admins = it[chat] ?: return@access false
-      val untilSeconds = admins[user] ?: return@access false
-      if (Instant.now().epochSecond > untilSeconds) {
-        admins.remove(user)
-        return@access false
-      }
-      true
-    }
 
   /**
    * After registration, the user begins to accumulate time.
