@@ -1,15 +1,11 @@
 package semnorms.commands.durable
 
-import PinnedMessages
-import Timecoins
-import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.entities.Message
-import print
+import Query
+import com.github.demidko.print.utils.print
 import semnorms.commands.Durable
 import semnorms.stem
 import semnorms.word
 import sendTempMessage
-import transfer
 import kotlin.time.Duration
 
 /** Semantic representation of a money transfer request */
@@ -40,13 +36,7 @@ object Transfer : Durable(
   )
 ) {
 
-  override fun execute(
-    bot: Bot,
-    message: Message,
-    duration: Duration,
-    coins: Timecoins,
-    pins: PinnedMessages
-  ) {
+  override fun execute(query: Query, duration: Duration): Unit = query.run {
     val recipientMessage =
       message.replyToMessage ?: return
     val sender = message
@@ -57,7 +47,7 @@ object Transfer : Durable(
       .from
       ?.id
       ?: return
-    coins.transfer(sender, recipient, duration) {
+    storage.transfer(duration, sender, recipient) {
       bot.sendTempMessage(
         message.chat.id,
         "+${duration.print()}",

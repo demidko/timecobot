@@ -1,36 +1,22 @@
 package semnorms.commands
 
-import PinnedMessages
-import Timecoins
-import Token
-import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.entities.Message
+import Query
+import com.github.demidko.tokenizer.Token
 import semnorms.Executable
 import semnorms.Minute.toDuration
 import semnorms.Rule
+import semnorms.Semnorm
 import semnorms.Time
 import kotlin.time.Duration
 
 abstract class Durable(vararg rules: Rule) : Executable(*rules) {
 
-  final override fun execute(
-    token: Iterator<Token>,
-    bot: Bot,
-    message: Message,
-    coins: Timecoins,
-    pins: PinnedMessages
-  ) = execute(bot, message, token.parseDuration(), coins, pins)
+  final override fun execute(query: Query) = execute(query, query.token.parseDuration())
 
-  abstract fun execute(
-    bot: Bot,
-    message: Message,
-    duration: Duration,
-    coins: Timecoins,
-    pins: PinnedMessages
-  )
+  abstract fun execute(query: Query, duration: Duration)
 }
 
-private fun Iterator<Token>.parseDuration(): Duration {
+fun Iterator<Token<Semnorm?>>.parseDuration(): Duration {
   val (token, norm) = next()
   return when (norm) {
     is Time -> try {
@@ -38,7 +24,7 @@ private fun Iterator<Token>.parseDuration(): Duration {
     } catch (ignored: RuntimeException) {
       norm.toDuration(1)
     }
-    is Number -> try {
+    is semnorms.Number -> try {
       parseTime().toDuration(token.toLong())
     } catch (ignored: RuntimeException) {
       toDuration(token.toLong())
@@ -47,7 +33,7 @@ private fun Iterator<Token>.parseDuration(): Duration {
   }
 }
 
-private fun Iterator<Token>.parseTime(): Time {
+fun Iterator<Token<Semnorm?>>.parseTime(): Time {
   val (_, norm) = next()
   return when (norm) {
     is Time -> norm
@@ -55,7 +41,7 @@ private fun Iterator<Token>.parseTime(): Time {
   }
 }
 
-private fun Iterator<Token>.parseLong(): Long {
+fun Iterator<Token<Semnorm?>>.parseLong(): Long {
   val (token, norm) = next()
   return when (norm) {
     is Number -> token.toLong()

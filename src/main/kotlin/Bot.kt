@@ -3,44 +3,74 @@ import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.entities.ChatId
-import com.github.kotlintelegrambot.entities.Message
+import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
+import com.github.kotlintelegrambot.entities.ChatPermissions
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.logging.LogLevel.Error
 import org.slf4j.LoggerFactory.getLogger
-import semnorms.Executable
 import java.lang.System.currentTimeMillis
+import java.time.Instant
 import java.util.*
 import kotlin.concurrent.schedule
+import kotlin.concurrent.timer
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 private val log = getLogger("Timecobot")
 private val timer = Timer()
 
-fun Bot(tok: String, coins: Timecoins, pins: PinnedMessages) = bot {
-  token = tok
-  logLevel = Error
-  log.info("Tok: $tok")
-  dispatch {
-    text {
-      val timestamp = currentTimeMillis()
-      try {
-        message.from?.id?.let(coins::register)
-        log.info("($text) coins: ok")
-        bot.execute(text, message, coins, pins)
-        log.info("($text) exec: ok")
-      } catch (e: RuntimeException) {
-        log.error(text, e)
-      } finally {
-        val elapsedMs = currentTimeMillis() - timestamp
-        if (elapsedMs > 500) {
-          log.warn("Too large message processed (${elapsedMs}ms): $text")
+fun Bot(apiToken: String, storage: Storage) =
+  bot {
+    token = apiToken
+    logLevel = Error
+    this.build { }
+    dispatch {
+      text {
+        val fromId = message.from?.id ?: return@text
+        val timestamp = currentTimeMillis()
+        try {
+          if (storage.isMutedAdmin(message.chat.id, fromId)) {
+            bot.deleteMessage(fromId(message.chat.id), message.messageId)
+            return@text
+          }
+          storage.registerUser(fromId)
+          Query(bot, storage, message).execute()
+        } catch (e: RuntimeException) {
+          log.error(text, e)
+        } finally {
+          val elapsedMs = currentTimeMillis() - timestamp
+          if (elapsedMs > 500) {
+            log.warn("Too large message processed (${elapsedMs}ms): $text")
+          }
         }
       }
     }
+  }.apply {
+    /**
+     * The task of periodic unpinning obsolete messages
+     */
+    timer(period = Duration.minutes(1).inWholeMilliseconds) {
+      val currentEpochSecond = Instant.now().epochSecond
+      storage.pinnedMessages.access {
+        for (chat in it) {
+          val chatId = fromId(chat.key)
+          val unpaidMessages = mutableListOf<Long>()
+          for (message in chat.value) {
+            if (message.value >= currentEpochSecond) {
+              unpaidMessages.add(message.key)
+            }
+          }
+          for (message in unpaidMessages) {
+            unpinChatMessage(chatId, message)
+            chat.value.remove(message)
+          }
+        }
+      }
+      log.info("Unpaid messages are unpinned")
+    }
   }
-}
+
 
 /**
  * Use this method to send text messages
@@ -66,7 +96,7 @@ fun Bot.sendTempMessage(
 ) {
 
   val messageSendingResult = sendMessage(
-    ChatId.fromId(chatId),
+    fromId(chatId),
     text,
     parseMode,
     disableWebPagePreview,
@@ -100,39 +130,33 @@ fun Bot.sendTempMessage(
  */
 fun Bot.delayDeleteMessage(chatId: Long, messageId: Long, delay: Duration = seconds(15)) =
   timer.schedule(delay.inWholeMilliseconds) {
-    deleteMessage(ChatId.fromId(chatId), messageId)
+    deleteMessage(fromId(chatId), messageId)
   }
 
 
-/**
- * The method will work correctly if periodic unpinning of obsolete messages is enabled.
- * @see Bot.scheduleUnpinMessages
- */
-fun Bot.pinChatMessageTemporary(db: PinnedMessages, chat: Long, m: Long, duration: Duration) =
-  db.access {
+fun Bot.restrictChatAdmin(
+  chatId: ChatId,
+  userId: Long,
+  chatPermissions: ChatPermissions,
+  untilEpochSecond: Long,
+  storage: Storage
+) {
+  if (userId in listAdminIds(chatId)) {
+    storage.muteAdmin((chatId as ChatId.Id).id, userId, untilEpochSecond)
+  } else {
+    restrictChatMember(chatId, userId, chatPermissions, untilEpochSecond)
+  }
+}
+
+fun Bot.listAdminIds(chatId: ChatId) = getChatAdministrators(chatId)
+  .getOrDefault(listOf())
+  .map { it.user.id }
+
+fun Bot.pinChatMessageTemporary(db: Storage, chat: Long, m: Long, duration: Duration) =
+  db.pinnedMessages.access {
     val chatMap = it.getOrPut(chat, ::LinkedHashMap)
     chatMap[m] = duration.inWholeSeconds
-    pinChatMessage(ChatId.fromId(chat), m)
+    pinChatMessage(fromId(chat), m)
   }
 
 
-fun Bot.execute(query: String, message: Message, coins: Timecoins, pins: PinnedMessages) {
-  val token = query.tokenize().iterator()
-  execute(token, message, coins, pins)
-}
-
-fun Bot.execute(token: Iterator<Token>, message: Message, coins: Timecoins, pins: PinnedMessages) {
-  if (!token.hasNext()) {
-    log.warn("no token")
-    return
-  }
-  when (val semnorm = token.next().semnorm) {
-    is Executable -> {
-      log.warn("Executable $semnorm")
-      semnorm.execute(token, this, message, coins, pins)
-    }
-    else -> {
-      log.warn("No executable: $semnorm")
-    }
-  }
-}

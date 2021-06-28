@@ -1,20 +1,30 @@
 package semnorms.commands.durable
 
-import PinnedMessages
-import Timecoins
-import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.entities.ChatId
+import Query
+import com.github.demidko.print.utils.print
+import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
-import com.github.kotlintelegrambot.entities.Message
-import print
+import restrictChatAdmin
 import semnorms.commands.Durable
 import semnorms.stem
-import sendTempMessage
-import using
 import java.time.Instant.now
+import java.util.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.seconds
+
+private val customBan = ChatPermissions(
+  canSendMessages = false,
+  canSendMediaMessages = false,
+  canSendPolls = false,
+  canSendOtherMessages = false,
+  canAddWebPagePreviews = false,
+  canChangeInfo = false,
+  canInviteUsers = true,
+  canPinMessages = false,
+)
+
+private val timer = Timer()
 
 /** Semantic representation of a ban request */
 object Ban : Durable(
@@ -36,13 +46,7 @@ object Ban : Durable(
   )
 ) {
 
-  override fun execute(
-    bot: Bot,
-    message: Message,
-    duration: Duration,
-    coins: Timecoins,
-    pins: PinnedMessages
-  ) {
+  override fun execute(query: Query, duration: Duration): Unit = query.run {
 
     val victimMessage = message.replyToMessage ?: return
     val attacker = message.from?.id ?: return
@@ -58,7 +62,7 @@ object Ban : Durable(
       error("${duration.print()} is too much for Telegram API.")
     }
 
-    val freedomEpochSecond = bot.getChatMember(ChatId.fromId(message.chat.id), victim)
+    val freedomEpochSecond = bot.getChatMember(fromId(message.chat.id), victim)
       .first
       ?.body()
       ?.result
@@ -80,30 +84,22 @@ object Ban : Durable(
 
     val untilSecond = currentEpochSecond + previousBanDurationSec + duration.inWholeSeconds
 
-    coins.using(attacker, duration)
-    {
-      bot.restrictChatMember(
-        ChatId.fromId(message.chat.id),
+    val chatId = fromId(message.chat.id)
+    storage.use(duration, attacker) {
+      val admins = bot.getChatAdministrators(chatId).getOrDefault(listOf())
+
+      bot.restrictChatAdmin(
+        chatId,
         victim,
         customBan,
-        untilSecond
+        untilSecond,
+        storage
       )
-      bot.sendTempMessage(
-        message.chat.id,
-        "💥",
+      bot.sendMessage(
+        fromId(message.chat.id),
+        "💥 ${duration.print()}",
         replyToMessageId = victimMessage.messageId,
       )
     }
   }
 }
-
-private val customBan = ChatPermissions(
-  canSendMessages = false,
-  canSendMediaMessages = false,
-  canSendPolls = false,
-  canSendOtherMessages = false,
-  canAddWebPagePreviews = false,
-  canChangeInfo = false,
-  canInviteUsers = true,
-  canPinMessages = false,
-)

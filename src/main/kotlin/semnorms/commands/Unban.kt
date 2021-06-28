@@ -1,16 +1,11 @@
 package semnorms.commands
 
-import PinnedMessages
-import Timecoins
-import Token
-import com.github.kotlintelegrambot.Bot
-import com.github.kotlintelegrambot.entities.ChatId
+import Query
+import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
-import com.github.kotlintelegrambot.entities.Message
 import semnorms.Executable
 import semnorms.stem
 import sendTempMessage
-import using
 import java.time.Instant
 import kotlin.time.Duration
 
@@ -40,16 +35,21 @@ object Unban : Executable(
   )
 ) {
 
-  override fun execute(
-    token: Iterator<Token>,
-    bot: Bot,
-    message: Message,
-    coins: Timecoins,
-    pins: PinnedMessages
-  ) {
+  private val freedom = ChatPermissions(
+    canSendMessages = true,
+    canSendMediaMessages = true,
+    canSendPolls = true,
+    canSendOtherMessages = true,
+    canAddWebPagePreviews = true,
+    canChangeInfo = true,
+    canInviteUsers = true,
+    canPinMessages = true,
+  )
+
+  override fun execute(query: Query) {
     val slaveMessage =
-      message.replyToMessage ?: return
-    val master = message
+      query.message.replyToMessage ?: return
+    val master = query.message
       .from
       ?.id
       ?: return
@@ -58,7 +58,7 @@ object Unban : Executable(
       ?.id
       ?: return
 
-    val freedomEpochSecond = bot.getChatMember(ChatId.fromId(message.chat.id), slave)
+    val freedomEpochSecond = query.bot.getChatMember(fromId(query.message.chat.id), slave)
       .first
       ?.body()
       ?.result
@@ -72,24 +72,13 @@ object Unban : Executable(
       error("This user already free")
     }
 
-    coins.using(master, Duration.seconds(banDurationSec)) {
-      bot.restrictChatMember(ChatId.fromId(message.chat.id), slave, freedom)
-      bot.sendTempMessage(
-        message.chat.id,
+    query.storage.use(Duration.seconds(banDurationSec), master) {
+      query.bot.restrictChatMember(fromId(query.message.chat.id), slave, freedom)
+      query.bot.sendTempMessage(
+        query.message.chat.id,
         "You are free now!",
         replyToMessageId = slaveMessage.messageId
       )
     }
   }
 }
-
-private val freedom = ChatPermissions(
-  canSendMessages = true,
-  canSendMediaMessages = true,
-  canSendPolls = true,
-  canSendOtherMessages = true,
-  canAddWebPagePreviews = true,
-  canChangeInfo = true,
-  canInviteUsers = true,
-  canPinMessages = true,
-)

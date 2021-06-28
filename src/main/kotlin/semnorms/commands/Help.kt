@@ -1,11 +1,7 @@
 package semnorms.commands
 
-import PinnedMessages
-import Timecoins
-import Token
-import com.github.kotlintelegrambot.Bot
+import Query
 import com.github.kotlintelegrambot.entities.ChatId
-import com.github.kotlintelegrambot.entities.Message
 import com.github.kotlintelegrambot.entities.User
 import semnorms.Executable
 import semnorms.stem
@@ -26,14 +22,8 @@ object Help : Executable(
   )
 ) {
 
-  override fun execute(
-    token: Iterator<Token>,
-    bot: Bot,
-    message: Message,
-    coins: Timecoins,
-    pins: PinnedMessages
-  ) {
-    val faq = message.from?.relatedFaq() ?: return
+  override fun execute(query: Query): Unit = query.run {
+    val faq = message.from?.relatedFaq() ?: return@execute
     if (message.chat.id == message.from?.id) {
       bot.sendMessage(ChatId.fromId(message.chat.id), faq, replyToMessageId = message.messageId)
     } else {
@@ -42,6 +32,8 @@ object Help : Executable(
       )
     }
   }
+
+
 }
 
 private fun User.relatedFaq() = when {

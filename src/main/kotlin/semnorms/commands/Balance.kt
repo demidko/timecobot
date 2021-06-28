@@ -1,13 +1,8 @@
 package semnorms.commands
 
-import PinnedMessages
-import Timecoins
-import Token
-import com.github.kotlintelegrambot.Bot
+import Query
+import com.github.demidko.print.utils.printSeconds
 import com.github.kotlintelegrambot.entities.ChatId
-import com.github.kotlintelegrambot.entities.Message
-import printSeconds
-import seconds
 import semnorms.Executable
 import semnorms.stem
 import sendTempMessage
@@ -31,20 +26,15 @@ object Balance : Executable(
   )
 ) {
 
-  override fun execute(
-    token: Iterator<Token>,
-    bot: Bot,
-    message: Message,
-    coins: Timecoins,
-    pins: PinnedMessages
-  ) {
+  override fun execute(query: Query): Unit = query.run {
 
     val balance =
       message.from
         ?.id
-        ?.let(coins::seconds)
+        ?.let(storage::seconds)
         ?.printSeconds()
-        ?: return
+        ?: return@execute
+
     if (message.chat.id == message.from?.id) {
       bot.sendMessage(ChatId.fromId(message.chat.id), balance, replyToMessageId = message.messageId)
     } else {

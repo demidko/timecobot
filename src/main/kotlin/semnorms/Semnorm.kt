@@ -3,7 +3,7 @@ package semnorms
 typealias Rule = (String) -> Boolean
 
 /** Normalized semantic representation: defined by the rules that apply to lexemes. */
-open class Semnorm(vararg val rules: Rule)
+abstract class Semnorm(vararg val rules: Rule)
 
 /** Weak match rule (word's stem) */
 fun stem(vararg stems: String): Rule = { stems.any(it::startsWith) }
