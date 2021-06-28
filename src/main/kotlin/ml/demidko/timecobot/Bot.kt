@@ -27,7 +27,6 @@ fun Bot(apiToken: String, storage: Storage) =
   bot {
     token = apiToken
     logLevel = Error
-    this.build { }
     dispatch {
       message {
         if (storage.isMuted(message.chat.id, message.from?.id ?: return@message)) {
