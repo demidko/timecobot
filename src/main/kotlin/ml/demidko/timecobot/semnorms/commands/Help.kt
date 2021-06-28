@@ -49,7 +49,7 @@ const val faqRu = """
 Чтобы начать использовать бота, добавьте его в группу с правами администратора.
 
 1. Время (валюта) начисляется вам автоматически, каждую минуту, совершенно бесплатно и безусловно.
-Чтобы узнать свой баланс, напишите в чат запрос, например слово ”баланс”, ”статус” или знак ”!”
+Чтобы узнать свой баланс, напишите в чат запрос, например слово ”баланс”, ”статус” или  ”время”
 (В ответе используются сокращения d - дни, h - часы, m - минуты, s - секунды)
    
 2. Чтобы заблокировать пользователя используйте приказы вида ”бан 5 минут” или ”блок на 2 часа” в ответном сообщении пользователю.
@@ -69,7 +69,7 @@ const val faqEn = """
 To start using the bot, just add it to the group with admin rights.
 
 1. Time (currency) is credited to you automatically, every minute, completely free and unconditionally.
-To check your balance, send a request to the chat, for example word ”balance”, ”status” or ”!” symbol.
+To check your balance, send a request to the chat, for example word ”balance”, ”status” or ”time” symbol.
 Abbreviations: d - days, h - hours, m - minutes, s - seconds
 
 2. To block a person, use requests like ”ban 5 minutes” or ”block for 2 hours” in the reply message to that person.
