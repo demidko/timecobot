@@ -12,10 +12,8 @@ import ml.demidko.timecobot.Query
 import ml.demidko.timecobot.Storage
 import org.slf4j.LoggerFactory.getLogger
 import java.lang.System.currentTimeMillis
-import java.time.Instant
 import java.util.*
 import kotlin.concurrent.schedule
-import kotlin.concurrent.timer
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -42,29 +40,6 @@ fun Bot(apiToken: String, storage: Storage) =
           //}
         }
       }
-    }
-  }.apply {
-    /**
-     * The task of periodic unpinning obsolete messages
-     */
-    timer(period = Duration.minutes(1).inWholeMilliseconds) {
-      val currentEpochSecond = Instant.now().epochSecond
-      storage.pinnedMessages.access {
-        for (chat in it) {
-          val chatId = fromId(chat.key)
-          val unpaidMessages = mutableListOf<Long>()
-          for (message in chat.value) {
-            if (message.value >= currentEpochSecond) {
-              unpaidMessages.add(message.key)
-            }
-          }
-          for (message in unpaidMessages) {
-            unpinChatMessage(chatId, message)
-            chat.value.remove(message)
-          }
-        }
-      }
-      log.info("Unpaid messages are unpinned")
     }
   }
 
