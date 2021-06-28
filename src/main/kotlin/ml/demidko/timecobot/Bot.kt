@@ -162,8 +162,7 @@ fun Bot.listAdminIds(chatId: ChatId) = getChatAdministrators(chatId)
 
 fun Bot.pinChatMessageTemporary(db: Storage, chat: Long, m: Long, duration: Duration) =
   db.pinnedMessages.access {
-    val chatMap = it.getOrPut(chat, ::LinkedHashMap)
-    chatMap[m] = duration.inWholeSeconds
+    it.fastPutIfAbsent(chat, mutableMapOf())
     pinChatMessage(fromId(chat), m)
   }
 

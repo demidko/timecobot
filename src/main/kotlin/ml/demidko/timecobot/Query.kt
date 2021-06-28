@@ -45,7 +45,7 @@ class Query(
     private val semnorms = listOf(
       Skip, Number,
       Year, Month, Week, Day, Hour, Minute, Second,
-      Balance, Transfer, Ban, Unban, Help, Pin
+      Balance, Transfer, Ban, Unban, Help
     )
 
     fun String.semnorms() = tokenize { semnorms.firstOrNull(lowercase()::matches) }

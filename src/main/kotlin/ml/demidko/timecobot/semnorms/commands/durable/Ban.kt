@@ -1,10 +1,9 @@
 package ml.demidko.timecobot.semnorms.commands.durable
 
-import ml.demidko.timecobot.Query
 import com.github.demidko.print.utils.print
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
-import restrictChatAdmin
+import ml.demidko.timecobot.Query
 import ml.demidko.timecobot.semnorms.commands.Durable
 import ml.demidko.timecobot.semnorms.stem
 import java.time.Instant.now
@@ -88,12 +87,11 @@ object Ban : Durable(
     storage.use(duration, attacker) {
       val admins = bot.getChatAdministrators(chatId).getOrDefault(listOf())
 
-      bot.restrictChatAdmin(
+      bot.restrictChatMember(
         chatId,
         victim,
         customBan,
-        untilSecond,
-        storage
+        untilSecond
       )
       bot.sendMessage(
         fromId(message.chat.id),
