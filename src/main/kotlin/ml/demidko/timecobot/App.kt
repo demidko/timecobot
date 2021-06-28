@@ -8,9 +8,9 @@ fun main() = create(clientOf(getenv("DATABASE_URL"))).run {
   Bot(
     getenv("TOKEN"),
     Storage(
-      redisMap("timecoins"),
-      redisMap("pinned_messages"),
-      redisMap("restricted_admins")
+      redisMap<Long, Long>("timecoins"),
+      redisMap<Long, MutableMap<Long, Long>>("pinned_messages"),
+      redisMap<Long, MutableMap<Long, Long>>("restricted_admins")
     )
   ).startPolling()
 }
