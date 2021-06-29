@@ -28,5 +28,12 @@ tasks.test {
   useJUnitPlatform()
 }
 tasks.jar {
+  isZip64 = true
   manifest.attributes("Main-Class" to "AppKt")
+}
+tasks.shadowJar {
+  minimize()
+}
+tasks.build {
+  dependsOn(tasks.shadowJar)
 }

@@ -24,6 +24,7 @@ fun Bot(apiToken: String, storage: Storage) =
     logLevel = Error
     dispatch {
       text {
+        log.warn("(${elapsedMs}ms): $text")
         val fromId = message.from?.id ?: return@text
         val timestamp = currentTimeMillis()
         try {
@@ -33,9 +34,9 @@ fun Bot(apiToken: String, storage: Storage) =
           log.error(text, e)
         } finally {
           val elapsedMs = currentTimeMillis() - timestamp
-          //if (elapsedMs > 500) {
-          log.warn("(${elapsedMs}ms): $text")
-          //}
+          if (elapsedMs > 500) {
+            log.warn("(${elapsedMs}ms): $text")
+          }
         }
       }
     }

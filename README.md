@@ -37,7 +37,7 @@ User will remain in the chat, but he will not be able to write anything.
 ## Build
 
 ```sh
-./gradlew clean test shadowJar
+./gradlew clean build
 ```
 
 Self-executable jar will be located in `build/libs`. To start long polling execute command
