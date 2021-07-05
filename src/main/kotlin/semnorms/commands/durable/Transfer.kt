@@ -1,10 +1,10 @@
-package ml.demidko.timecobot.semnorms.commands.durable
+package semnorms.commands.durable
 
-import ml.demidko.timecobot.Query
+import Query
 import com.github.demidko.print.utils.print
-import ml.demidko.timecobot.semnorms.commands.Durable
-import ml.demidko.timecobot.semnorms.stem
-import ml.demidko.timecobot.semnorms.word
+import semnorms.commands.Durable
+import semnorms.stem
+import semnorms.word
 import sendTempMessage
 import kotlin.time.Duration
 

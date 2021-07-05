@@ -6,8 +6,6 @@ import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.ReplyMarkup
 import com.github.kotlintelegrambot.logging.LogLevel.Error
-import ml.demidko.timecobot.Query
-import ml.demidko.timecobot.Storage
 import org.slf4j.LoggerFactory.getLogger
 import java.lang.System.currentTimeMillis
 import java.util.*
@@ -18,13 +16,14 @@ import kotlin.time.Duration.Companion.seconds
 private val log = getLogger("Timecobot")
 private val timer = Timer()
 
-fun Bot(apiToken: String, storage: Storage) =
-  bot {
-    token = apiToken
-    logLevel = Error
-    dispatch {
-      text {
-        val fromId = message.from?.id ?: return@text
+fun Bot(apiToken: String, storage: Storage) = bot {
+  token = apiToken
+  logLevel = Error
+  dispatch {
+    text {
+      log.info(text)
+      val fromId = message.from?.id
+      if (fromId != null) {
         val timestamp = currentTimeMillis()
         try {
           storage.registerUser(fromId)
@@ -40,6 +39,7 @@ fun Bot(apiToken: String, storage: Storage) =
       }
     }
   }
+}
 
 
 /**

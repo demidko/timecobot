@@ -1,18 +1,15 @@
-package ml.demidko.timecobot
-
 import com.github.demidko.tokenizer.Token
 import com.github.demidko.tokenizer.tokenize
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.entities.Message
-import ml.demidko.timecobot.semnorms.*
-import ml.demidko.timecobot.semnorms.Number
-import ml.demidko.timecobot.semnorms.commands.Balance
-import ml.demidko.timecobot.semnorms.commands.Help
-import ml.demidko.timecobot.semnorms.commands.Skip
-import ml.demidko.timecobot.semnorms.commands.Unban
-import ml.demidko.timecobot.semnorms.commands.durable.Ban
-import ml.demidko.timecobot.semnorms.commands.durable.Pin
-import ml.demidko.timecobot.semnorms.commands.durable.Transfer
+import semnorms.commands.Balance
+import semnorms.commands.Help
+import semnorms.commands.Skip
+import semnorms.commands.Unban
+import semnorms.commands.durable.Ban
+import semnorms.commands.durable.Transfer
+import semnorms.*
+import semnorms.Number
 
 // TODO: класс подлежит переносу в библиотеку нормализованных семантических представлений
 

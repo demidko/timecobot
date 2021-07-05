@@ -1,4 +1,4 @@
-package ml.demidko.timecobot.semnorms
+package semnorms
 
 typealias Rule = (String) -> Boolean
 

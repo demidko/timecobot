@@ -1,6 +1,6 @@
-package ml.demidko.timecobot.semnorms
+package semnorms
 
-import ml.demidko.timecobot.Query
+import Query
 
 abstract class Executable(vararg rules: Rule) : Semnorm(*rules) {
 

@@ -1,10 +1,10 @@
-package ml.demidko.timecobot.semnorms.commands.durable
+package semnorms.commands.durable
 
 import com.github.kotlintelegrambot.entities.ChatId
-import ml.demidko.timecobot.Query
-import ml.demidko.timecobot.semnorms.commands.Durable
-import ml.demidko.timecobot.semnorms.stem
-import ml.demidko.timecobot.semnorms.word
+import Query
+import semnorms.commands.Durable
+import semnorms.stem
+import semnorms.word
 import kotlin.time.Duration
 
 object Pin : Durable(stem("закреп", "pin", "запин"), word("пин")) {

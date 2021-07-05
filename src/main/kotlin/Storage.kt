@@ -1,5 +1,3 @@
-package ml.demidko.timecobot
-
 import co.touchlab.stately.isolate.IsolateState
 import com.github.demidko.print.utils.printSeconds
 import org.redisson.api.RMap

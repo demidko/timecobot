@@ -1,4 +1,4 @@
-package ml.demidko.timecobot.semnorms
+package semnorms
 
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days

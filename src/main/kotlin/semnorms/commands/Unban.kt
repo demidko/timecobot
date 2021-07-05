@@ -1,10 +1,10 @@
-package ml.demidko.timecobot.semnorms.commands
+package semnorms.commands
 
-import ml.demidko.timecobot.Query
+import Query
 import com.github.kotlintelegrambot.entities.ChatId.Companion.fromId
 import com.github.kotlintelegrambot.entities.ChatPermissions
-import ml.demidko.timecobot.semnorms.Executable
-import ml.demidko.timecobot.semnorms.stem
+import semnorms.Executable
+import semnorms.stem
 import sendTempMessage
 import java.time.Instant
 import kotlin.time.Duration
