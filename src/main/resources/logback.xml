@@ -1,0 +1,12 @@
+<configuration>
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>
+        %d{HH:mm:ss, Asia/Vladivostok} [%thread] %.-1level %logger{36} - %msg%n%xEx{30}
+      </pattern>
+    </encoder>
+  </appender>
+  <root level="INFO">
+    <appender-ref ref="console"/>
+  </root>
+</configuration>
