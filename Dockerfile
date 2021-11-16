@@ -1,4 +1,4 @@
-FROM gradle:jdk16 as builder
+FROM gradle:jdk17 as builder
 WORKDIR /project
 COPY src ./src
 COPY build.gradle.kts ./build.gradle.kts
