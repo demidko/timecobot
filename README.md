@@ -11,6 +11,10 @@ messages.
 1. Time can be used to ransom the user from the ban.
 1. Time can be used to pin messages.
 
+## 2022.07.14 update
+
+The project is on hold until there is a real need for practical application. Most of the time, people don't care who has the banhammer, they just want to chat, not get into gunfights. This game proved to be too difficult for most chats.
+
 ## Usage
 
 To start using the system, just add [`@timecobot`](https://t.me/timecobot) to the group with admin
